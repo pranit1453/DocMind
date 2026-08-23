@@ -1,0 +1,32 @@
+package com.pranit.docmind.document.repository;
+
+import com.pranit.docmind.entities.constant.FileStatus;
+import com.pranit.docmind.entities.entity.Document;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface DocumentRepository extends JpaRepository<Document, UUID>, JpaSpecificationExecutor<Document> {
+
+    @Modifying
+    @Query("""
+                update Document d
+                set d.fileStatus = :status
+                where d.documentId = :documentId
+            """)
+    void updateFileStatus(@Param("documentId") UUID documentId, @Param("status") FileStatus status);
+
+    boolean existsByDocumentId(UUID documentId);
+    
+    boolean existsByFileNameAndUser_UserId(String originalFilename, UUID userId);
+
+    Optional<Document> findByDocumentIdAndUser_UserId(UUID documentId, UUID userId);
+
+}
