@@ -25,6 +25,21 @@ spring:
     validate-on-migrate: true
     clean-disabled: true
     out-of-order: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAILUSERNAME}
+    password: ${MAILPASSWORD}
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
   # AI Configuration
   ai:
     chat:
