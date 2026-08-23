@@ -3,10 +3,17 @@ spring:
     name: doc-mind
   # Database Configuration
   datasource:
-    url: jdbc:postgresql://{${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:docmind}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:140503}
+    url: jdbc:postgresql://localhost:5432/docmind
+    username: postgres
+    password: 140503
     driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5 # Keep at least 5 idle connections available
+      maximum-pool-size: 10 # Never have more than 10 connections in the pool
+      connection-timeout: 30000 # Wait up to 30 seconds for a connection
+      idle-timeout: 600000 # Idle connections can be removed after 10 minutes
+      max-lifetime: 1800000 # Recycle connections after 30 minutes
+      pool-name: DocMindHikariPool
   # JPA Configuration
   jpa:
     hibernate:
@@ -28,8 +35,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${MAILUSERNAME:demo}
-    password: ${MAILPASSWORD:demo}
+    username: pranitbhangale1453@gmail.com
+    password: cydvpeqytxspmxgq
     protocol: smtp
     properties:
       mail:
@@ -71,16 +78,16 @@ spring:
         content-field-name: doc_content
         use-tls: false
         initialize-schema: true
+  # Multi-Part File Configuration
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 50MB
 rag:
   chunk-size: 600
   chunk-overlap: 100
   top-k: 5
   similarity-threshold: 0.0
-
-servlet:
-  multipart:
-    max-file-size: 25MB
-    max-request-size: 50MB
 # JWT Token Configuration
 security:
   accessToken:

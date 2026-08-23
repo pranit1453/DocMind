@@ -1,6 +1,6 @@
 package com.pranit.docmind.mail.service.impl;
 
-import com.pranit.rag.mail.service.EmailService;
+import com.pranit.docmind.mail.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

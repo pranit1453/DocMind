@@ -13,7 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public final class OtpEmailRouter {
+public class OtpEmailRouter {
 
     private final Map<OtpPurpose, OtpEmailHandler> handlers;
 

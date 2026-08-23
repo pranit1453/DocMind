@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class RegistrationOtpEmailHandler implements OtpEmailHandler {
+public final class RegistrationOtpEmailHandler implements OtpEmailHandler {
 
     private final EmailService emailService;
 

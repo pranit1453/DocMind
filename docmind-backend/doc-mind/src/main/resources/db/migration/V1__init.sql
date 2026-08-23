@@ -3,6 +3,7 @@ EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE SCHEMA IF NOT EXISTS auth;
 CREATE SCHEMA IF NOT EXISTS doc;
+CREATE SCHEMA IF NOT EXISTS seed;
 
 --------------------------------------------------------------------------------------------------------
 CREATE TABLE auth.users
@@ -215,3 +216,67 @@ CREATE INDEX idx_document_created_at
     ON doc.document (created_at);
 
 --------------------------------------------------------------------------------------------------------
+CREATE TABLE auth.otp
+(
+    otp_id       BIGSERIAL PRIMARY KEY,
+
+    challenge_id VARCHAR(36)              NOT NULL,
+    email        VARCHAR(320)             NOT NULL,
+    otp_hash     VARCHAR(255)             NOT NULL,
+
+    purpose      VARCHAR(30)              NOT NULL,
+    status       VARCHAR(20)              NOT NULL,
+
+    expires_at   TIMESTAMP WITH TIME ZONE NOT NULL,
+    verified_at  TIMESTAMP WITH TIME ZONE,
+
+    created_at   TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at   TIMESTAMP WITH TIME ZONE NOT NULL,
+    created_by   UUID,
+    updated_by   UUID,
+
+    CONSTRAINT uk_otp_challenge_id
+        UNIQUE (challenge_id),
+
+    CONSTRAINT chk_otp_purpose
+        CHECK (
+            purpose IN (
+                        'FORGOT_PASSWORD',
+                        'PASSWORD_CHANGE',
+                        'REGISTRATION'
+                )
+            ),
+
+    CONSTRAINT chk_otp_status
+        CHECK (
+            status IN (
+                       'PENDING',
+                       'VERIFIED',
+                       'EXPIRED',
+                       'FAILED'
+                )
+            )
+);
+
+CREATE INDEX idx_otp_email
+    ON auth.otp (email);
+
+CREATE INDEX idx_otp_email_purpose
+    ON auth.otp (email, purpose);
+
+CREATE INDEX idx_otp_status
+    ON auth.otp (status);
+
+CREATE INDEX idx_otp_expires_at
+    ON auth.otp (expires_at);
+
+
+CREATE TABLE seed.seed_history
+(
+    seed_name VARCHAR(255)             NOT NULL,
+    seeded_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    version   BIGINT                   NOT NULL DEFAULT 0,
+
+    CONSTRAINT pk_seed_history
+        PRIMARY KEY (seed_name)
+);

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PasswordChangeOtpEmailHandler implements OtpEmailHandler {
+public final class PasswordChangeOtpEmailHandler implements OtpEmailHandler {
 
     private final EmailService emailService;
 

@@ -1,7 +1,7 @@
 package com.pranit.docmind.redis.service.impl;
 
-import com.pranit.accesshub.properties.TokenProperties;
-import com.pranit.accesshub.redis.service.RedisTokenStore;
+import com.pranit.docmind.properties.TokenProperties;
+import com.pranit.docmind.redis.service.RedisTokenStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -27,13 +27,13 @@ public final class RedisTokenStoreImpl implements RedisTokenStore {
     }
 
     @Override
-    public void invalidateUserSession(final List<UUID> userIds) {
-        userIds.forEach(this::invalidateUserSession);
+    public void invalidateUserSession(final UUID userId) {
+        redisTemplate.delete(key(userId));
     }
 
     @Override
-    public void invalidateUserSession(final UUID userId) {
-        redisTemplate.delete(key(userId));
+    public void invalidateUserSession(final List<UUID> userIds) {
+        userIds.forEach(this::invalidateUserSession);
     }
 
     @Override

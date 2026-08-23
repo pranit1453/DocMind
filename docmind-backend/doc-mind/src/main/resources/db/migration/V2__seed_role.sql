@@ -14,3 +14,31 @@ VALUES ('ADMIN',
         gen_random_uuid(),
         NULL,
         0);
+
+INSERT INTO auth.users
+(user_id, username, password, email, full_name, enabled, deleted,
+ scheduled_deletion_at, version, created_at, updated_at, created_by, updated_by)
+VALUES ('11111111-1111-1111-1111-111111111111',
+        'pranit',
+        '$2a$10$j7zKPoWEDo79ABNHtf9L3OFhU5pjvmj5YweStSnp0XubVR0VUZXg6',
+        'pranitbhangale7@gmail.com',
+        'Pranit Bhangale',
+        TRUE,
+        FALSE,
+        NULL,
+        0,
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL,
+        NULL);
+
+INSERT INTO auth.user_roles
+(user_id, role_id, status, version, created_at, updated_at, created_by, updated_by)
+VALUES ('11111111-1111-1111-1111-111111111111',
+        1,
+        'ACTIVE',
+        0,
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        NULL,
+        NULL);

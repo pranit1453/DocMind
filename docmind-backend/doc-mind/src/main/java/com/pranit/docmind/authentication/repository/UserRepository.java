@@ -26,8 +26,6 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 
     boolean existsByEmail(String email);
 
-    boolean existsByUserIdAndEmail(UUID userId, String email);
-
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("""
                 select u

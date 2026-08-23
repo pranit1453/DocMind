@@ -36,26 +36,20 @@ public class OtpServiceImpl implements OtpService {
 
     @Override
     @Transactional
-    public String sendOtp(String email, OtpPurpose purpose) {
-
-        /*
-         * Global account-level OTP lock.
-         */
+    public String sendOtp(final String email, final OtpPurpose purpose) {
         if (redisOtpStore.isOtpRequestLocked(email)) {
             throw new OTPValidationException("OTP requests are temporarily blocked. " + "Try again later.");
         }
-
-        String challengeId = Generate.generateChallengeId();
-        String otp = otpGeneration.generateOtp();
-        String otpHash = passwordEncoder.encode(otp);
-        OtpVault vault = OtpVault.builder()
+        final String challengeId = Generate.generateChallengeId();
+        final String otp = otpGeneration.generateOtp();
+        final String otpHash = passwordEncoder.encode(otp);
+        final OtpVault vault = OtpVault.builder()
                 .email(email)
                 .otp(otpHash)
                 .purpose(purpose)
                 .status(OtpStatus.PENDING)
                 .build();
-
-        OtpEntity otpEntity = OtpEntity.builder()
+        final OtpEntity otpEntity = OtpEntity.builder()
                 .challengeId(challengeId)
                 .email(email)
                 .otpHash(otpHash)
@@ -63,17 +57,9 @@ public class OtpServiceImpl implements OtpService {
                 .status(OtpStatus.PENDING)
                 .expiresAt(Instant.now().plus(OTP_TTL))
                 .build();
-
         otpRepository.save(otpEntity);
-
         redisOtpStore.saveChallenge(challengeId, vault, OTP_TTL);
-
-        /*
-         * Mark this as the ONLY valid challenge
-         * for this email + purpose.
-         */
         redisOtpStore.setCurrentChallenge(email, purpose, challengeId, OTP_TTL);
-
         final OtpEvent data = OtpEvent.builder()
                 .eventId(Generate.generateEventId())
                 .email(email)
@@ -84,20 +70,14 @@ public class OtpServiceImpl implements OtpService {
     }
 
     @Override
-    public String verifyOtp(String challengeId, String otp, OtpPurpose purpose) {
-
-        OtpVault vault = redisOtpStore.getChallenge(challengeId, purpose).orElseThrow(() -> new OTPValidationException("OTP expired or invalid"));
-        String email = vault.email();
-        /*
-         * Make sure this is the latest OTP.
-         */
+    public String verifyOtp(final String challengeId, final String otp, final OtpPurpose purpose) {
+        final OtpVault vault = redisOtpStore.getChallenge(challengeId, purpose)
+                .orElseThrow(() -> new OTPValidationException("OTP expired or invalid"));
+        final String email = vault.email();
         if (!redisOtpStore.isCurrentChallenge(email, purpose, challengeId)) {
             throw new OTPValidationException("OTP expired or invalid");
         }
 
-        /*
-         * Extra purpose validation.
-         */
         if (vault.purpose() != purpose) {
             throw new OTPValidationException("Invalid OTP purpose");
         }
@@ -106,82 +86,39 @@ public class OtpServiceImpl implements OtpService {
             throw new OTPValidationException("OTP is no longer valid");
         }
 
-        boolean valid = passwordEncoder.matches(otp, vault.otp());
-
+        final boolean valid = passwordEncoder.matches(otp, vault.otp());
         if (!valid) {
             handleFailedVerification(challengeId, email, purpose);
-            // handleFailedVerification throws
-            throw new IllegalStateException();
+            throw new OTPValidationException("Verification failed");
         }
         handleSuccessfulVerification(challengeId, email, purpose);
         return email;
     }
 
-    private void handleFailedVerification(String challengeId, String email, OtpPurpose purpose) {
-
-        /*
-         * Atomic Redis INCR.
-         *
-         * Important:
-         * failures belong to email + purpose,
-         * NOT to challengeId.
-         */
-        int failures = redisOtpStore.incrementFailures(email, purpose, OTP_TTL);
-
-        /*
-         * Third failure.
-         */
+    private void handleFailedVerification(final String challengeId, final String email, final OtpPurpose purpose) {
+        final int failures = redisOtpStore.incrementFailures(email, purpose, OTP_TTL);
         if (failures >= MAX_ATTEMPTS) {
-
-            /*
-             * Global 10-minute lock.
-             */
             redisOtpStore.lockOtpRequests(email, LOCK_DURATION);
-
-            /*
-             * Invalidate current OTP.
-             */
             redisOtpStore.deleteChallenge(challengeId, purpose);
-
-            /*
-             * Mark DB record as exhausted.
-             */
-            OtpEntity otpEntity = getOtpEntity(challengeId);
-
+            final OtpEntity otpEntity = getOtpEntity(challengeId);
             otpEntity.setStatus(OtpStatus.FAILED);
-
             otpRepository.save(otpEntity);
-
             throw new OTPValidationException("Maximum OTP attempts exceeded. " + "Try again in 10 minutes.");
         }
-
-        /*
-         * DO NOT mark the DB record FAILED here.
-         *
-         * The OTP is still usable.
-         */
-        int remaining = MAX_ATTEMPTS - failures;
-
+        final int remaining = MAX_ATTEMPTS - failures;
         throw new OTPValidationException("Invalid OTP. " + remaining + " attempts remaining.");
     }
 
-    private void handleSuccessfulVerification(String challengeId, String email, OtpPurpose purpose) {
-
+    private void handleSuccessfulVerification(final String challengeId, final String email, final OtpPurpose purpose) {
         redisOtpStore.clearOtpState(email, challengeId, purpose);
-
-        /*
-         * Update DB audit record.
-         */
-        OtpEntity otpEntity = getOtpEntity(challengeId);
-
+        final OtpEntity otpEntity = getOtpEntity(challengeId);
         otpEntity.setStatus(OtpStatus.VERIFIED);
-
         otpEntity.setVerifiedAt(Instant.now());
-
         otpRepository.save(otpEntity);
     }
 
-    private OtpEntity getOtpEntity(String challengeId) {
-        return otpRepository.findByChallengeId(challengeId).orElseThrow(() -> new IllegalStateException("OTP record not found: " + challengeId));
+    private OtpEntity getOtpEntity(final String challengeId) {
+        return otpRepository.findByChallengeId(challengeId)
+                .orElseThrow(() -> new OTPValidationException("OTP record not found: " + challengeId));
     }
 }

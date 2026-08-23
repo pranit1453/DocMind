@@ -29,5 +29,5 @@ import org.springframework.context.annotation.Configuration;
         paramName = "access_token",
         description = "JWT access token stored in HttpOnly cookie"
 )
-public final class SwaggerConfig {
+public class SwaggerConfig {
 }

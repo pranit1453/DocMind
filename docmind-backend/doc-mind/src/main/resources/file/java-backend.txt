@@ -1,0 +1,1302 @@
+Java is a statically typed, object-oriented programming language designed to be portable across platforms through the Java Virtual Machine.
+
+Java source code is compiled into bytecode. The Java Virtual Machine executes this bytecode.
+
+Important characteristics of Java include platform independence, object-oriented programming, automatic memory management, strong type checking, exception handling, multithreading, and a large standard library.
+
+The four major object-oriented programming principles are encapsulation, inheritance, polymorphism, and abstraction.
+
+Encapsulation means bundling data and methods together inside a class and controlling access to the internal state using access modifiers such as private, protected, and public.
+
+Inheritance allows one class to acquire properties and behavior from another class. Java supports class inheritance using the extends keyword. Java does not support multiple inheritance through classes, but multiple interfaces can be implemented.
+
+Polymorphism means that the same interface or method call can have different implementations. Compile-time polymorphism is commonly achieved through method overloading. Runtime polymorphism is commonly achieved through method overriding.
+
+Abstraction means exposing essential behavior while hiding implementation details. Java supports abstraction through abstract classes and interfaces.
+
+A class is a blueprint for creating objects.
+
+An object is an instance of a class.
+
+A constructor is used to initialize an object. Constructors do not have a return type and have the same name as the class.
+
+Java provides default, parameterized, and overloaded constructors.
+
+The this keyword refers to the current object.
+
+The super keyword is used to refer to members of the parent class.
+
+The static keyword indicates that a field or method belongs to the class rather than individual objects.
+
+A static variable is shared among instances of a class.
+
+A static method can be called without creating an object.
+
+A final variable cannot be reassigned after initialization.
+
+A final method cannot be overridden.
+
+A final class cannot be extended.
+
+An interface defines a contract that implementing classes must follow. Modern Java interfaces can contain abstract methods, default methods, static methods, and private methods.
+
+An abstract class can contain abstract methods as well as concrete methods and instance state.
+
+An interface is generally useful when defining a capability or contract. An abstract class is useful when related classes need to share common state or implementation.
+
+Java access modifiers include public, protected, default/package-private, and private.
+
+private members are accessible only inside their declaring class.
+
+protected members are accessible within the same package and in subclasses according to Java access rules.
+
+public members are accessible wherever the containing type is accessible.
+
+A package is used to organize related Java classes and avoid naming conflicts.
+
+Java has eight primitive data types.
+
+byte is an 8-bit signed integer.
+
+short is a 16-bit signed integer.
+
+int is a 32-bit signed integer.
+
+long is a 64-bit signed integer.
+
+float is a 32-bit floating-point value.
+
+double is a 64-bit floating-point value.
+
+char represents a UTF-16 code unit.
+
+boolean represents true or false.
+
+Primitive types store values directly rather than object references.
+
+Wrapper classes provide object representations of primitive values.
+
+Integer wraps int.
+
+Long wraps long.
+
+Double wraps double.
+
+Float wraps float.
+
+Boolean wraps boolean.
+
+Character wraps char.
+
+Byte wraps byte.
+
+Short wraps short.
+
+Autoboxing automatically converts a primitive into its corresponding wrapper object.
+
+Unboxing converts a wrapper object into its corresponding primitive.
+
+Integer caching can cause comparisons involving boxed integers to behave differently from comparisons involving primitive values. The == operator compares primitive values for primitives but compares references for objects.
+
+The equals method should generally be used when comparing object values.
+
+String represents immutable sequences of characters.
+
+String objects cannot be modified after creation.
+
+Operations that appear to modify a String actually create a new String object.
+
+String literals are commonly stored in the String pool.
+
+StringBuilder is mutable and is useful for constructing strings efficiently in single-threaded code.
+
+StringBuffer is mutable and provides synchronized methods. It can be useful when synchronization is required, although StringBuilder is generally preferred when thread safety is not required.
+
+String equality should generally be checked with equals rather than ==.
+
+Example:
+
+String a = new String("Java");
+String b = new String("Java");
+
+a == b compares references.
+
+a.equals(b) compares content.
+
+StringBuilder is commonly preferred inside loops when repeatedly concatenating strings.
+
+The Java Collections Framework provides standard interfaces and implementations for storing groups of objects.
+
+Important interfaces include List, Set, Queue, Deque, and Map.
+
+List represents an ordered collection that can contain duplicate elements.
+
+ArrayList is a resizable-array implementation of List.
+
+ArrayList provides efficient indexed access.
+
+ArrayList typically provides O(1) average-time access by index.
+
+Adding to the end is generally amortized O(1).
+
+Insertion or removal near the beginning or middle can require shifting elements and is generally O(n).
+
+LinkedList is a doubly linked list implementation of List and Deque.
+
+LinkedList can efficiently add or remove elements when the relevant node position is already known, but finding an arbitrary position is O(n).
+
+LinkedList is not automatically faster than ArrayList for insertion and removal.
+
+Set represents a collection that does not permit duplicate elements.
+
+HashSet provides hash-based set storage.
+
+LinkedHashSet maintains insertion order.
+
+TreeSet maintains elements according to natural ordering or a supplied Comparator.
+
+Map stores key-value pairs.
+
+HashMap provides average O(1) get and put operations when hashing is well distributed.
+
+HashMap allows one null key and multiple null values.
+
+LinkedHashMap maintains predictable iteration order, normally insertion order unless configured for access order.
+
+TreeMap stores keys in sorted order.
+
+TreeMap operations such as get and put generally have O(log n) complexity.
+
+ConcurrentHashMap is designed for concurrent access and provides better scalability than synchronizing an entire HashMap for many concurrent workloads.
+
+Collections should be selected based on access patterns, ordering requirements, concurrency requirements, and memory considerations.
+
+Hashing converts an object into a hash value.
+
+HashMap uses hash codes to locate buckets.
+
+The hashCode method and equals method must follow a consistent contract.
+
+If two objects are equal according to equals, they must return the same hashCode.
+
+Two objects with the same hash code do not necessarily have to be equal.
+
+Poor hash distribution can increase collisions and reduce HashMap performance.
+
+Immutable objects are often good candidates for map keys because their hash-related state does not change after insertion.
+
+Java exception handling uses try, catch, finally, throw, and throws.
+
+Checked exceptions are exceptions that the compiler requires the program to handle or declare.
+
+Unchecked exceptions generally extend RuntimeException.
+
+Examples of unchecked exceptions include NullPointerException, IllegalArgumentException, IllegalStateException, and IndexOutOfBoundsException.
+
+IOException and SQLException are examples of checked exceptions.
+
+The throw keyword explicitly throws an exception.
+
+The throws keyword declares that a method may propagate specified exceptions.
+
+finally is commonly used for cleanup code.
+
+Try-with-resources automatically closes resources that implement AutoCloseable.
+
+Example concept:
+
+try (BufferedReader reader = new BufferedReader(...)) {
+// read data
+}
+
+The resource is automatically closed when the try block completes.
+
+Custom exceptions can be created by extending Exception or RuntimeException.
+
+A thread represents an independent execution path within a process.
+
+Java supports concurrency using Thread, Runnable, Callable, ExecutorService, Future, CompletableFuture, synchronized, Lock, Semaphore, CountDownLatch, CyclicBarrier, AtomicInteger, and other concurrency utilities.
+
+Runnable represents a task that does not return a result.
+
+Callable represents a task that can return a result and throw an exception.
+
+ExecutorService provides thread-pool management.
+
+Thread pools avoid repeatedly creating and destroying threads.
+
+FixedThreadPool creates a pool with a fixed number of worker threads.
+
+ScheduledExecutorService can execute tasks after delays or periodically.
+
+Future represents the result of an asynchronous computation.
+
+CompletableFuture provides a more composable API for asynchronous programming.
+
+synchronized provides mutual exclusion and memory visibility guarantees.
+
+volatile guarantees visibility of writes between threads but does not make compound operations such as increment atomic.
+
+The following operation is not atomic:
+
+counter++;
+
+AtomicInteger provides atomic operations such as incrementAndGet.
+
+ReentrantLock provides explicit locking capabilities.
+
+Semaphore controls access to a limited number of permits.
+
+CountDownLatch allows one or more threads to wait until a counter reaches zero.
+
+CyclicBarrier allows a group of threads to wait for one another at a synchronization point.
+
+Deadlock occurs when threads wait indefinitely for locks held by one another.
+
+Race conditions occur when program correctness depends on uncontrolled timing between concurrent operations.
+
+Java Streams provide a declarative way to process collections and other data sources.
+
+Common stream operations include filter, map, flatMap, sorted, distinct, limit, skip, collect, reduce, count, min, max, anyMatch, allMatch, and noneMatch.
+
+filter selects elements that satisfy a predicate.
+
+map transforms each element.
+
+flatMap transforms elements and flattens nested streams.
+
+distinct removes duplicates according to equality.
+
+sorted sorts elements.
+
+collect gathers stream results into a collection or another result structure.
+
+groupingBy groups elements based on a classifier.
+
+partitioningBy divides elements into two groups based on a predicate.
+
+reduce combines elements into a single result.
+
+Streams are lazy until a terminal operation is executed.
+
+Intermediate operations such as map and filter are normally lazy.
+
+Terminal operations include collect, forEach, reduce, count, findFirst, and findAny.
+
+Parallel streams can process data concurrently but should not automatically be assumed to be faster.
+
+Generics provide compile-time type safety.
+
+List<String> indicates a list containing String values.
+
+Generics reduce the need for explicit casts.
+
+A generic class can operate on different types while preserving type safety.
+
+A generic method can define its own type parameters.
+
+The wildcard ? represents an unknown type.
+
+? extends T represents an unknown subtype of T.
+
+? super T represents an unknown supertype of T.
+
+The common guideline is PECS: Producer Extends, Consumer Super.
+
+A collection that produces T values can commonly use ? extends T.
+
+A collection that consumes T values can commonly use ? super T.
+
+The Java Virtual Machine executes Java bytecode.
+
+Important JVM memory areas include heap, thread stacks, metaspace, program counter, and native method stack.
+
+The heap stores objects and arrays.
+
+Each thread has its own stack.
+
+Stack frames contain local variables, operand stacks, and method invocation information.
+
+Metaspace stores class metadata and replaced the old PermGen area in modern JVM implementations.
+
+The program counter identifies the current bytecode instruction being executed by a thread.
+
+Garbage collection automatically manages heap memory.
+
+Garbage collectors reclaim memory occupied by objects that are no longer reachable.
+
+G1 is a garbage collector designed for predictable pause behavior and large heaps.
+
+ZGC is a low-latency garbage collector designed to minimize pause times.
+
+OutOfMemoryError can occur when the JVM cannot allocate required memory.
+
+StackOverflowError commonly occurs when a thread's stack is exhausted, often due to excessive recursion.
+
+Spring is a Java framework for building enterprise applications.
+
+The Spring IoC container manages application objects known as beans.
+
+Inversion of Control means that object creation and dependency management are delegated to a framework rather than being manually controlled throughout the application.
+
+Dependency Injection is a mechanism through which dependencies are provided to objects.
+
+Constructor injection is generally preferred for required dependencies.
+
+Field injection makes dependencies less explicit and can make testing more difficult.
+
+Spring beans can be registered using annotations such as Component, Service, Repository, and Controller.
+
+@Component is a general-purpose stereotype annotation.
+
+@Service is commonly used for service-layer classes.
+
+@Repository is commonly used for data-access classes.
+
+@Controller is commonly used for MVC controllers.
+
+@RestController combines controller behavior with response-body semantics and is commonly used for REST APIs.
+
+Spring manages bean lifecycle and dependency relationships.
+
+Spring Boot simplifies Spring application development.
+
+Important Spring Boot features include auto-configuration, starter dependencies, embedded servers, externalized configuration, Actuator, and production-ready conventions.
+
+@SpringBootApplication is a commonly used entry-point annotation.
+
+@SpringBootApplication combines configuration, component scanning, and auto-configuration functionality.
+
+Spring Boot applications can run using embedded servers such as Tomcat.
+
+application.properties and application.yml are commonly used for configuration.
+
+Profiles allow different configurations for environments such as development, testing, staging, and production.
+
+Example profile concepts include:
+
+application-dev.yml
+application-test.yml
+application-prod.yml
+
+Configuration can be injected using @Value or more structured approaches such as @ConfigurationProperties.
+
+Spring Boot Actuator exposes operational information such as health, metrics, and application information.
+
+REST APIs commonly use HTTP methods.
+
+GET is commonly used to retrieve resources.
+
+POST is commonly used to create resources.
+
+PUT is commonly used to replace or update a resource.
+
+PATCH is commonly used for partial updates.
+
+DELETE is commonly used to remove resources.
+
+HTTP status 200 indicates successful processing.
+
+201 indicates resource creation.
+
+204 indicates successful processing with no response body.
+
+400 indicates a bad request.
+
+401 indicates that authentication is required or credentials are invalid.
+
+403 indicates that the client is authenticated but does not have permission.
+
+404 indicates that the requested resource was not found.
+
+409 commonly indicates a conflict.
+
+500 indicates an internal server error.
+
+@RestController is used to define REST controllers.
+
+@GetMapping maps GET requests.
+
+@PostMapping maps POST requests.
+
+@PutMapping maps PUT requests.
+
+@PatchMapping maps PATCH requests.
+
+@DeleteMapping maps DELETE requests.
+
+@RequestBody maps request body data to a Java object.
+
+@PathVariable extracts values from URI paths.
+
+@RequestParam extracts query parameters.
+
+ResponseEntity can be used to control HTTP status, headers, and response body.
+
+Spring Data JPA simplifies database access using the Java Persistence API.
+
+An entity represents a persistent database object.
+
+@Entity marks a class as a JPA entity.
+
+@Id identifies the primary key.
+
+@GeneratedValue can be used for generated identifiers.
+
+@Repository is commonly used for persistence-layer components.
+
+JpaRepository provides CRUD operations and additional repository functionality.
+
+Common operations include save, findById, findAll, delete, deleteById, existsById, and count.
+
+Spring Data can derive queries from repository method names.
+
+Example concept:
+
+findByEmail
+
+findByStatusAndType
+
+findByNameContaining
+
+Lazy loading means related data is loaded when accessed.
+
+Eager loading means related data is loaded immediately with the owning entity.
+
+N+1 query problems occur when one query loads parent records and additional queries are executed repeatedly for related records.
+
+Transactions ensure that a group of database operations behaves as a logical unit.
+
+@Transactional is commonly used to define transaction boundaries.
+
+A relational database stores data in tables containing rows and columns.
+
+A primary key uniquely identifies a record.
+
+A foreign key represents a relationship between tables.
+
+An index improves lookup performance but consumes storage and can increase write overhead.
+
+Normalization reduces redundant data and improves data integrity.
+
+Denormalization can intentionally introduce redundancy to improve read performance.
+
+ACID stands for Atomicity, Consistency, Isolation, and Durability.
+
+Atomicity means a transaction is treated as an all-or-nothing operation.
+
+Consistency means transactions preserve defined database rules.
+
+Isolation controls how concurrent transactions interact.
+
+Durability means committed data survives system failures according to the database's guarantees.
+
+Common transaction isolation levels include READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, and SERIALIZABLE.
+
+Deadlocks can occur when database transactions hold locks and wait for resources held by each other.
+
+Spring AI provides abstractions for integrating artificial intelligence models into Spring applications.
+
+Spring AI can be used with chat models, embedding models, vector stores, document processing, tool calling, and retrieval-augmented generation.
+
+A ChatModel represents an abstraction for interacting with a chat-capable AI model.
+
+An EmbeddingModel converts text into numerical vectors.
+
+A vector store stores embeddings and supports similarity-based retrieval.
+
+A Document represents content and associated metadata.
+
+Document metadata can include filename, document type, page number, source, section, tenant identifier, and ingestion timestamp.
+
+RAG stands for Retrieval-Augmented Generation.
+
+A RAG system retrieves relevant information from an external knowledge source and supplies that information to an LLM as context.
+
+A typical RAG pipeline contains:
+
+Document ingestion.
+
+Document reading.
+
+Document transformation.
+
+Text cleaning.
+
+Text chunking.
+
+Embedding generation.
+
+Vector storage.
+
+User query embedding.
+
+Similarity search.
+
+Relevant document retrieval.
+
+Prompt augmentation.
+
+LLM generation.
+
+Response generation.
+
+RAG helps reduce dependence on information stored directly in model parameters.
+
+RAG is useful for enterprise knowledge bases, documentation search, support systems, internal policies, product information, and domain-specific assistants.
+
+Large documents are generally divided into smaller chunks before generating embeddings.
+
+Chunk size should depend on the embedding model, document structure, semantic boundaries, retrieval requirements, and context window.
+
+TokenTextSplitter can be used to divide documents into token-based chunks.
+
+Overly small chunks can lose context.
+
+Overly large chunks can reduce retrieval precision and consume more context.
+
+Chunk overlap can help preserve information that crosses chunk boundaries.
+
+Metadata should be retained for every chunk whenever possible.
+
+Useful metadata includes source filename, page number, document type, section title, source URL, tenant ID, creation date, and ingestion timestamp.
+
+An embedding is a numerical vector representing semantic characteristics of data.
+
+Similar meanings should generally produce vectors that are closer in the embedding space.
+
+Embeddings can be generated for documents and user queries.
+
+The query embedding can be compared against stored document embeddings.
+
+Similarity metrics include cosine similarity, dot product, and Euclidean distance depending on the vector database and embedding configuration.
+
+The same compatible embedding model should generally be used for indexing and querying.
+
+A vector database stores vectors and supports similarity search.
+
+Examples of vector storage technologies include PostgreSQL with pgvector, Redis, Elasticsearch, OpenSearch, Milvus, Weaviate, and other vector-capable systems.
+
+A vector store normally stores an embedding, the original document content or reference, and metadata.
+
+Filtering can combine semantic similarity with metadata constraints.
+
+Example filtering concepts include:
+
+documentType = "JAVA"
+
+source = "spring-security.pdf"
+
+department = "engineering"
+
+tenantId = "companyA"
+
+Metadata filtering is important for multi-tenant systems because users should only retrieve documents they are authorized to access.
+
+Similarity search retrieves documents based on vector similarity.
+
+Top-K retrieval returns the highest-ranked K results.
+
+Metadata filtering restricts retrieval to documents satisfying specified conditions.
+
+Hybrid search combines keyword-based retrieval with semantic vector retrieval.
+
+Reranking can reorder retrieved documents using a more sophisticated relevance model.
+
+A RAG system should avoid blindly sending too many retrieved chunks to the LLM.
+
+Retrieval quality is often more important than simply increasing the number of retrieved documents.
+
+A prompt provides instructions and context to an AI model.
+
+A system instruction defines high-level behavior.
+
+User input contains the user's request.
+
+Retrieved documents can be inserted into the prompt as contextual information.
+
+A RAG prompt should clearly distinguish trusted retrieved context from user-provided instructions.
+
+A useful RAG instruction can tell the model to answer using supplied context and to say when sufficient information is unavailable.
+
+Prompt injection is an attack in which untrusted content attempts to influence model behavior.
+
+Retrieved documents should be treated as untrusted data unless their trustworthiness is explicitly established.
+
+A typical Spring AI RAG application can contain the following components:
+
+REST Controller.
+
+Service Layer.
+
+Document Ingestion Service.
+
+Document Reader.
+
+Document Transformer.
+
+Text Splitter.
+
+Embedding Model.
+
+Vector Store.
+
+Retriever.
+
+Prompt Builder.
+
+Chat Model.
+
+Response Service.
+
+The ingestion pipeline processes documents before they are available for retrieval.
+
+The query pipeline receives a user question, retrieves relevant information, creates an augmented prompt, invokes the model, and returns the response.
+
+Docker is a platform for packaging and running applications in containers.
+
+A container packages an application together with its runtime dependencies.
+
+A Docker image is a read-only template used to create containers.
+
+A container is a running instance of an image.
+
+A Dockerfile defines instructions for building an image.
+
+Common Dockerfile instructions include FROM, RUN, COPY, ADD, WORKDIR, ENV, EXPOSE, USER, ENTRYPOINT, and CMD.
+
+FROM defines the base image.
+
+WORKDIR sets the working directory.
+
+COPY copies files from the build context into the image.
+
+RUN executes commands during image construction.
+
+EXPOSE documents the port that the application listens on.
+
+ENTRYPOINT defines the primary executable.
+
+CMD provides default command arguments.
+
+Docker images are built in layers.
+
+Layer caching can improve build performance.
+
+Multi-stage builds can reduce final image size by separating build dependencies from runtime dependencies.
+
+A container is an isolated process running from a Docker image.
+
+Containers should generally be treated as replaceable and disposable.
+
+Persistent application data should normally be stored using volumes or external storage rather than relying on the writable container layer.
+
+Docker volumes provide persistent storage managed by Docker.
+
+Bind mounts map host directories into containers.
+
+Container networking allows containers to communicate with one another.
+
+Docker Compose can define and run multi-container applications.
+
+A typical Spring Boot application may run with:
+
+Spring Boot container.
+
+PostgreSQL container.
+
+Redis container.
+
+Vector database container.
+
+Reverse proxy container.
+
+Docker Compose allows multiple containers and their configuration to be defined in a YAML file.
+
+A Compose file can define services, networks, volumes, environment variables, ports, health checks, and dependencies.
+
+A Spring Boot RAG system might contain:
+
+application service.
+
+postgres service.
+
+vector database service.
+
+redis service.
+
+Docker Compose is useful for local development and integration testing.
+
+Containers should not normally run as root unless there is a specific requirement.
+
+Minimal base images reduce attack surface.
+
+Images should be scanned for known vulnerabilities.
+
+Secrets should not be hardcoded in Dockerfiles.
+
+Environment variables can be used for configuration, but highly sensitive secrets should preferably use a dedicated secret-management mechanism.
+
+Images should be pinned to controlled versions rather than blindly using mutable latest tags in production.
+
+Containers should expose only required ports.
+
+Unused packages and tools should be removed from production images.
+
+Spring Security provides authentication and authorization capabilities for Spring applications.
+
+Authentication answers the question: Who are you?
+
+Authorization answers the question: What are you allowed to do?
+
+A SecurityFilterChain defines security behavior for HTTP requests.
+
+Authentication can be implemented using username/password, JWT, OAuth2, OpenID Connect, or other mechanisms.
+
+Authorization can be based on roles, authorities, scopes, claims, or custom rules.
+
+Spring Security supports method-level authorization.
+
+SecurityContext stores authentication information associated with the current execution context.
+
+Passwords should never be stored as plain text.
+
+Passwords should be stored using strong password hashing algorithms.
+
+BCrypt is commonly used for password hashing.
+
+Argon2 is another modern password hashing algorithm.
+
+Password hashing should use salts so identical passwords do not produce identical stored hashes.
+
+Password hashes should be deliberately expensive to compute to make brute-force attacks more difficult.
+
+JWT stands for JSON Web Token.
+
+JWTs are commonly used for stateless authentication.
+
+A JWT normally contains a header, payload, and signature.
+
+The payload can contain claims such as subject, expiration time, issuer, audience, and authorities.
+
+JWT payload data should not be assumed to be secret because standard JWTs are commonly encoded rather than encrypted.
+
+The signature provides integrity verification.
+
+Applications should validate token signature, issuer, audience where applicable, expiration, and other relevant claims.
+
+Short-lived access tokens can reduce risk if a token is compromised.
+
+Refresh tokens can be used to obtain new access tokens depending on the authentication architecture.
+
+OAuth 2.0 is an authorization framework.
+
+OAuth2 allows a client application to obtain limited access to protected resources.
+
+OpenID Connect builds an identity layer on top of OAuth2.
+
+OAuth2 access tokens represent authorization.
+
+OpenID Connect ID tokens provide identity information about the authenticated user.
+
+Authorization Code with PKCE is commonly used for user-facing applications.
+
+Client Credentials flow is commonly used for service-to-service authentication where no end user is involved.
+
+Scopes limit the permissions associated with an access token.
+
+HTTPS encrypts communication between clients and servers using TLS.
+
+TLS helps provide confidentiality, integrity, and server authentication.
+
+SQL injection occurs when untrusted input is incorporated into SQL in an unsafe way.
+
+Parameterized queries and prepared statements help prevent SQL injection.
+
+Cross-Site Scripting, or XSS, occurs when untrusted content is executed as script in a user's browser.
+
+Output encoding, input handling, and appropriate browser security controls can reduce XSS risk.
+
+Cross-Site Request Forgery, or CSRF, tricks an authenticated browser into sending an unwanted request.
+
+CSRF protection is especially relevant for cookie-based authentication.
+
+CORS controls which origins are permitted to make browser-based cross-origin requests.
+
+CORS is not an authentication mechanism.
+
+REST APIs should validate all external input.
+
+Authentication should be required for protected resources.
+
+Authorization should be checked for every protected operation.
+
+Sensitive information should not be returned unnecessarily.
+
+API rate limiting can reduce abuse and denial-of-service risk.
+
+Request size limits can prevent resource exhaustion.
+
+Input validation should occur at API boundaries.
+
+Error responses should avoid exposing internal implementation details, stack traces, database credentials, or sensitive configuration.
+
+Logging should avoid storing passwords, access tokens, and other sensitive secrets.
+
+A common JWT-based Spring Boot architecture contains:
+
+Login endpoint.
+
+User authentication service.
+
+Password encoder.
+
+AuthenticationManager.
+
+JWT generation service.
+
+JWT validation filter.
+
+SecurityFilterChain.
+
+Protected REST controllers.
+
+Authorization rules.
+
+The user authenticates using credentials.
+
+The server validates the credentials.
+
+The server generates an access token.
+
+The client sends the token with subsequent requests.
+
+The server validates the token.
+
+The server extracts claims and authorities.
+
+Spring Security establishes the authenticated security context.
+
+Authorization rules determine whether the requested operation is permitted.
+
+A microservice architecture splits an application into independently deployable services.
+
+Each service typically owns a specific business capability.
+
+Services communicate through HTTP APIs, messaging systems, or event-driven mechanisms.
+
+Advantages can include independent deployment, scaling, and team ownership.
+
+Challenges include distributed transactions, network failures, observability, deployment complexity, and data consistency.
+
+A monolithic application can be simpler to develop and operate for many systems.
+
+Microservices should not be adopted solely because they are popular.
+
+Synchronous communication commonly uses REST or gRPC.
+
+Asynchronous communication commonly uses message brokers.
+
+Synchronous calls make the caller wait for a response.
+
+Asynchronous communication can improve decoupling and resilience.
+
+Common distributed-system problems include network timeout, retry storms, duplicate messages, partial failure, and inconsistent state.
+
+Timeouts should be explicitly configured.
+
+Retries should be limited and preferably use exponential backoff with jitter.
+
+Idempotency is important when operations may be retried.
+
+Redis is an in-memory data store commonly used for caching, session storage, distributed locks, rate limiting, and fast key-value access.
+
+Caching can reduce database load and improve response latency.
+
+Cache invalidation is an important design problem.
+
+Common cache strategies include cache-aside, read-through, and write-through.
+
+TTL defines how long cached data should remain available.
+
+Apache Kafka is a distributed event streaming platform.
+
+Kafka organizes messages into topics.
+
+Topics are divided into partitions.
+
+Partitions provide scalability and ordering within a partition.
+
+Consumers read records from Kafka topics.
+
+Consumer groups allow multiple consumers to share processing of partitions.
+
+Kafka is useful for event-driven architectures, asynchronous processing, audit streams, data pipelines, and integration between services.
+
+Consumers should be designed to handle duplicate processing when appropriate.
+
+Observability commonly includes logs, metrics, and traces.
+
+Logs record application events.
+
+Metrics provide numerical measurements such as request count, latency, CPU usage, memory usage, and error rate.
+
+Distributed tracing follows a request across multiple services.
+
+Correlation IDs can help connect logs belonging to the same request.
+
+Spring Boot Actuator provides endpoints and integrations useful for application monitoring.
+
+Health checks help determine whether an application is operational.
+
+Production Spring Boot applications should use externalized configuration.
+
+Secrets should not be committed to source control.
+
+Database connection pools should be configured appropriately.
+
+HTTP clients should use connection and response timeouts.
+
+External service calls should have appropriate timeout, retry, and circuit-breaker strategies.
+
+Applications should expose health information.
+
+Structured logging can simplify searching and analysis.
+
+Sensitive data should not appear in logs.
+
+Graceful shutdown allows applications to finish in-flight work before termination when configured appropriately.
+
+Use HTTPS.
+
+Hash passwords using strong password hashing algorithms.
+
+Never store plaintext passwords.
+
+Validate input.
+
+Use parameterized database queries.
+
+Implement authorization rather than relying only on authentication.
+
+Use least privilege.
+
+Keep dependencies updated.
+
+Scan dependencies for known vulnerabilities.
+
+Do not hardcode secrets.
+
+Do not expose stack traces to clients.
+
+Do not log passwords or tokens.
+
+Use secure HTTP headers where appropriate.
+
+Configure CORS carefully.
+
+Use CSRF protection when appropriate for the authentication mechanism.
+
+Use short-lived access tokens where suitable.
+
+Validate JWT claims.
+
+Use rate limiting for sensitive APIs.
+
+Apply resource and request-size limits.
+
+Keep Docker images minimal.
+
+Run containers as non-root where possible.
+
+Difference between == and equals:
+
+== compares primitive values or object references depending on operand types.
+
+equals is intended for logical object equality.
+
+Difference between ArrayList and LinkedList:
+
+ArrayList uses a dynamic array and provides fast indexed access.
+
+LinkedList uses linked nodes and is useful for certain deque operations and node-based modifications.
+
+Difference between HashMap and ConcurrentHashMap:
+
+HashMap is not designed for concurrent modification by multiple threads.
+
+ConcurrentHashMap supports concurrent access and is designed for scalable concurrent use.
+
+Difference between synchronized and volatile:
+
+synchronized provides mutual exclusion and memory visibility.
+
+volatile provides visibility and ordering guarantees for the variable but does not provide atomicity for compound operations.
+
+Difference between Runnable and Callable:
+
+Runnable does not return a result.
+
+Callable returns a result and can throw checked exceptions.
+
+Difference between Future and CompletableFuture:
+
+Future represents an asynchronous result and commonly requires blocking get for retrieval.
+
+CompletableFuture supports composable asynchronous pipelines.
+
+Difference between interface and abstract class:
+
+An interface primarily defines a contract.
+
+An abstract class can define shared state and implementation.
+
+What is dependency injection?
+
+Dependency injection is the process of providing required dependencies to an object rather than having the object construct them itself.
+
+Why is constructor injection preferred?
+
+Constructor injection makes dependencies explicit, supports final fields, improves testability, and prevents creation of an object without required dependencies.
+
+What is Spring Boot auto-configuration?
+
+Auto-configuration attempts to configure application components based on classpath dependencies, configuration properties, and detected beans.
+
+What is a Spring Bean?
+
+A Spring Bean is an object managed by the Spring IoC container.
+
+What is @Component?
+
+@Component marks a class as a Spring-managed component candidate.
+
+What is @Service?
+
+@Service is a specialization of component semantics commonly used for service-layer classes.
+
+What is @Repository?
+
+@Repository is commonly used for data-access components.
+
+What is @RestController?
+
+@RestController is commonly used for REST API controllers.
+
+What is @Transactional?
+
+@Transactional defines transaction semantics for a method or class.
+
+What is RAG?
+
+RAG combines information retrieval with LLM generation.
+
+Why use RAG?
+
+RAG allows an application to provide external, domain-specific, or frequently changing information to an LLM.
+
+What is an embedding?
+
+An embedding is a numerical vector representation of content.
+
+What is a vector store?
+
+A vector store stores embeddings and supports similarity retrieval.
+
+What is chunking?
+
+Chunking divides large documents into smaller pieces suitable for embedding and retrieval.
+
+What is metadata?
+
+Metadata provides additional information about a document or chunk, such as source, page, category, tenant, or timestamp.
+
+Why is metadata important?
+
+Metadata enables filtering, source attribution, access control, and improved retrieval.
+
+What is hallucination?
+
+Hallucination occurs when an AI model produces information that is unsupported, incorrect, or fabricated.
+
+RAG can reduce hallucination risk by supplying relevant context, but it does not guarantee factual correctness.
+
+User uploads a PDF.
+
+The application receives the document.
+
+The document is stored.
+
+A document reader extracts the content.
+
+The content is transformed if necessary.
+
+The content is split into chunks.
+
+Metadata is attached to each chunk.
+
+An embedding model generates vectors.
+
+The vectors and document data are stored in a vector store.
+
+The user submits a question.
+
+The question is converted into an embedding.
+
+The vector store searches for similar chunks.
+
+Metadata filters may restrict the search.
+
+Relevant chunks are retrieved.
+
+The application creates an augmented prompt.
+
+The LLM receives the question and retrieved context.
+
+The LLM generates the response.
+
+The application returns the answer to the user.
+
+The response may include source information derived from document metadata.
+
+RAG systems must consider document-level authorization.
+
+A user should not receive retrieved content from a document they are not authorized to access.
+
+Multi-tenant RAG systems should store tenant identifiers in document metadata.
+
+Retrieval queries should apply tenant and authorization filters.
+
+Uploaded documents should be treated as untrusted input.
+
+Malicious documents can contain prompt-injection instructions.
+
+The application should distinguish retrieved data from system instructions.
+
+File uploads should be validated.
+
+File size limits should be enforced.
+
+Allowed file types should be restricted where appropriate.
+
+Malicious or unexpected content should be handled safely.
+
+RAG performance depends on ingestion speed, embedding generation, vector search, reranking, prompt size, model latency, and network latency.
+
+Embedding generation can become a major bottleneck during large document ingestion.
+
+Batch processing can improve ingestion efficiency.
+
+Vector indexes can improve similarity-search performance.
+
+Chunk size affects both retrieval quality and token usage.
+
+Caching can reduce repeated embedding or model calls when appropriate.
+
+Top-K should be tuned based on retrieval quality and context limits.
+
+A production application can use the following architecture:
+
+Client.
+
+API Gateway or Reverse Proxy.
+
+Spring Boot REST API.
+
+Spring Security.
+
+Authentication Service.
+
+Business Service Layer.
+
+Spring AI Service.
+
+Document Ingestion Service.
+
+Embedding Model.
+
+Vector Database.
+
+PostgreSQL.
+
+Redis.
+
+Kafka.
+
+Docker.
+
+Monitoring and Logging.
+
+The client sends a request to the Spring Boot API.
+
+Spring Security authenticates and authorizes the request.
+
+The controller passes the request to the service layer.
+
+The service layer performs business logic.
+
+For an AI query, the Spring AI layer creates embeddings and performs retrieval.
+
+The vector store returns relevant documents.
+
+The application constructs the final prompt.
+
+The chat model generates the response.
+
+The API returns the result.
+
+JVM = Java Virtual Machine.
+
+JDK = Java Development Kit.
+
+JRE = Java Runtime Environment.
+
+OOP = Object-Oriented Programming.
+
+API = Application Programming Interface.
+
+REST = Representational State Transfer.
+
+HTTP = Hypertext Transfer Protocol.
+
+HTTPS = HTTP Secure.
+
+JPA = Java Persistence API.
+
+ORM = Object-Relational Mapping.
+
+IoC = Inversion of Control.
+
+DI = Dependency Injection.
+
+RAG = Retrieval-Augmented Generation.
+
+LLM = Large Language Model.
+
+AI = Artificial Intelligence.
+
+NLP = Natural Language Processing.
+
+JWT = JSON Web Token.
+
+OAuth2 = OAuth 2.0 Authorization Framework.
+
+OIDC = OpenID Connect.
+
+TLS = Transport Layer Security.
+
+CORS = Cross-Origin Resource Sharing.
+
+CSRF = Cross-Site Request Forgery.
+
+XSS = Cross-Site Scripting.
+
+SQL = Structured Query Language.
+
+ACID = Atomicity, Consistency, Isolation, Durability.
+
+CRUD = Create, Read, Update, Delete.
+
+CI = Continuous Integration.
+
+CD = Continuous Delivery or Continuous Deployment.
