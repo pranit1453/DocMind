@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: doc-mind
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/docmind
+    username: postgres
+    password: 140503
+    driver-class-name: org.postgresql.Driver
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+  # Flyway Migration Configuration
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 1
+    validate-on-migrate: true
+    clean-disabled: true
+    out-of-order: false
+  # AI Configuration
+  ai:
+    chat:
+      client:
+        enabled: true
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+    openai:
+      api-key: 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
+      base-url: https://integrate.api.nvidia.com/v1
+      chat:
+        model: nvidia/nemotron-3-ultra-550b-a55b
+        temperature: 0.7
+        max-tokens: 8192
+      embedding:
+        api-key: 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
+        base-url: https://integrate.api.nvidia.com/v1
+        model: nvidia/nemotron-3-embed-1b
+        dimensions: 2048
+    # Vector DB Configuration
+    vectorstore:
+      qdrant:
+        host: localhost
+        port: 6334
+        api-key: naive-rag@v1
+        collection-name: vector_store
+        content-field-name: doc_content
+        use-tls: false
+        initialize-schema: true
+# JWT Token Configuration
+security:
+  accessToken:
+    expiration: 900
+  refreshToken:
+    expiration: 86400
+  token:
+    issuer: doc-mind
+  cookie:
+    name:
+      refreshTokenName: refreshToken
+      accessTokenName: accessToken
+    cookieHttpOnly: true
+    cookieSecure: false
+    cookieSameSite: lax
+    cookieDomain: localhost
+# Keys Configuration
+keys:
+  privateKeyPath: key/private_key.pem
+  publicKeyPath: key/public_key.pem
+# Swagger Configuration
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+# Logging Configuration
+logging:
+  file:
+    name: logs/doc-mind.log
+  level:
+    root: INFO
+    com.pranit.accesshub: DEBUG
+# SafeGuard Configuration
+ai:
+  advisor:
+    safeguard:
+      blocked-words:
+        - env
+#URL Configuration
+app:
+  cors:
+    front-end-url: http://localhost:5173
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+info:
+  app:
+    name: access-hub
+    description: "This is an RAG Service"
+    version: "1.0.0"
