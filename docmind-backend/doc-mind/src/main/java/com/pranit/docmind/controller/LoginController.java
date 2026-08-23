@@ -7,6 +7,8 @@ import com.pranit.docmind.authentication.exception.UnauthorizedException;
 import com.pranit.docmind.authentication.service.LoginService;
 import com.pranit.docmind.authentication.service.LogoutService;
 import com.pranit.docmind.authentication.service.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -25,6 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Validated
+@Tag(
+        name = "Authentication",
+        description = "Endpoints for user authentication, token refresh, and logout."
+)
 public class LoginController {
 
     private final LoginService loginService;
@@ -37,12 +43,20 @@ public class LoginController {
      * after that Access token is generated for client and send back to client
      * in HttpOnlyCookie
      */
+    @Operation(
+            summary = "Authenticate user",
+            description = "Authenticates the user and sets the access and refresh tokens in secure HTTP-only cookies."
+    )
     @PostMapping(value = "/login", version = "v1")
     public ResponseEntity<LoginRespone> authenticateUser(@RequestBody @Valid LoginRequest request, @Valid HttpServletRequest httpRequest, @Valid HttpServletResponse response) {
         final LoginRespone loginRespone = loginService.authenticateUser(request, httpRequest, response);
         return ResponseEntity.status(HttpStatus.OK).body(loginRespone);
     }
 
+    @Operation(
+            summary = "Refresh access token",
+            description = "Validates the refresh token and generates a new access and refresh token."
+    )
     @PostMapping(value = "/refresh", version = "v1")
     public ResponseEntity<TokenResponse> refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
         final String refreshToken = tokenService.readRefreshTokenFromRequest(request)
@@ -55,6 +69,10 @@ public class LoginController {
                 .body(tokenResponse);
     }
 
+    @Operation(
+            summary = "Logout user",
+            description = "Revokes the user's access and refresh tokens and clears the authentication cookies."
+    )
     @PostMapping(value = "/logout", version = "v1")
     public ResponseEntity<String> logout(@Valid HttpServletRequest request, @Valid HttpServletResponse response) {
         logoutService.readRefreshTokenFromRequest(request)

@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "DocMind API",
-                description = "Document-based RAG system API",
+                title = "DocMind - AI Document Intelligence & RAG API",
+                description = "Rest API for DocMind: Multi-Format document ingestion, vector embeddings with Qdrant and hybrid conversational Q&A with Nvidia.",
                 version = "1.0.0",
                 summary = "DocMind API",
                 contact = @Contact(

@@ -5,6 +5,8 @@ import com.pranit.docmind.document.service.DocumentService;
 import com.pranit.docmind.document.service.DocumentUploadService;
 import com.pranit.docmind.wrapper.ApiResponse;
 import com.pranit.docmind.wrapper.PageResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,21 +27,28 @@ import java.util.UUID;
 @RequestMapping("/api/documents")
 @RequiredArgsConstructor
 @Validated
+@Tag(
+        name = "Document Management",
+        description = "Endpoints for uploading, retrieving, listing, and deleting documents and their vector embeddings."
+)
 public class DocumentController {
 
     private final DocumentUploadService documentUploadService;
     private final DocumentService documentService;
 
+    @Operation(summary = "Upload a document", description = "Uploads a document and processes it for vector embedding.")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, version = "v1")
     public ResponseEntity<ApiResponse<DocumentResponse>> uploadDocument(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentUploadService.uploadDocument(file));
     }
 
+    @Operation(summary = "Get document by ID", description = "Retrieves a document and its metadata using its unique ID.")
     @GetMapping(value = "/{documentId}", version = "v1")
     public ResponseEntity<ApiResponse<DocumentResponse>> fetchDocumentById(@PathVariable("documentId") UUID documentId) {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.fetchDocumentById(documentId));
     }
 
+    @Operation(summary = "List documents", description = "Retrieves a paginated list of documents with optional keyword search and sorting.")
     @GetMapping(version = "v1")
     public ResponseEntity<PageResponse<DocumentResponse>> fetchAllDocuments(
             @RequestParam(required = false, defaultValue = "0") int page,
@@ -52,6 +61,7 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 
+    @Operation(summary = "Delete a document", description = "Deletes a document and its associated vector embeddings using its unique ID.")
     @DeleteMapping(value = "/{documentId}/delete", version = "v1")
     public ResponseEntity<ApiResponse<Void>> deleteDocumentById(@PathVariable("documentId") UUID documentId) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(documentService.deleteDocumentById(documentId));
