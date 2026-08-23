@@ -10,9 +10,11 @@ import com.pranit.docmind.entities.entity.RefreshToken;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.entities.model.UserDetail;
 import com.pranit.docmind.helper.Generate;
+import com.pranit.docmind.interceptor.RateLimitInterceptor;
 import com.pranit.docmind.properties.TokenProperties;
 import com.pranit.docmind.security.service.CookieService;
 import com.pranit.docmind.security.service.GenerateToken;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +45,11 @@ public class LoginServiceImpl implements LoginService {
     private final GenerateToken generateToken;
     private final CookieService cookieService;
     private final UserRepository userRepository;
+    private final RateLimitInterceptor rateLimitInterceptor;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public LoginRespone authenticateUser(final LoginRequest request, final HttpServletResponse response) {
+    public LoginRespone authenticateUser(final LoginRequest request, final HttpServletRequest httpRequest, final HttpServletResponse response) {
         log.debug("Authentication attempt initiated for username: {}", request.username());
         Authentication authentication;
         try {
@@ -88,6 +91,7 @@ public class LoginServiceImpl implements LoginService {
         cookieService.attachAccessTokenCookie(response, accessToken, accessTokenTtl);
         cookieService.attachRefreshTokenCookie(response, refreshToken, refreshTokenTtl);
         cookieService.addNoStoreHeaders(response);
+        rateLimitInterceptor.reset(httpRequest.getRemoteAddr());
         log.info("User logged in successfully userId: {}", userDetail.userId());
         return LoginRespone.builder()
                 .username(userDetail.username())

@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:18
-    container_name: doc-mind-postgres
+    container_name: doc-mind-db
     restart: unless-stopped
     environment:
       POSTGRES_DB: docmind
@@ -9,14 +9,79 @@ services:
       POSTGRES_PASSWORD: docmind@
     ports:
       - "5434:5432"
+    networks:
+      - docmind
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
     healthcheck:
-      test: [ "CMD-SHELL","pg_isready -U postgres -d docmind" ]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U postgres -d docmind"
+        ]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 10s
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: doc-mind-vector
+    restart: unless-stopped
+    environment:
+      VECTORSTORE_QDRANT_HOST: qdrant
+      VECTORSTORE_QDRANT_PORT: 6334
+      VECTORSTORE_QDRANT_API_KEY: docmind@vector
+      VECTORSTORE_QDRANT_COLLECTION_NAME: vector_store
+      VECTORSTORE_QDRANT_CONTENT_FIELD_NAME: doc_content
+      VECTORSTORE_QDRANT_USE_TLS: "false"
+      VECTORSTORE_QDRANT_INITIALIZE_SCHEMA: "true"
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    networks:
+      - docmind
+    volumes:
+      - qdrant_data:/var/lib/qdrant/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:6333/healthz || exit 1"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  redis:
+    image: redis:8
+    container_name: doc-mind-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - docmind
+    volumes:
+      - redis_data:/var/lib/redis/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "redis-cli",
+          "ping"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+networks:
+  docmind:
+    name: docmind
+    driver: bridge
 
 volumes:
   postgres_data:
+  qdrant_data:
+  redis_data:

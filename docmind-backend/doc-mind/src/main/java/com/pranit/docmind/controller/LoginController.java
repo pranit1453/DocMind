@@ -38,8 +38,8 @@ public class LoginController {
      * in HttpOnlyCookie
      */
     @PostMapping(value = "/login", version = "v1")
-    public ResponseEntity<LoginRespone> authenticateUser(@RequestBody @Valid LoginRequest request, @Valid HttpServletResponse response) {
-        final LoginRespone loginRespone = loginService.authenticateUser(request, response);
+    public ResponseEntity<LoginRespone> authenticateUser(@RequestBody @Valid LoginRequest request, @Valid HttpServletRequest httpRequest, @Valid HttpServletResponse response) {
+        final LoginRespone loginRespone = loginService.authenticateUser(request, httpRequest, response);
         return ResponseEntity.status(HttpStatus.OK).body(loginRespone);
     }
 
