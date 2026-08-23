@@ -1,7 +1,7 @@
 package com.pranit.docmind.helper;
 
+import com.pranit.docmind.authentication.exception.UnauthorizedException;
 import com.pranit.docmind.entities.model.UserDetail;
-import com.pranit.docmind.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

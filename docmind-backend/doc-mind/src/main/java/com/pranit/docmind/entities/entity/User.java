@@ -60,7 +60,7 @@ public class User extends AuditEntity {
     private String email;
 
     @Column(name = "full_name", nullable = false)
-    private String fullname;
+    private String fullName;
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled;

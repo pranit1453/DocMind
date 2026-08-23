@@ -3,11 +3,11 @@ package com.pranit.docmind.otp.service.impl;
 import com.pranit.docmind.entities.constant.OtpPurpose;
 import com.pranit.docmind.entities.constant.OtpStatus;
 import com.pranit.docmind.entities.entity.OtpEntity;
-import com.pranit.docmind.event.dto.OtpEvent;
 import com.pranit.docmind.helper.Generate;
+import com.pranit.docmind.mail.dto.OtpEvent;
+import com.pranit.docmind.mail.router.OtpEmailRouter;
 import com.pranit.docmind.otp.exception.OTPValidationException;
 import com.pranit.docmind.otp.repository.OtpRepository;
-import com.pranit.docmind.otp.service.OtpEventRouter;
 import com.pranit.docmind.otp.service.OtpGeneration;
 import com.pranit.docmind.otp.service.OtpService;
 import com.pranit.docmind.redis.model.OtpVault;
@@ -32,7 +32,7 @@ public class OtpServiceImpl implements OtpService {
     private final PasswordEncoder passwordEncoder;
     private final OtpGeneration otpGeneration;
     private final OtpRepository otpRepository;
-    private final OtpEventRouter otpEventRouter;
+    private final OtpEmailRouter otpEmailRouter;
 
     @Override
     @Transactional
@@ -79,7 +79,7 @@ public class OtpServiceImpl implements OtpService {
                 .email(email)
                 .otp(otp)
                 .build();
-        otpEventRouter.publish(purpose, data);
+        otpEmailRouter.send(data, purpose);
         return challengeId;
     }
 
