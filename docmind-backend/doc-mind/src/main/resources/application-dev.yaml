@@ -71,16 +71,16 @@ spring:
         content-field-name: doc_content
         use-tls: false
         initialize-schema: true
+  # Multi-Part File Configuration
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 50MB
 rag:
   chunk-size: 600
   chunk-overlap: 100
   top-k: 5
   similarity-threshold: 0.0
-
-servlet:
-  multipart:
-    max-file-size: 25MB
-    max-request-size: 50MB
 # JWT Token Configuration
 security:
   accessToken:

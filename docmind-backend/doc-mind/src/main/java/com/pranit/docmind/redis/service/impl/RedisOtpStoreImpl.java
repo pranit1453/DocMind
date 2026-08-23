@@ -2,10 +2,10 @@ package com.pranit.docmind.redis.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pranit.accesshub.otp.constant.OtpPurpose;
-import com.pranit.accesshub.otp.exception.OTPValidationException;
-import com.pranit.accesshub.redis.model.OtpVault;
-import com.pranit.accesshub.redis.service.RedisOtpStore;
+import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.otp.exception.OTPValidationException;
+import com.pranit.docmind.redis.model.OtpVault;
+import com.pranit.docmind.redis.service.RedisOtpStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

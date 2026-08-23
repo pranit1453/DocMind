@@ -7,7 +7,6 @@ import com.pranit.docmind.authentication.repository.UserRepository;
 import com.pranit.docmind.authentication.service.VerificationService;
 import com.pranit.docmind.entities.constant.OtpPurpose;
 import com.pranit.docmind.entities.entity.User;
-import com.pranit.docmind.event.service.EventPublisherService;
 import com.pranit.docmind.helper.Generate;
 import com.pranit.docmind.mail.dto.WelcomeEvent;
 import com.pranit.docmind.otp.service.OtpService;
@@ -24,7 +23,6 @@ public class VerificationServiceImpl implements VerificationService {
 
     private final OtpService otpService;
     private final UserRepository userRepository;
-    private final EventPublisherService eventPublisherService;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -39,7 +37,6 @@ public class VerificationServiceImpl implements VerificationService {
                 .email(user.getEmail())
                 .build();
         log.info("Sending Welcome email to username: {}", user.getUsername());
-        eventPublisherService.sendWelcomeMessage(data);
         return VerificationResponse.builder()
                 .message("Account verified successfully.")
                 .build();
