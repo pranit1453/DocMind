@@ -34,18 +34,20 @@ public final class NvidiaModelService implements ChatModelStrategy {
                 .user(user -> user.text(this.userPrompt).param("concept", query))
                 .call()
                 .entity(QueryResponse.class);
-        log.info("Response: {}", response);
+        log.info("Non Streaming Response: {}", response);
         return response;
     }
 
     @Override
     public Flux<String> getStreamResponse(final String query, final UUID conversationId, final UUID documentId) {
-        return this.chatClient.prompt()
+        var response = this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId))
                 .user(user -> user.text(this.userPrompt).param("concept", query))
                 .stream()
                 .content();
+        log.info("Streaming Response: {}", response);
+        return response;
     }
 
     @Override

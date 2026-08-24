@@ -17,7 +17,7 @@ public final class PasswordChangeOtpEmailHandler implements OtpEmailHandler {
 
     @Override
     public OtpPurpose supports() {
-        return OtpPurpose.FORGOT_PASSWORD;
+        return OtpPurpose.PASSWORD_CHANGE;
     }
 
     @Override

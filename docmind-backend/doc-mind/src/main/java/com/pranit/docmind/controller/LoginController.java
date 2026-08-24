@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,6 +59,7 @@ public class LoginController {
             description = "Validates the refresh token and generates a new access and refresh token."
     )
     @PostMapping(value = "/refresh", version = "v1")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<TokenResponse> refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
         final String refreshToken = tokenService.readRefreshTokenFromRequest(request)
                 .orElseThrow(() -> {
@@ -74,6 +76,7 @@ public class LoginController {
             description = "Revokes the user's access and refresh tokens and clears the authentication cookies."
     )
     @PostMapping(value = "/logout", version = "v1")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> logout(@Valid HttpServletRequest request, @Valid HttpServletResponse response) {
         logoutService.readRefreshTokenFromRequest(request)
                 .ifPresent(logoutService::revokedRefreshToken);
