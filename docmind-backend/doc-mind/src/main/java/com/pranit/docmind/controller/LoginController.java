@@ -76,6 +76,7 @@ public class LoginController {
             description = "Revokes the user's access and refresh tokens and clears the authentication cookies."
     )
     @PostMapping(value = "/logout", version = "v1")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> logout(@Valid HttpServletRequest request, @Valid HttpServletResponse response) {
         logoutService.readRefreshTokenFromRequest(request)
                 .ifPresent(logoutService::revokedRefreshToken);
