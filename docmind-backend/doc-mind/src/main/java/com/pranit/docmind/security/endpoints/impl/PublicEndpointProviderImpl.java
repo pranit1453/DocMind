@@ -14,7 +14,9 @@ public class PublicEndpointProviderImpl implements PublicEndpointProvider {
             "/api/register",
             "/api/register/admin",
             "/api/verify",
-            "/api/verify/reset"
+            "/api/verify/reset",
+            "/api/password/reset/request",
+            "/api/password/reset",
     };
 
     @Override
