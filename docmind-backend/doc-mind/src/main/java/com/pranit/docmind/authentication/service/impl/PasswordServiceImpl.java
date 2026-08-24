@@ -12,7 +12,7 @@ import com.pranit.docmind.authentication.exception.UserNotExistsException;
 import com.pranit.docmind.authentication.repository.RefreshTokenRepository;
 import com.pranit.docmind.authentication.repository.UserRepository;
 import com.pranit.docmind.authentication.service.PasswordService;
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.helper.SecurityContext;
 import com.pranit.docmind.otp.service.OtpService;
@@ -42,7 +42,7 @@ public class PasswordServiceImpl implements PasswordService {
     @Transactional(propagation = Propagation.REQUIRED)
     public PasswordResponse requestPasswordReset(final ForgotPasswordEmail request) {
         final String email = request.email();
-        final OtpPurpose purpose = OtpPurpose.PASSWORD_CHANGE;
+        final EmailPurpose purpose = EmailPurpose.PASSWORD_CHANGE;
         final String challengeId = userRepository.findByEmail(email)
                 .map(user -> {
                     final String id = otpService.sendOtp(user.getEmail(), purpose);

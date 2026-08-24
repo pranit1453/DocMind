@@ -1,10 +1,10 @@
 package com.pranit.docmind.otp.service;
 
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 
 public interface OtpService {
 
-    String sendOtp(String email, OtpPurpose purpose);
+    String sendOtp(String email, EmailPurpose purpose);
 
-    String verifyOtp(String challengeId, String otp, OtpPurpose purpose);
+    String verifyOtp(String challengeId, String otp, EmailPurpose purpose);
 }

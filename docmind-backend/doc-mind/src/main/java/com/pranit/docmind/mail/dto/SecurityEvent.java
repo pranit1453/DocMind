@@ -1,5 +1,6 @@
 package com.pranit.docmind.mail.dto;
 
+import com.pranit.docmind.mail.event.EmailEvent;
 import lombok.Builder;
 
 import java.time.Instant;
@@ -10,5 +11,5 @@ public record SecurityEvent(
         String newMail,
         String oldMail,
         Instant timestamp
-) {
+) implements EmailEvent {
 }

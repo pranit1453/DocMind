@@ -6,6 +6,7 @@ import com.pranit.docmind.authentication.exception.UnauthorizedException;
 import com.pranit.docmind.authentication.repository.RefreshTokenRepository;
 import com.pranit.docmind.authentication.repository.UserRepository;
 import com.pranit.docmind.authentication.service.LoginService;
+import com.pranit.docmind.authentication.service.RestoreUserAccount;
 import com.pranit.docmind.entities.entity.RefreshToken;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.entities.model.UserDetail;
@@ -46,6 +47,7 @@ public class LoginServiceImpl implements LoginService {
     private final CookieService cookieService;
     private final UserRepository userRepository;
     private final RateLimitInterceptor rateLimitInterceptor;
+    private final RestoreUserAccount restoreUserAccount;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -65,7 +67,19 @@ public class LoginServiceImpl implements LoginService {
             throw new UnauthorizedException("Invalid authentication principal");
         }
         log.debug("Authentication successful username: {} userId: {}", userDetail.username(), userDetail.userId());
-        final Map<Boolean, Set<String>> grouped = userDetail.authorities().stream()
+        UserDetail authenticateUserDetail = userDetail;
+        if (userDetail.deleted()) {
+            restoreUserAccount.restoreUserAccount(userDetail.userId());
+            authenticateUserDetail = UserDetail.builder()
+                    .userId(userDetail.userId())
+                    .username(userDetail.username())
+                    .password(userDetail.password())
+                    .authorities(userDetail.authorities())
+                    .deleted(false)
+                    .enabled(userDetail.enabled())
+                    .build();
+        }
+        final Map<Boolean, Set<String>> grouped = authenticateUserDetail.authorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .filter(Objects::nonNull)
                 .collect(Collectors.partitioningBy(
@@ -74,7 +88,7 @@ public class LoginServiceImpl implements LoginService {
         final Set<String> roles = grouped.get(true);
         final String jti = Generate.generateJti();
         final Instant now = Instant.now();
-        final User user = userRepository.getReferenceById(userDetail.userId());
+        final User user = userRepository.getReferenceById(authenticateUserDetail.userId());
         final String sessionId = Generate.generateSessionId();
         final RefreshToken rt = RefreshToken.builder()
                 .jti(jti)
@@ -84,17 +98,17 @@ public class LoginServiceImpl implements LoginService {
                 .revoked(false)
                 .build();
         refreshTokenRepository.save(rt);
-        final String accessToken = generateToken.generateAccessToken(userDetail, sessionId);
-        final String refreshToken = generateToken.generateRefreshToken(userDetail, jti, sessionId);
+        final String accessToken = generateToken.generateAccessToken(authenticateUserDetail, sessionId);
+        final String refreshToken = generateToken.generateRefreshToken(authenticateUserDetail, jti, sessionId);
         final Duration accessTokenTtl = Duration.ofSeconds(tokenProperties.accessToken().expiration());
         final Duration refreshTokenTtl = Duration.ofSeconds(tokenProperties.refreshToken().expiration());
         cookieService.attachAccessTokenCookie(response, accessToken, accessTokenTtl);
         cookieService.attachRefreshTokenCookie(response, refreshToken, refreshTokenTtl);
         cookieService.addNoStoreHeaders(response);
         rateLimitInterceptor.reset(httpRequest.getRemoteAddr());
-        log.info("User logged in successfully userId: {}", userDetail.userId());
+        log.info("User logged in successfully userId: {}", authenticateUserDetail.userId());
         return LoginRespone.builder()
-                .username(userDetail.username())
+                .username(authenticateUserDetail.username())
                 .roles(roles)
                 .build();
     }

@@ -10,7 +10,7 @@ import com.pranit.docmind.authentication.service.RegistrationService;
 import com.pranit.docmind.authorization.exception.RoleNotFoundException;
 import com.pranit.docmind.authorization.repository.RoleRepository;
 import com.pranit.docmind.authorization.service.UserRoleService;
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.entities.entity.Role;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.otp.service.OtpService;
@@ -44,7 +44,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private SignupResponse registerAccount(final SignupRequest request, final String role) {
         validateUniqueUsernameAndEmail(request.username(), request.email());
         validatePasswordMatch(request.password(), request.confirmPassword());
-        final OtpPurpose type = OtpPurpose.REGISTRATION;
+        final EmailPurpose type = EmailPurpose.REGISTRATION;
         final User user = buildUser(request);
         final User saved = userRepository.save(user);
         userRoleService.addRoleToUser(saved.getUserId(), findRole(role));
@@ -95,7 +95,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 });
     }
 
-    private String sendOtp(final User saved, final OtpPurpose purpose) {
+    private String sendOtp(final User saved, final EmailPurpose purpose) {
         log.info("Send Email for account activation");
         return otpService.sendOtp(saved.getEmail(), purpose);
     }

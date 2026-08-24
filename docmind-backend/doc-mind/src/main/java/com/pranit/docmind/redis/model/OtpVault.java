@@ -1,6 +1,6 @@
 package com.pranit.docmind.redis.model;
 
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.entities.constant.OtpStatus;
 import lombok.Builder;
 
@@ -8,7 +8,7 @@ import lombok.Builder;
 public record OtpVault(
         String email,
         String otp,
-        OtpPurpose purpose,
+        EmailPurpose purpose,
         OtpStatus status
 ) {
 }

@@ -1,10 +1,8 @@
 package com.pranit.docmind.authentication.repository;
 
 import com.pranit.docmind.entities.entity.User;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,14 +23,6 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
-
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("""
-                select u
-                from User u
-                where u.username = :username
-            """)
-    Optional<User> findByUsernameForUpdate(String username);
 
     @Query("""
                 SELECT u.userId

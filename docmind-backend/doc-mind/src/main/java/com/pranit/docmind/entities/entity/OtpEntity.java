@@ -1,7 +1,7 @@
 package com.pranit.docmind.entities.entity;
 
 import com.pranit.docmind.audit.entity.AuditEntity;
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.entities.constant.OtpStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,7 +58,7 @@ public class OtpEntity extends AuditEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OtpPurpose purpose;
+    private EmailPurpose purpose;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

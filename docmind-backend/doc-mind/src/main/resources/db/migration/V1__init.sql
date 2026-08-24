@@ -15,7 +15,7 @@ CREATE TABLE auth.users
     email                 VARCHAR(255)             NOT NULL,
     full_name             VARCHAR(255)             NOT NULL,
 
-    enabled               BOOLEAN                  NOT NULL DEFAULT TRUE,
+    enabled               BOOLEAN                  NOT NULL DEFAULT FALSE,
     deleted               BOOLEAN                  NOT NULL DEFAULT FALSE,
 
     scheduled_deletion_at TIMESTAMP WITH TIME ZONE,
@@ -243,7 +243,8 @@ CREATE TABLE auth.otp
             purpose IN (
                         'FORGOT_PASSWORD',
                         'PASSWORD_CHANGE',
-                        'REGISTRATION'
+                        'REGISTRATION',
+                        'SECURITY_ALERT'
                 )
             ),
 

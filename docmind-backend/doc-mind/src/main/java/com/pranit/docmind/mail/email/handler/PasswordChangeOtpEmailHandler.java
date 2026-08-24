@@ -1,8 +1,8 @@
 package com.pranit.docmind.mail.email.handler;
 
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.mail.dto.OtpEvent;
-import com.pranit.docmind.mail.email.OtpEmailHandler;
+import com.pranit.docmind.mail.email.EmailHandler;
 import com.pranit.docmind.mail.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public final class PasswordChangeOtpEmailHandler implements OtpEmailHandler {
+public final class PasswordChangeOtpEmailHandler implements EmailHandler<OtpEvent> {
 
     private final EmailService emailService;
 
     @Override
-    public OtpPurpose supports() {
-        return OtpPurpose.PASSWORD_CHANGE;
+    public EmailPurpose supports() {
+        return EmailPurpose.PASSWORD_CHANGE;
     }
 
     @Override
@@ -35,11 +35,10 @@ public final class PasswordChangeOtpEmailHandler implements OtpEmailHandler {
                 If you did not request this, please ignore.
                 
                 Regards,
-                Authentication Service
-                """.formatted(
-                event.otp(),
-                event.expiresAt().toMinutes()
+                DocMind
+                """.formatted(event.otp(), event.expiresAt().toMinutes()
         );
+
         emailService.sendEmail(event.email(), "Password Change OTP", body);
     }
 }

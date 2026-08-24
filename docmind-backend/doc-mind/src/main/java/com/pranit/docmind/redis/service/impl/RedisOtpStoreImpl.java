@@ -2,7 +2,7 @@ package com.pranit.docmind.redis.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.otp.exception.OTPValidationException;
 import com.pranit.docmind.redis.model.OtpVault;
 import com.pranit.docmind.redis.service.RedisOtpStore;
@@ -40,12 +40,12 @@ public class RedisOtpStoreImpl implements RedisOtpStore {
         }
     }
 
-    private String challengeKey(final OtpPurpose purpose, final String challengeId) {
+    private String challengeKey(final EmailPurpose purpose, final String challengeId) {
         return CHALLENGE_PREFIX + purpose.name() + ":" + challengeId;
     }
 
     @Override
-    public Optional<OtpVault> getChallenge(final String challengeId, final OtpPurpose purpose) {
+    public Optional<OtpVault> getChallenge(final String challengeId, final EmailPurpose purpose) {
         final String key = challengeKey(purpose, challengeId);
         final String value = redisTemplate.opsForValue().get(key);
         if (value == null) return Optional.empty();
@@ -59,16 +59,16 @@ public class RedisOtpStoreImpl implements RedisOtpStore {
     }
 
     @Override
-    public void deleteChallenge(final String challengeId, final OtpPurpose purpose) {
+    public void deleteChallenge(final String challengeId, final EmailPurpose purpose) {
         redisTemplate.delete(challengeKey(purpose, challengeId));
     }
 
     @Override
-    public void setCurrentChallenge(final String email, final OtpPurpose purpose, final String challengeId, final Duration ttl) {
+    public void setCurrentChallenge(final String email, final EmailPurpose purpose, final String challengeId, final Duration ttl) {
         redisTemplate.opsForValue().set(currentKey(email, purpose), challengeId, ttl);
     }
 
-    private String currentKey(final String email, final OtpPurpose purpose) {
+    private String currentKey(final String email, final EmailPurpose purpose) {
         return CURRENT_PREFIX + purpose.name() + ":" + normalizeEmail(email);
     }
 
@@ -77,13 +77,13 @@ public class RedisOtpStoreImpl implements RedisOtpStore {
     }
 
     @Override
-    public boolean isCurrentChallenge(final String email, final OtpPurpose purpose, final String challengeId) {
+    public boolean isCurrentChallenge(final String email, final EmailPurpose purpose, final String challengeId) {
         final String currentChallenge = redisTemplate.opsForValue().get(currentKey(email, purpose));
         return challengeId.equals(currentChallenge);
     }
 
     @Override
-    public int incrementFailures(final String email, final OtpPurpose purpose, final Duration ttl) {
+    public int incrementFailures(final String email, final EmailPurpose purpose, final Duration ttl) {
         final String key = failureKey(email, purpose);
         final Long failures = redisTemplate.opsForValue().increment(key);
         if (failures == null) throw new OTPValidationException("Failed to increment OTP failures");
@@ -91,12 +91,12 @@ public class RedisOtpStoreImpl implements RedisOtpStore {
         return failures.intValue();
     }
 
-    private String failureKey(final String email, final OtpPurpose purpose) {
+    private String failureKey(final String email, final EmailPurpose purpose) {
         return FAILURE_PREFIX + purpose.name() + ":" + normalizeEmail(email);
     }
 
     @Override
-    public void clearFailures(final String email, final OtpPurpose purpose) {
+    public void clearFailures(final String email, final EmailPurpose purpose) {
         redisTemplate.delete(failureKey(email, purpose));
     }
 
@@ -115,7 +115,7 @@ public class RedisOtpStoreImpl implements RedisOtpStore {
     }
 
     @Override
-    public void clearOtpState(final String email, final String challengeId, final OtpPurpose purpose) {
+    public void clearOtpState(final String email, final String challengeId, final EmailPurpose purpose) {
         redisTemplate.delete(Set.of(
                 challengeKey(purpose, challengeId),
                 currentKey(email, purpose),

@@ -1,11 +1,11 @@
 package com.pranit.docmind.otp.service.impl;
 
-import com.pranit.docmind.entities.constant.OtpPurpose;
+import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.entities.constant.OtpStatus;
 import com.pranit.docmind.entities.entity.OtpEntity;
 import com.pranit.docmind.helper.Generate;
 import com.pranit.docmind.mail.dto.OtpEvent;
-import com.pranit.docmind.mail.router.OtpEmailRouter;
+import com.pranit.docmind.mail.router.EmailRouter;
 import com.pranit.docmind.otp.exception.OTPValidationException;
 import com.pranit.docmind.otp.repository.OtpRepository;
 import com.pranit.docmind.otp.service.OtpGeneration;
@@ -32,11 +32,11 @@ public class OtpServiceImpl implements OtpService {
     private final PasswordEncoder passwordEncoder;
     private final OtpGeneration otpGeneration;
     private final OtpRepository otpRepository;
-    private final OtpEmailRouter otpEmailRouter;
+    private final EmailRouter emailRouter;
 
     @Override
     @Transactional
-    public String sendOtp(final String email, final OtpPurpose purpose) {
+    public String sendOtp(final String email, final EmailPurpose purpose) {
         if (redisOtpStore.isOtpRequestLocked(email)) {
             throw new OTPValidationException("OTP requests are temporarily blocked. " + "Try again later.");
         }
@@ -65,12 +65,12 @@ public class OtpServiceImpl implements OtpService {
                 .email(email)
                 .otp(otp)
                 .build();
-        otpEmailRouter.send(data, purpose);
+        emailRouter.send(data, purpose);
         return challengeId;
     }
 
     @Override
-    public String verifyOtp(final String challengeId, final String otp, final OtpPurpose purpose) {
+    public String verifyOtp(final String challengeId, final String otp, final EmailPurpose purpose) {
         final OtpVault vault = redisOtpStore.getChallenge(challengeId, purpose)
                 .orElseThrow(() -> new OTPValidationException("OTP expired or invalid"));
         final String email = vault.email();
@@ -95,7 +95,7 @@ public class OtpServiceImpl implements OtpService {
         return email;
     }
 
-    private void handleFailedVerification(final String challengeId, final String email, final OtpPurpose purpose) {
+    private void handleFailedVerification(final String challengeId, final String email, final EmailPurpose purpose) {
         final int failures = redisOtpStore.incrementFailures(email, purpose, OTP_TTL);
         if (failures >= MAX_ATTEMPTS) {
             redisOtpStore.lockOtpRequests(email, LOCK_DURATION);
@@ -109,7 +109,7 @@ public class OtpServiceImpl implements OtpService {
         throw new OTPValidationException("Invalid OTP. " + remaining + " attempts remaining.");
     }
 
-    private void handleSuccessfulVerification(final String challengeId, final String email, final OtpPurpose purpose) {
+    private void handleSuccessfulVerification(final String challengeId, final String email, final EmailPurpose purpose) {
         redisOtpStore.clearOtpState(email, challengeId, purpose);
         final OtpEntity otpEntity = getOtpEntity(challengeId);
         otpEntity.setStatus(OtpStatus.VERIFIED);

@@ -1,7 +1,8 @@
 package com.pranit.docmind.entities.constant;
 
-public enum OtpPurpose {
+public enum EmailPurpose {
     FORGOT_PASSWORD,
     PASSWORD_CHANGE,
-    REGISTRATION
+    REGISTRATION,
+    SECURITY_ALERT
 }
