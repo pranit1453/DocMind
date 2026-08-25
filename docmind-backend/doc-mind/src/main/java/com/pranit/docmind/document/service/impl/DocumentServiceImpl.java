@@ -69,7 +69,7 @@ public class DocumentServiceImpl implements DocumentService {
         final UUID userId = SecurityContext.getCurrentUserId();
         final Specification<Document> specification = DocumentSpecification.searchKeyword(keyword, userId);
         final Page<Document> pages = documentRepository.findAll(specification, pageable);
-        final List<DocumentResponse> content = pages.getContent()
+        final List<DocumentResponse> contents = pages.getContent()
                 .stream()
                 .map(document -> DocumentResponse.builder()
                         .documentId(document.getDocumentId())
@@ -81,12 +81,13 @@ public class DocumentServiceImpl implements DocumentService {
                         .build())
                 .toList();
         return PageResponse.<DocumentResponse>builder()
-                .content(content)
-                .page(pages.getNumber())
-                .size(pages.getSize())
+                .contents(contents)
+                .currentPage(pages.getNumber())
+                .totalPages(pages.getSize())
                 .totalElements(pages.getTotalElements())
                 .totalPages(pages.getTotalPages())
-                .last(pages.isLast())
+                .isLastPage(pages.isLast())
+                .isFirstPage(pages.isFirst())
                 .build();
     }
 

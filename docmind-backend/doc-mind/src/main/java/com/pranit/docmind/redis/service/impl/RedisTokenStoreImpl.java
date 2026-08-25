@@ -22,6 +22,11 @@ public final class RedisTokenStoreImpl implements RedisTokenStore {
         redisTemplate.opsForValue().set(key(userId), identifiers, Duration.ofSeconds(properties.accessToken().expiration()));
     }
 
+    @Override
+    public String getTokenIdentifier(final UUID userId) {
+        return redisTemplate.opsForValue().get(key(userId));
+    }
+    
     private String key(final UUID userId) {
         return "token:" + userId;
     }

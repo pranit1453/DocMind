@@ -6,11 +6,12 @@ import java.util.List;
 
 @Builder
 public record PageResponse<T>(
-        List<T> content,
-        int page,
-        int size,
+        List<T> contents,
+        int currentPage,
+        int pageSize,
         long totalElements,
         int totalPages,
-        boolean last
+        boolean isLastPage,
+        boolean isFirstPage
 ) {
 }

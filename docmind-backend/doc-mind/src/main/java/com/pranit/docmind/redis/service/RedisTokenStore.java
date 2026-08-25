@@ -7,6 +7,8 @@ public interface RedisTokenStore {
 
     void addTokenIdentifier(UUID userId, String identifiers);
 
+    String getTokenIdentifier(UUID userId);
+    
     void invalidateUserSession(UUID userId);
 
     void invalidateUserSession(List<UUID> userIds);
