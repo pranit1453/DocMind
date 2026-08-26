@@ -4,7 +4,7 @@ import com.pranit.docmind.document.dto.DocumentResponse;
 import com.pranit.docmind.document.service.DocumentService;
 import com.pranit.docmind.document.service.DocumentUploadService;
 import com.pranit.docmind.wrapper.ApiResponse;
-import com.pranit.docmind.wrapper.PageResponse;
+import com.pranit.docmind.wrapper.ScrollResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -54,14 +54,15 @@ public class DocumentController {
     @Operation(summary = "List documents", description = "Retrieves a paginated list of documents with optional keyword search and sorting.")
     @GetMapping(version = "v1")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<PageResponse<DocumentResponse>> fetchAllDocuments(
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "5") int size,
+    public ResponseEntity<ScrollResponse<DocumentResponse>> fetchAllDocuments(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false, defaultValue = "fileName") String sortBy,
-            @RequestParam(required = false, defaultValue = "ASC") String sortDirection
+            @RequestParam(required = false) String scrollId,
+            @RequestParam(defaultValue = "5") int pageSize,
+            @RequestParam(defaultValue = "fileName") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection,
+            @RequestParam(defaultValue = "FORWARD") String scrollDirection
     ) {
-        final PageResponse<DocumentResponse> responses = documentService.fetchDocuments(page, size, keyword, sortBy, sortDirection);
+        final ScrollResponse<DocumentResponse> responses = documentService.fetchDocuments(keyword, scrollId, pageSize, sortBy, sortDirection, scrollDirection);
         return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 

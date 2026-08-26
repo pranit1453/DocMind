@@ -1,26 +1,29 @@
 package com.pranit.docmind.document.service.impl;
 
+import com.pranit.docmind.authentication.exception.InvalidScrollingException;
 import com.pranit.docmind.document.dto.DocumentResponse;
 import com.pranit.docmind.document.exception.DocumentNotFoundException;
+import com.pranit.docmind.document.helper.ScrollPositionCodec;
 import com.pranit.docmind.document.repository.DocumentRepository;
 import com.pranit.docmind.document.service.DocumentService;
 import com.pranit.docmind.document.specification.DocumentSpecification;
 import com.pranit.docmind.entities.entity.Document;
 import com.pranit.docmind.helper.SecurityContext;
 import com.pranit.docmind.wrapper.ApiResponse;
-import com.pranit.docmind.wrapper.PageResponse;
+import com.pranit.docmind.wrapper.ScrollResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.ScrollPosition;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Window;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +53,125 @@ public class DocumentServiceImpl implements DocumentService {
                 .build();
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public ScrollResponse<DocumentResponse> fetchDocuments(
+            final String keyword, final String scrollId,
+            final int pageSize, final String sortBy,
+            final String sortDirection, final String scrollDirection) {
+        final UUID userId = SecurityContext.getCurrentUserId();
+        final ScrollPositionCodec.ScrollDirection requestedDirection = parseScrollDirection(scrollDirection);
+        final boolean initialRequest = scrollId == null || scrollId.isBlank();
+        if (initialRequest && requestedDirection == ScrollPositionCodec.ScrollDirection.BACKWARD) {
+            throw new InvalidScrollingException("Backward scrolling requires a scrollId");
+        }
+        final ScrollPositionCodec.DecodedScrollPosition decoded = ScrollPositionCodec.decode(scrollId);
+        final ScrollPosition position = decoded.position();
+
+        if (!initialRequest && decoded.direction() != requestedDirection) {
+            throw new InvalidScrollingException("scrollId direction does not match scrollDirection");
+        }
+
+        final Specification<Document> specification = DocumentSpecification.searchKeyword(keyword, userId);
+        final String validatedSortBy = validateAndMapSortField(sortBy);
+        final Sort.Direction requestedSortDirection = parseSortDirection(sortDirection);
+        final Sort sort = buildSort(validatedSortBy, requestedSortDirection);
+        final Window<Document> window = documentRepository.findBy(
+                specification, query -> query
+                        .limit(pageSize)
+                        .sortBy(sort)
+                        .scroll(position));
+        // Maintain DB order
+        final List<Document> databaseDocuments = new ArrayList<>(window.getContent());
+        ScrollPosition firstDatabasePosition = null;
+        ScrollPosition lastDatabasePosition = null;
+        if (!databaseDocuments.isEmpty()) {
+            firstDatabasePosition = window.positionAt(0);
+            lastDatabasePosition = window.positionAt(window.size() - 1);
+        }
+        final List<Document> documents = new ArrayList<>(databaseDocuments);
+        if (requestedDirection == ScrollPositionCodec.ScrollDirection.BACKWARD) {
+            Collections.reverse(documents);
+        }
+        final List<DocumentResponse> responses = documents.stream()
+                .map(this::toResponse)
+                .toList();
+        String nextScrollId = null;
+        String previousScrollId = null;
+        boolean hasNext = false;
+        boolean hasPrevious = false;
+        if (!documents.isEmpty()) {
+            // FORWARD REQUEST
+            if (requestedDirection == ScrollPositionCodec.ScrollDirection.FORWARD) {
+                // NEXT
+                if (window.hasNext()) {
+                    nextScrollId = ScrollPositionCodec.encode(lastDatabasePosition, ScrollPositionCodec.ScrollDirection.FORWARD);
+                    hasNext = true;
+                }
+                // PREVIOUS
+                if (!initialRequest) {
+                    previousScrollId = ScrollPositionCodec.encode(firstDatabasePosition, ScrollPositionCodec.ScrollDirection.BACKWARD);
+                    hasPrevious = true;
+                }
+            }
+            // BACKWARD REQUEST
+            else {
+                // NEXT
+                nextScrollId = ScrollPositionCodec.encode(firstDatabasePosition, ScrollPositionCodec.ScrollDirection.FORWARD);
+                hasNext = true;
+                // PREVIOUS
+                if (window.hasNext()) {
+                    previousScrollId = ScrollPositionCodec.encode(lastDatabasePosition, ScrollPositionCodec.ScrollDirection.BACKWARD);
+                    hasPrevious = true;
+                }
+            }
+        }
+        return ScrollResponse.<DocumentResponse>builder()
+                .contents(responses)
+                .nextScrollId(nextScrollId)
+                .prevScrollId(previousScrollId)
+                .hasNext(hasNext)
+                .hasPrevious(hasPrevious)
+                .pageSize(pageSize)
+                .build();
+    }
+
+    private Sort buildSort(final String sortField, final Sort.Direction direction) {
+        if ("documentId".equals(sortField)) return Sort.by(direction, "documentId");
+        return Sort.by(direction, sortField).and(Sort.by(direction, "documentId"));
+    }
+
+    private String validateAndMapSortField(final String sortBy) {
+        if (sortBy == null || sortBy.isBlank() || "name".equalsIgnoreCase(sortBy)) return "fileName";
+        throw new IllegalArgumentException("Invalid sortBy: " + sortBy);
+    }
+
+    private Sort.Direction parseSortDirection(final String sortDirection) {
+        if (sortDirection == null || sortDirection.isBlank()) return Sort.Direction.ASC;
+        if ("ASC".equalsIgnoreCase(sortDirection)) return Sort.Direction.ASC;
+        if ("DESC".equalsIgnoreCase(sortDirection)) return Sort.Direction.DESC;
+        throw new IllegalArgumentException("Invalid sortDirection. " + "Allowed values: ASC or DESC");
+    }
+
+    private ScrollPositionCodec.ScrollDirection parseScrollDirection(final String scrollDirection) {
+        if (scrollDirection == null || scrollDirection.isBlank()) return ScrollPositionCodec.ScrollDirection.FORWARD;
+        try {
+            return ScrollPositionCodec.ScrollDirection.valueOf(scrollDirection.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid scrollDirection. " + "Allowed values: FORWARD or BACKWARD");
+        }
+    }
+
+    private DocumentResponse toResponse(final Document document) {
+        return DocumentResponse.builder()
+                .documentId(document.getDocumentId())
+                .fileName(document.getFileName())
+                .fileSize(document.getFileSize())
+                .status(document.getFileStatus())
+                .chunksCreated(document.getChunksCreated())
+                .build();
+    }
+
     private Document validateAndFetchDocumentById(final UUID documentId) {
         final UUID userId = SecurityContext.getCurrentUserId();
         return documentRepository.findByDocumentIdAndUser_UserId(documentId, userId)
@@ -57,38 +179,6 @@ public class DocumentServiceImpl implements DocumentService {
                     log.warn("Document with id {} not found for user {}", documentId, userId);
                     return new DocumentNotFoundException("Document not found");
                 });
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public PageResponse<DocumentResponse> fetchDocuments(final int page, final int size, final String keyword, final String sortBy, final String sortDirection) {
-        final Sort sort = sortDirection.equalsIgnoreCase("ASC")
-                ? Sort.by(Sort.Direction.ASC, sortBy)
-                : Sort.by(Sort.Direction.DESC, sortBy);
-        final Pageable pageable = PageRequest.of(page, size, sort);
-        final UUID userId = SecurityContext.getCurrentUserId();
-        final Specification<Document> specification = DocumentSpecification.searchKeyword(keyword, userId);
-        final Page<Document> pages = documentRepository.findAll(specification, pageable);
-        final List<DocumentResponse> contents = pages.getContent()
-                .stream()
-                .map(document -> DocumentResponse.builder()
-                        .documentId(document.getDocumentId())
-                        .fileName(document.getFileName())
-                        .fileSize(document.getFileSize())
-                        .status(document.getFileStatus())
-                        .chunksCreated(document.getChunksCreated())
-                        .createdAt(document.getCreatedAt())
-                        .build())
-                .toList();
-        return PageResponse.<DocumentResponse>builder()
-                .contents(contents)
-                .currentPage(pages.getNumber())
-                .totalPages(pages.getSize())
-                .totalElements(pages.getTotalElements())
-                .totalPages(pages.getTotalPages())
-                .isLastPage(pages.isLast())
-                .isFirstPage(pages.isFirst())
-                .build();
     }
 
     @Override
