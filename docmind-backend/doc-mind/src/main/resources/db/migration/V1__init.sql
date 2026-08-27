@@ -157,7 +157,7 @@ CREATE INDEX idx_user_role_role
     ON auth.user_roles (role_id);
 
 --------------------------------------------------------------------------------------------------------
-CREATE TABLE doc.document
+CREATE TABLE doc.document_metadata
 (
     document_id    UUID                     NOT NULL,
     user_id        UUID                     NOT NULL,
@@ -204,16 +204,16 @@ CREATE TABLE doc.document
 );
 
 CREATE INDEX idx_document_file_status
-    ON doc.document (file_status);
+    ON doc.document_metadata (file_status);
 
 CREATE INDEX idx_document_user_id
-    ON doc.document (user_id);
+    ON doc.document_metadata (user_id);
 
 CREATE INDEX idx_document_user_status
-    ON doc.document (user_id, file_status);
+    ON doc.document_metadata (user_id, file_status);
 
 CREATE INDEX idx_document_created_at
-    ON doc.document (created_at);
+    ON doc.document_metadata (created_at);
 
 --------------------------------------------------------------------------------------------------------
 CREATE TABLE auth.otp

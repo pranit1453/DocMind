@@ -41,7 +41,7 @@ public class ChatController {
     public ResponseEntity<QueryResponse> getResponse(
             @Valid @RequestBody QueryRequest request, @PathVariable UUID documentId,
             @RequestHeader("X-Conversation-ID") UUID conversationId) {
-        final QueryResponse response = chatService.getResponseFromAssistant(request.provider(), request.query(), conversationId, documentId);
+        final QueryResponse response = chatService.getResponseFromAssistant(request.provider(), request.query(), conversationId, documentId, request.options());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -51,7 +51,7 @@ public class ChatController {
     public Flux<ServerSentEvent<String>> streamChat(
             @Valid @RequestBody QueryRequest request, @PathVariable UUID documentId,
             @RequestHeader("X-Conversation-ID") UUID conversationId) {
-        return chatService.getStreamResponseFromAssistant(request.provider(), request.query(), conversationId, documentId)
+        return chatService.getStreamResponseFromAssistant(request.provider(), request.query(), conversationId, documentId, request.options())
                 .map(chunk -> ServerSentEvent.<String>builder().data(chunk).build());
     }
 

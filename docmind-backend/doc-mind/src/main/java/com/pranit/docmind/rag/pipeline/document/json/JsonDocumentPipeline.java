@@ -1,34 +1,24 @@
 package com.pranit.docmind.rag.pipeline.document.json;
 
 import com.pranit.docmind.entities.constant.DocumentType;
-import com.pranit.docmind.rag.pipeline.document.DocumentPipeline;
-import com.pranit.docmind.rag.pipeline.etl.json.JsonDocumentExtractor;
-import com.pranit.docmind.rag.pipeline.etl.json.JsonDocumentLoader;
-import com.pranit.docmind.rag.pipeline.etl.json.JsonDocumentTransformer;
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
+import com.pranit.docmind.rag.pipeline.document.orchestrator.AbstractDocumentPipeline;
+import com.pranit.docmind.rag.pipeline.etl.chunker.DocumentChunker;
+import com.pranit.docmind.rag.pipeline.etl.loader.DocumentLoader;
+import com.pranit.docmind.rag.pipeline.etl.parser.json.JsonDocumentExtractor;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
-@RequiredArgsConstructor
-public class JsonDocumentPipeline implements DocumentPipeline {
+public class JsonDocumentPipeline extends AbstractDocumentPipeline {
 
-    private final JsonDocumentExtractor extractor;
-    private final JsonDocumentTransformer transformer;
-    private final JsonDocumentLoader loader;
+    public JsonDocumentPipeline(
+            final JsonDocumentExtractor extractor,
+            final DocumentChunker chunker,
+            final DocumentLoader loader) {
+        super(extractor, chunker, loader);
+    }
 
     @Override
     public DocumentType getFileType() {
         return DocumentType.JSON;
-    }
-
-    @Override
-    public long process(final UUID documentId, final Resource resource) {
-        final var documents = extractor.extract(resource);
-        final var transformed = transformer.transform(documents);
-        loader.load(documentId, transformed);
-        return transformed.size();
     }
 }

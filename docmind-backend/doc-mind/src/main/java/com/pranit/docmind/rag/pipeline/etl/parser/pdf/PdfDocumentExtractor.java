@@ -1,6 +1,6 @@
-package com.pranit.docmind.rag.pipeline.etl.pdf;
+package com.pranit.docmind.rag.pipeline.etl.parser.pdf;
 
-import com.pranit.docmind.rag.pipeline.etl.Extractor;
+import com.pranit.docmind.rag.pipeline.etl.parser.Extractor;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.pdf.PagePdfDocumentReader;

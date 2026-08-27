@@ -1,5 +1,8 @@
 package com.pranit.docmind.rag.module.retrieval;
 
+import com.pranit.docmind.ai.dto.RetrievalOptions;
+import com.pranit.docmind.constant.DocMetadata;
+import com.pranit.docmind.properties.RagProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.rag.retrieval.join.ConcatenationDocumentJoiner;
 import org.springframework.ai.rag.retrieval.join.DocumentJoiner;
@@ -9,6 +12,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.vectorstore.filter.FilterExpressionBuilder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,17 +20,22 @@ import java.util.UUID;
 public class RetrievarImpl implements Retrievar {
 
     private final VectorStore vectorStore;
+    private final RagProperties properties;
 
     @Override
-    public DocumentRetriever vectorStoreRetriever(final UUID documentId) {
+    public DocumentRetriever vectorStoreRetriever(final UUID documentId, final RetrievalOptions options) {
+        final var retrieval = properties.retrieval();
+        final var topK = Optional.ofNullable(options.topK())
+                .orElse(retrieval.topK());
+        final var similarityThreshold = Optional.ofNullable(options.similarityThreshold())
+                .orElse(retrieval.similarityThreshold());
         return VectorStoreDocumentRetriever.builder()
                 .vectorStore(this.vectorStore)
-                .topK(3)
-                .similarityThreshold(0.65)
-                .filterExpression(() ->
-                        new FilterExpressionBuilder()
-                                .eq("documentId", documentId.toString())
-                                .build())
+                .topK(topK)
+                .similarityThreshold(similarityThreshold)
+                .filterExpression(() -> new FilterExpressionBuilder()
+                        .eq(DocMetadata.DOCUMENT_ID, documentId.toString())
+                        .build())
                 .build();
     }
 

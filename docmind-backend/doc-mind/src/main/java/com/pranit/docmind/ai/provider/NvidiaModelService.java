@@ -2,6 +2,7 @@ package com.pranit.docmind.ai.provider;
 
 import com.pranit.docmind.ai.advisor.RetrievalAugmentedGenerationAdvisor;
 import com.pranit.docmind.ai.dto.QueryResponse;
+import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.ai.stratergy.ChatModelStrategy;
 import com.pranit.docmind.entities.constant.Provider;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,10 @@ public final class NvidiaModelService implements ChatModelStrategy {
     private Resource userPrompt;
 
     @Override
-    public QueryResponse getResponse(final String query, final UUID conversationId, final UUID documentId) {
+    public QueryResponse getResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
         var response = this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
-                .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId))
+                .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId, options))
                 .user(user -> user.text(this.userPrompt).param("concept", query))
                 .call()
                 .entity(QueryResponse.class);
@@ -39,10 +40,10 @@ public final class NvidiaModelService implements ChatModelStrategy {
     }
 
     @Override
-    public Flux<String> getStreamResponse(final String query, final UUID conversationId, final UUID documentId) {
+    public Flux<String> getStreamResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
         var response = this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
-                .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId))
+                .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId, options))
                 .user(user -> user.text(this.userPrompt).param("concept", query))
                 .stream()
                 .content();

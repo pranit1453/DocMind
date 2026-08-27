@@ -4,9 +4,7 @@ import org.springframework.ai.rag.preretrieval.query.expansion.QueryExpander;
 import org.springframework.ai.rag.preretrieval.query.transformation.QueryTransformer;
 
 public interface Transformer {
-
-    QueryTransformer compressionTransformer();
-
+    
     QueryTransformer rewriteTransformer();
 
     QueryTransformer translationTransformer();

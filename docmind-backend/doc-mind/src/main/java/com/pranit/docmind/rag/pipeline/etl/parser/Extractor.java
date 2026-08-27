@@ -1,4 +1,4 @@
-package com.pranit.docmind.rag.pipeline.etl;
+package com.pranit.docmind.rag.pipeline.etl.parser;
 
 import org.springframework.ai.document.Document;
 import org.springframework.core.io.Resource;

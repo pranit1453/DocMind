@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.rag.preretrieval.query.expansion.MultiQueryExpander;
 import org.springframework.ai.rag.preretrieval.query.expansion.QueryExpander;
-import org.springframework.ai.rag.preretrieval.query.transformation.CompressionQueryTransformer;
 import org.springframework.ai.rag.preretrieval.query.transformation.QueryTransformer;
 import org.springframework.ai.rag.preretrieval.query.transformation.RewriteQueryTransformer;
 import org.springframework.ai.rag.preretrieval.query.transformation.TranslationQueryTransformer;
@@ -15,13 +14,6 @@ import org.springframework.stereotype.Service;
 public class TransformerImpl implements Transformer {
 
     private final ChatClient ragChatClient;
-
-    @Override
-    public QueryTransformer compressionTransformer() {
-        return CompressionQueryTransformer.builder()
-                .chatClientBuilder(this.ragChatClient.mutate().clone())
-                .build();
-    }
 
     @Override
     public QueryTransformer rewriteTransformer() {

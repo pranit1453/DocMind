@@ -78,7 +78,7 @@ public class User extends AuditEntity {
             orphanRemoval = true
     )
     @Builder.Default
-    private List<Document> documents = new ArrayList<>();
+    private List<DocumentMetadata> documents = new ArrayList<>();
 
     @Version
     @Column(nullable = false)

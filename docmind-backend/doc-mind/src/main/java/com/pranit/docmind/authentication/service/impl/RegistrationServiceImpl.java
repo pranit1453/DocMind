@@ -10,6 +10,7 @@ import com.pranit.docmind.authentication.service.RegistrationService;
 import com.pranit.docmind.authorization.exception.RoleNotFoundException;
 import com.pranit.docmind.authorization.repository.RoleRepository;
 import com.pranit.docmind.authorization.service.UserRoleService;
+import com.pranit.docmind.constant.UserMetadata;
 import com.pranit.docmind.entities.constant.EmailPurpose;
 import com.pranit.docmind.entities.entity.Role;
 import com.pranit.docmind.entities.entity.User;
@@ -26,9 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private static final String USER_ROLE = "USER";
-    private static final String ADMIN_ROLE = "ADMIN";
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -38,7 +36,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public SignupResponse createNewUserAccount(final SignupRequest request) {
-        return registerAccount(request, USER_ROLE);
+        return registerAccount(request, UserMetadata.USER_ROLE);
     }
 
     private SignupResponse registerAccount(final SignupRequest request, final String role) {
@@ -103,7 +101,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public SignupResponse createNewAdminAccount(final SignupRequest request) {
-        return registerAccount(request, ADMIN_ROLE);
+        return registerAccount(request, UserMetadata.ADMIN_ROLE);
     }
 
 }

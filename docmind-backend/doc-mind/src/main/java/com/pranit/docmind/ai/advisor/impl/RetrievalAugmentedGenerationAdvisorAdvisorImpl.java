@@ -1,6 +1,7 @@
 package com.pranit.docmind.ai.advisor.impl;
 
 import com.pranit.docmind.ai.advisor.RetrievalAugmentedGenerationAdvisor;
+import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.rag.module.generation.Generation;
 import com.pranit.docmind.rag.module.preretrieval.Transformer;
 import com.pranit.docmind.rag.module.retrieval.Retrievar;
@@ -20,11 +21,11 @@ public class RetrievalAugmentedGenerationAdvisorAdvisorImpl implements Retrieval
     private final Generation generation;
 
     @Override
-    public Advisor retrievalAugmentedGenerationWorkflow(final UUID documentId) {
+    public Advisor retrievalAugmentedGenerationWorkflow(final UUID documentId, final RetrievalOptions options) {
         return RetrievalAugmentationAdvisor.builder()
                 .queryTransformers(transformer.rewriteTransformer(), transformer.translationTransformer())
                 .queryExpander(transformer.queryExpander())
-                .documentRetriever(retriever.vectorStoreRetriever(documentId))
+                .documentRetriever(retriever.vectorStoreRetriever(documentId, options))
                 .documentJoiner(retriever.joinStoreRetriever())
                 .queryAugmenter(generation.augmentQuery())
                 .build();

@@ -1,6 +1,6 @@
 package com.pranit.docmind.document.specification;
 
-import com.pranit.docmind.entities.entity.Document;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -13,7 +13,7 @@ public final class DocumentSpecification {
     private DocumentSpecification() {
     }
 
-    public static Specification<Document> searchKeyword(final String keyword, final UUID userId) {
+    public static Specification<DocumentMetadata> searchKeyword(final String keyword, final UUID userId) {
         return ((root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("user").get("userId"), userId));

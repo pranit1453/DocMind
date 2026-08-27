@@ -1,22 +1,22 @@
-package com.pranit.docmind.rag.pipeline.etl.pdf;
+package com.pranit.docmind.rag.pipeline.etl.chunker.impl;
 
 import com.pranit.docmind.properties.RagProperties;
-import com.pranit.docmind.rag.pipeline.etl.Transformer;
+import com.pranit.docmind.rag.pipeline.etl.chunker.DocumentChunker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public final class PdfDocumentTransformer implements Transformer {
+public final class TokenTextDocumentChunker implements DocumentChunker {
 
     private final RagProperties properties;
 
     @Override
-    public List<Document> transform(final List<Document> documents) {
+    public List<Document> chunk(final List<Document> documents) {
         final var config = properties.chunking();
         final var splitter = TokenTextSplitter.builder()
                 .withChunkSize(config.chunkSize())

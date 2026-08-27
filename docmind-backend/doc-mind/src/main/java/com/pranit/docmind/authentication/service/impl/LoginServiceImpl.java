@@ -7,6 +7,7 @@ import com.pranit.docmind.authentication.repository.RefreshTokenRepository;
 import com.pranit.docmind.authentication.repository.UserRepository;
 import com.pranit.docmind.authentication.service.LoginService;
 import com.pranit.docmind.authentication.service.RestoreUserAccount;
+import com.pranit.docmind.constant.UserMetadata;
 import com.pranit.docmind.entities.entity.RefreshToken;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.entities.model.UserDetail;
@@ -83,7 +84,7 @@ public class LoginServiceImpl implements LoginService {
                 .map(GrantedAuthority::getAuthority)
                 .filter(Objects::nonNull)
                 .collect(Collectors.partitioningBy(
-                        a -> a.startsWith("ROLE_"),
+                        a -> a.startsWith(UserMetadata.ROLE),
                         Collectors.toUnmodifiableSet()));
         final Set<String> roles = grouped.get(true);
         final String jti = Generate.generateJti();

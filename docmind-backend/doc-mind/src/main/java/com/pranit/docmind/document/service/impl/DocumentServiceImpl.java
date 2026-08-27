@@ -7,7 +7,7 @@ import com.pranit.docmind.document.helper.ScrollPositionCodec;
 import com.pranit.docmind.document.repository.DocumentRepository;
 import com.pranit.docmind.document.service.DocumentService;
 import com.pranit.docmind.document.specification.DocumentSpecification;
-import com.pranit.docmind.entities.entity.Document;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.helper.SecurityContext;
 import com.pranit.docmind.wrapper.ApiResponse;
 import com.pranit.docmind.wrapper.ScrollResponse;
@@ -37,17 +37,17 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public ApiResponse<DocumentResponse> fetchDocumentById(final UUID documentId) {
-        final Document document = validateAndFetchDocumentById(documentId);
+        final DocumentMetadata metadata = validateAndFetchDocumentById(documentId);
         return ApiResponse.<DocumentResponse>builder()
                 .status(true)
                 .message("Document fetched successfully")
                 .data(DocumentResponse.builder()
-                        .documentId(document.getDocumentId())
-                        .fileName(document.getFileName())
-                        .fileSize(document.getFileSize())
-                        .status(document.getFileStatus())
-                        .chunksCreated(document.getChunksCreated())
-                        .createdAt(document.getCreatedAt())
+                        .documentId(metadata.getDocumentId())
+                        .fileName(metadata.getFileName())
+                        .fileSize(metadata.getFileSize())
+                        .status(metadata.getFileStatus())
+                        .chunksCreated(metadata.getChunksCreated())
+                        .createdAt(metadata.getCreatedAt())
                         .build())
                 .timestamp(Instant.now())
                 .build();
@@ -72,24 +72,24 @@ public class DocumentServiceImpl implements DocumentService {
             throw new InvalidScrollingException("scrollId direction does not match scrollDirection");
         }
 
-        final Specification<Document> specification = DocumentSpecification.searchKeyword(keyword, userId);
+        final Specification<DocumentMetadata> specification = DocumentSpecification.searchKeyword(keyword, userId);
         final String validatedSortBy = validateAndMapSortField(sortBy);
         final Sort.Direction requestedSortDirection = parseSortDirection(sortDirection);
         final Sort sort = buildSort(validatedSortBy, requestedSortDirection);
-        final Window<Document> window = documentRepository.findBy(
+        final Window<DocumentMetadata> window = documentRepository.findBy(
                 specification, query -> query
                         .limit(pageSize)
                         .sortBy(sort)
                         .scroll(position));
         // Maintain DB order
-        final List<Document> databaseDocuments = new ArrayList<>(window.getContent());
+        final List<DocumentMetadata> databaseDocuments = new ArrayList<>(window.getContent());
         ScrollPosition firstDatabasePosition = null;
         ScrollPosition lastDatabasePosition = null;
         if (!databaseDocuments.isEmpty()) {
             firstDatabasePosition = window.positionAt(0);
             lastDatabasePosition = window.positionAt(window.size() - 1);
         }
-        final List<Document> documents = new ArrayList<>(databaseDocuments);
+        final List<DocumentMetadata> documents = new ArrayList<>(databaseDocuments);
         if (requestedDirection == ScrollPositionCodec.ScrollDirection.BACKWARD) {
             Collections.reverse(documents);
         }
@@ -162,17 +162,17 @@ public class DocumentServiceImpl implements DocumentService {
         }
     }
 
-    private DocumentResponse toResponse(final Document document) {
+    private DocumentResponse toResponse(final DocumentMetadata metadata) {
         return DocumentResponse.builder()
-                .documentId(document.getDocumentId())
-                .fileName(document.getFileName())
-                .fileSize(document.getFileSize())
-                .status(document.getFileStatus())
-                .chunksCreated(document.getChunksCreated())
+                .documentId(metadata.getDocumentId())
+                .fileName(metadata.getFileName())
+                .fileSize(metadata.getFileSize())
+                .status(metadata.getFileStatus())
+                .chunksCreated(metadata.getChunksCreated())
                 .build();
     }
 
-    private Document validateAndFetchDocumentById(final UUID documentId) {
+    private DocumentMetadata validateAndFetchDocumentById(final UUID documentId) {
         final UUID userId = SecurityContext.getCurrentUserId();
         return documentRepository.findByDocumentIdAndUser_UserId(documentId, userId)
                 .orElseThrow(() -> {
@@ -184,8 +184,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public ApiResponse<Void> deleteDocumentById(final UUID documentId) {
-        final Document document = validateAndFetchDocumentById(documentId);
-        documentRepository.delete(document);
+        final DocumentMetadata metadata = validateAndFetchDocumentById(documentId);
+        documentRepository.delete(metadata);
         return ApiResponse.<Void>builder()
                 .status(true)
                 .message("Document deleted successfully.")

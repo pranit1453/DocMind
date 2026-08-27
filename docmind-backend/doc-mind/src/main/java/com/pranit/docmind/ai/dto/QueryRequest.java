@@ -8,6 +8,7 @@ public record QueryRequest(
         @NotBlank(message = "Query Required. Please ask something")
         String query,
         @NotNull(message = "Please select the available provider")
-        Provider provider
+        Provider provider,
+        RetrievalOptions options
 ) {
 }

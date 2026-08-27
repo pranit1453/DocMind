@@ -6,7 +6,7 @@ import com.pranit.docmind.document.repository.DocumentRepository;
 import com.pranit.docmind.document.repository.SeedHistoryRepository;
 import com.pranit.docmind.document.service.DocumentStatusService;
 import com.pranit.docmind.entities.constant.FileStatus;
-import com.pranit.docmind.entities.entity.Document;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.entities.entity.SeedHistory;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.rag.pipeline.factory.DocumentPipelineFactory;
@@ -76,24 +76,24 @@ public class DocumentSeeder {
     private void uploadFileAndProcessIndexing(final Resource resource, final String seedName) throws IOException {
         try {
             final User user = userRepository.findByUsername("pranit")
-                    .orElseThrow(()-> new UsernameNotFoundException("User not found"));
-            final Document document = Document.builder()
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            DocumentMetadata metadata = DocumentMetadata.builder()
                     .fileName(seedName)
                     .fileSize(resource.contentLength())
                     .fileStatus(FileStatus.UPLOADING)
                     .chunksCreated(0)
                     .user(user)
                     .build();
-            final Document savedDocument = documentRepository.save(document);
-            documentStatusService.markProcessing(savedDocument.getDocumentId());
-            final long chunkSize = factory.getPipeline(savedDocument.getDocumentId(), resource);
+            metadata = documentRepository.save(metadata);
+            documentStatusService.markProcessing(metadata.getDocumentId());
+            final long chunkSize = factory.getPipeline(metadata, resource);
             if (chunkSize <= 0) {
-                documentStatusService.markFailed(savedDocument.getDocumentId());
+                documentStatusService.markFailed(metadata.getDocumentId());
                 throw new DocumentProcessingException("No chunks were created: " + resource.getFilename());
             }
-            savedDocument.setChunksCreated(chunkSize);
-            savedDocument.setFileStatus(FileStatus.INDEXED);
-            documentRepository.save(savedDocument);
+            metadata.setChunksCreated(chunkSize);
+            metadata.setFileStatus(FileStatus.INDEXED);
+            documentRepository.save(metadata);
             final SeedHistory history = SeedHistory.builder()
                     .seedName(seedName)
                     .seededAt(Instant.now())

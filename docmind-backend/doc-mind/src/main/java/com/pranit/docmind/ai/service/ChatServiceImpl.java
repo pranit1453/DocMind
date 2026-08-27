@@ -1,6 +1,7 @@
 package com.pranit.docmind.ai.service;
 
 import com.pranit.docmind.ai.dto.QueryResponse;
+import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.ai.factory.ChatModelProviderFactory;
 import com.pranit.docmind.document.exception.DocumentNotFoundException;
 import com.pranit.docmind.document.repository.DocumentRepository;
@@ -19,9 +20,9 @@ public final class ChatServiceImpl implements ChatService {
     private final DocumentRepository documentRepository;
 
     @Override
-    public QueryResponse getResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId) {
+    public QueryResponse getResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
         checkForDocumentRefrence(documentId);
-        return factory.getStrategy(provider).getResponse(query, conversationId, documentId);
+        return factory.getStrategy(provider).getResponse(query, conversationId, documentId, options);
     }
 
     private void checkForDocumentRefrence(final UUID documentId) {
@@ -31,8 +32,8 @@ public final class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Flux<String> getStreamResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId) {
+    public Flux<String> getStreamResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
         checkForDocumentRefrence(documentId);
-        return factory.getStrategy(provider).getStreamResponse(query, conversationId, documentId);
+        return factory.getStrategy(provider).getStreamResponse(query, conversationId, documentId, options);
     }
 }

@@ -1,6 +1,7 @@
 package com.pranit.docmind.rag.pipeline.factory;
 
 import com.pranit.docmind.entities.constant.DocumentType;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.rag.pipeline.document.DocumentPipeline;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,13 +24,13 @@ public final class DocumentPipelineFactory {
                         Function.identity()));
     }
 
-    public long getPipeline(UUID documentId, Resource resource) {
+    public long getPipeline(DocumentMetadata metadata, Resource resource) {
         DocumentType type = getType(resource);
         DocumentPipeline pipeline = pipelines.get(type);
         if (pipeline == null) {
             throw new IllegalArgumentException("Unsupported file: " + resource.getFilename());
         }
-        return pipeline.process(documentId, resource);
+        return pipeline.process(metadata, resource);
     }
 
     private DocumentType getType(Resource resource) {
@@ -39,8 +39,7 @@ public final class DocumentPipelineFactory {
         if (name.endsWith(".pdf")) return DocumentType.PDF;
         if (name.endsWith(".txt")) return DocumentType.TXT;
 
-        throw new IllegalArgumentException(
-                "Unsupported file: " + resource.getFilename()
+        throw new IllegalArgumentException("Unsupported file: " + resource.getFilename()
         );
     }
 }

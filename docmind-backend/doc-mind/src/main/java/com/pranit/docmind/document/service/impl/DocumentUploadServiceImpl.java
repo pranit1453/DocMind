@@ -9,7 +9,7 @@ import com.pranit.docmind.document.repository.DocumentRepository;
 import com.pranit.docmind.document.service.DocumentStatusService;
 import com.pranit.docmind.document.service.DocumentUploadService;
 import com.pranit.docmind.entities.constant.FileStatus;
-import com.pranit.docmind.entities.entity.Document;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.helper.SecurityContext;
 import com.pranit.docmind.rag.pipeline.factory.DocumentPipelineFactory;
@@ -48,30 +48,30 @@ public class DocumentUploadServiceImpl implements DocumentUploadService {
             log.warn("File {} already exists", file.getOriginalFilename());
             throw new DocumentAlreadyExistsException("File already exists");
         }
-        final Document document = Document.builder()
+        DocumentMetadata metadata = DocumentMetadata.builder()
                 .fileName(file.getOriginalFilename())
                 .fileSize(file.getSize())
                 .fileStatus(FileStatus.UPLOADING)
                 .chunksCreated(0)
                 .user(user)
                 .build();
-        final Document savedDocument = documentRepository.save(document);
+        metadata = documentRepository.save(metadata);
         final Resource resource = file.getResource();
-        documentStatusService.markProcessing(savedDocument.getDocumentId());
-        final long chunkSize = factory.getPipeline(savedDocument.getDocumentId(), resource);
+        documentStatusService.markProcessing(metadata.getDocumentId());
+        final long chunkSize = factory.getPipeline(metadata, resource);
         if (chunkSize <= 0) {
-            documentStatusService.markFailed(savedDocument.getDocumentId());
+            documentStatusService.markFailed(metadata.getDocumentId());
             throw new DocumentProcessingException("No chunks were created");
         }
-        savedDocument.setChunksCreated(chunkSize);
-        savedDocument.setFileStatus(FileStatus.INDEXED);
+        metadata.setChunksCreated(chunkSize);
+        metadata.setFileStatus(FileStatus.INDEXED);
         final DocumentResponse response = DocumentResponse.builder()
-                .documentId(savedDocument.getDocumentId())
-                .fileName(savedDocument.getFileName())
-                .fileSize(savedDocument.getFileSize())
-                .status(savedDocument.getFileStatus())
-                .chunksCreated(savedDocument.getChunksCreated())
-                .createdAt(savedDocument.getCreatedAt())
+                .documentId(metadata.getDocumentId())
+                .fileName(metadata.getFileName())
+                .fileSize(metadata.getFileSize())
+                .status(metadata.getFileStatus())
+                .chunksCreated(metadata.getChunksCreated())
+                .createdAt(metadata.getCreatedAt())
                 .build();
         return ApiResponse.<DocumentResponse>builder()
                 .status(true)

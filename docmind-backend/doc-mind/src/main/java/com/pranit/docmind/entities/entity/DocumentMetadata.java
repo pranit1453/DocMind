@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @Entity
 @Table(
-        name = "document",
+        name = "document_metadata",
         schema = "doc",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_file_name", columnNames = "file_name"),
@@ -41,7 +41,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class Document extends AuditEntity {
+public class DocumentMetadata extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

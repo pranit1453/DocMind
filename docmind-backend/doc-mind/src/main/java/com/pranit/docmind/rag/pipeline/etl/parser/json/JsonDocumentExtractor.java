@@ -1,6 +1,6 @@
-package com.pranit.docmind.rag.pipeline.etl.json;
+package com.pranit.docmind.rag.pipeline.etl.parser.json;
 
-import com.pranit.docmind.rag.pipeline.etl.Extractor;
+import com.pranit.docmind.rag.pipeline.etl.parser.Extractor;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.reader.JsonReader;
 import org.springframework.core.io.Resource;
