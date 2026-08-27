@@ -10,11 +10,16 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -112,6 +117,49 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ErrorResponse.builder()
                         .status(HttpStatus.UNAUTHORIZED.value())
+                        .message(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .timestamp(Instant.now())
+                        .build());
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxSize(
+            MaxUploadSizeExceededException ex, HttpServletRequest request) {
+        log.warn("File size limit exceeded: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT)
+                .body(ErrorResponse.builder()
+                        .status(HttpStatus.UNPROCESSABLE_CONTENT.value())
+                        .message("File size exceeds the allowed limit (25MB)")
+                        .path(request.getRequestURI())
+                        .timestamp(Instant.now())
+                        .build());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(
+            MethodArgumentNotValidException ex, HttpServletRequest request) {
+        // key value pair--> validation error
+        Map<String, String> errors = new LinkedHashMap<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.put(error.getField(), error.getDefaultMessage());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.builder()
+                        .status(HttpStatus.UNPROCESSABLE_CONTENT.value())
+                        .message("Validation Failed")
+                        .errors(errors)
+                        .path(request.getRequestURI())
+                        .timestamp(Instant.now())
+                        .build());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(
+            IllegalArgumentException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.builder()
+                        .status(HttpStatus.BAD_REQUEST.value())
                         .message(ex.getMessage())
                         .path(request.getRequestURI())
                         .timestamp(Instant.now())
