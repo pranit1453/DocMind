@@ -1,6 +1,8 @@
 package com.pranit.docmind.rag.pipeline.etl.pdf;
 
+import com.pranit.docmind.properties.RagProperties;
 import com.pranit.docmind.rag.pipeline.etl.Transformer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.stereotype.Service;
@@ -8,16 +10,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public final class PdfDocumentTransformer implements Transformer {
+
+    private final RagProperties properties;
 
     @Override
     public List<Document> transform(final List<Document> documents) {
+        final var config = properties.chunking();
         final var splitter = TokenTextSplitter.builder()
-                .withChunkSize(400)
-                .withMinChunkSizeChars(175)
-                .withMinChunkLengthToEmbed(10)
-                .withMaxNumChunks(5000)
-                .withKeepSeparator(true)
+                .withChunkSize(config.chunkSize())
+                .withMinChunkSizeChars(config.minChunkSizeChars())
+                .withMinChunkLengthToEmbed(config.minChunkLengthToEmbed())
+                .withMaxNumChunks(config.maxNumChunks())
+                .withKeepSeparator(config.keepSeparator())
                 .build();
         return splitter.transform(documents);
     }

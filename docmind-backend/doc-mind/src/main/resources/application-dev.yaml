@@ -84,10 +84,16 @@ spring:
       max-file-size: 25MB
       max-request-size: 50MB
 rag:
-  chunk-size: 600
-  chunk-overlap: 100
-  top-k: 5
-  similarity-threshold: 0.0
+  chunking:
+    chunk-size: 600
+    min-chunk-size-chars: 200
+    min-chunk-length-to-embed: 20
+    max-num-chunks: 5000
+    keep-separator: true
+  retrieval:
+    top-k: 5
+    candidate-k: 20
+    similarity-threshold: 0.70
 # JWT Token Configuration
 security:
   accessToken:
