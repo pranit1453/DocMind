@@ -73,4 +73,13 @@ public class UserRole extends AuditEntity {
     @Column(nullable = false)
     @Builder.Default
     private Long version = 0L;
+
+    public void revoke() {
+        if (this.status == RoleStatus.INACTIVE) return;
+        this.status = RoleStatus.INACTIVE;
+    }
+
+    public void reAssign() {
+        this.status = RoleStatus.ACTIVE;
+    }
 }

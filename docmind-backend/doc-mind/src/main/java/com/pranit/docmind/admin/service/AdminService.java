@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public interface AdminService {
+    
     PageResponse<UserResponse> fetchUsers(int page, int size, String keyword, String sortBy, String sortDirection);
 
     ApiResponse<Void> controlUserAccount(@NotNull UUID userId, @Valid UserAccountControlRequest request);

@@ -6,6 +6,8 @@ import com.pranit.docmind.admin.service.AdminService;
 import com.pranit.docmind.wrapper.ApiResponse;
 import com.pranit.docmind.wrapper.PageResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,11 +35,11 @@ public class AdminController {
     @GetMapping("/all/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageResponse<UserResponse>> fetchAllUsers(
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "5") int size,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) @Max(10) int size,
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false, defaultValue = "username") String sortBy,
-            @RequestParam(required = false, defaultValue = "ASC") String sortDirection
+            @RequestParam(defaultValue = "username") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection
     ) {
         final PageResponse<UserResponse> responses = adminService.fetchUsers(page, size, keyword, sortBy, sortDirection);
         return ResponseEntity.status(HttpStatus.OK).body(responses);

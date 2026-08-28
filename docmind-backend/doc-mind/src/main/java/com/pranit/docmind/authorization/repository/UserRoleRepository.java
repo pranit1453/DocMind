@@ -1,6 +1,9 @@
 package com.pranit.docmind.authorization.repository;
 
 import com.pranit.docmind.entities.entity.UserRole;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -28,55 +32,27 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long>, JpaSp
     List<String> findAuthoritiesByUserId(@Param("userId") UUID userId);
 
     boolean existsByUser_UserIdAndRole_RoleId(UUID userId, Long roleId);
+    
+    Optional<UserRole> findByUserRoleIdAndUser_IdAndRole_Id(Long userRoleId, UUID userId, Long roleId);
 
-    boolean existsByRole_RoleId(Long roleId);
-//
-//    @Query("""
-//            SELECT ur
-//            FROM UserRole ur
-//            JOIN FETCH ur.role r
-//            WHERE ur.user.userId IN :userIds
-//            """)
-//    List<UserRole> findRolesByUserIds(@Param("userIds") List<UUID> userIds);
-//
-//    @Query("""
-//                SELECT new com.pranit.rag.authorization.UserRoleProjection(
-//                     u.userId,
-//                     u.username,
-//                     r.roleId,
-//                     r.roleName,
-//                     r.roleDescription,
-//                     ur.status
-//                 )
-//                 FROM UserRole ur
-//                 JOIN ur.user u
-//                 JOIN ur.role r
-//                 WHERE u.userId = (
-//                     SELECT ur2.user.userId
-//                     FROM UserRole ur2
-//                     WHERE ur2.userRoleId = :userRoleId
-//                 )
-//            """)
-//    List<UserRoleProjection> findAllRolesByUserRoleId(@Param("userRoleId") Long userRoleId);
-//
-//    @Query("""
-//                SELECT new com.pranit.rag.authorization.UserRoleProjection(
-//                    u.userId,
-//                    u.username,
-//                    r.roleId,
-//                    r.roleName,
-//                    r.roleDescription,
-//                    ur.status
-//                )
-//                FROM UserRole ur
-//                JOIN ur.user u
-//                JOIN ur.role r
-//                WHERE (
-//                    :keyword IS NULL OR
-//                    LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%'))
-//                    OR LOWER(r.roleName) LIKE LOWER(CONCAT('%', :keyword, '%'))
-//                )
-//            """)
-//    Page<UserRoleProjection> findAllUsersWithRoles(@Param("keyword") String keyword, Pageable pageable);
+    @Query("""
+            SELECT ur
+            FROM UserRole ur
+            JOIN FETCH ur.user u
+            JOIN FETCH ur.role r
+            WHERE ur.userRoleId = :userRoleId
+            """)
+    Optional<UserRole> findByUserRoleId(@Param("userRoleId") Long userRoleId);
 
+    @EntityGraph(attributePaths = {"user", "role"})
+    @Query("""
+            SELECT ur
+            FROM UserRole ur
+            WHERE (
+                    :keyword IS NULL
+                    OR LOWER(ur.user.username) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                    OR LOWER(ur.role.roleName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                  )
+            """)
+    Page<UserRole> findAllUserRoles(@Param("keyword") String keyword, Pageable pageable);
 }

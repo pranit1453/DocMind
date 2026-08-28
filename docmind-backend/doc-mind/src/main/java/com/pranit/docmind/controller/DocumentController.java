@@ -7,6 +7,8 @@ import com.pranit.docmind.wrapper.ApiResponse;
 import com.pranit.docmind.wrapper.ScrollResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,7 +59,7 @@ public class DocumentController {
     public ResponseEntity<ScrollResponse<DocumentResponse>> fetchAllDocuments(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String scrollId,
-            @RequestParam(defaultValue = "5") int pageSize,
+            @RequestParam(defaultValue = "5") @Min(1) @Max(5) int pageSize,
             @RequestParam(defaultValue = "fileName") String sortBy,
             @RequestParam(defaultValue = "ASC") String sortDirection,
             @RequestParam(defaultValue = "FORWARD") String scrollDirection

@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
         final Pageable pageable = PageRequest.of(page, size, sort);
         final Specification<UserRole> specification = UserRoleSpecification.searchKeyword(keyword);
         final Page<UserRole> pages = userRoleRepository.findAll(specification, pageable);
-        final List<UserResponse> contents = pages.getContent()
+        final List<UserResponse> content = pages.getContent()
                 .stream()
                 .map(ur -> UserResponse.builder()
                         .userId(ur.getUser().getUserId())
@@ -59,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
                         .build())
                 .toList();
         return PageResponse.<UserResponse>builder()
-                .contents(contents)
+                .contents(content)
                 .currentPage(pages.getNumber())
                 .pageSize(pages.getSize())
                 .totalElements(pages.getTotalElements())
