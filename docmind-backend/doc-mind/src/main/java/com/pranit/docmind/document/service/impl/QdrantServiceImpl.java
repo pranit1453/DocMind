@@ -22,7 +22,7 @@ public class QdrantServiceImpl implements QdrantService {
 
     public QdrantServiceImpl(
             QdrantClient qdrantClient,
-            @Value("${spring.ai.vectorstore.collection-name}") String collectionName) {
+            @Value("${spring.ai.vectorstore.qdrant.collection-name}") String collectionName) {
         this.qdrantClient = qdrantClient;
         this.collectionName = collectionName;
     }

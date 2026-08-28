@@ -7,8 +7,10 @@ import com.pranit.docmind.wrapper.ApiResponse;
 import com.pranit.docmind.wrapper.ScrollResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,20 +44,20 @@ public class DocumentController {
     @Operation(summary = "Upload a document", description = "Uploads a document and processes it for vector embedding.")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, version = "v1")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ApiResponse<DocumentResponse>> uploadDocument(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ApiResponse<DocumentResponse>> uploadDocument(@Valid @RequestParam("file") MultipartFile file) {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentUploadService.uploadDocument(file));
     }
 
     @Operation(summary = "Get document by ID", description = "Retrieves a document and its metadata using its unique ID.")
     @GetMapping(value = "/{documentId}", version = "v1")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ApiResponse<DocumentResponse>> fetchDocumentById(@PathVariable("documentId") UUID documentId) {
+    public ResponseEntity<ApiResponse<DocumentResponse>> fetchDocumentById(@NotNull @PathVariable("documentId") UUID documentId) {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.fetchDocumentById(documentId));
     }
 
     @Operation(summary = "List documents", description = "Retrieves a paginated list of documents with optional keyword search and sorting.")
     @GetMapping(version = "v1")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<ScrollResponse<DocumentResponse>> fetchAllDocuments(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String scrollId,
@@ -70,8 +72,8 @@ public class DocumentController {
 
     @Operation(summary = "Delete a document", description = "Deletes a document and its associated vector embeddings using its unique ID.")
     @DeleteMapping(value = "/{documentId}/delete", version = "v1")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ApiResponse<Void>> deleteDocumentById(@PathVariable("documentId") UUID documentId) {
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> deleteDocumentById(@NotNull @PathVariable("documentId") UUID documentId) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(documentService.deleteDocumentById(documentId));
     }
 }

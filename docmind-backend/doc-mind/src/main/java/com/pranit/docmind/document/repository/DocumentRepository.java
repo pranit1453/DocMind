@@ -17,9 +17,9 @@ public interface DocumentRepository extends JpaRepository<DocumentMetadata, UUID
 
     @Modifying
     @Query("""
-                update Document d
-                set d.fileStatus = :status
-                where d.documentId = :documentId
+                update DocumentMetadata dm
+                set dm.fileStatus = :status
+                where dm.documentId = :documentId
             """)
     void updateFileStatus(@Param("documentId") UUID documentId, @Param("status") FileStatus status);
 

@@ -78,6 +78,15 @@ public class User extends AuditEntity {
             orphanRemoval = true
     )
     @Builder.Default
+    private List<UserRole> userRoles = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
     private List<DocumentMetadata> documents = new ArrayList<>();
 
     @Version

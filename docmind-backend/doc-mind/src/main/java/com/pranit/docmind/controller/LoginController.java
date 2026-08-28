@@ -49,7 +49,7 @@ public class LoginController {
             description = "Authenticates the user and sets the access and refresh tokens in secure HTTP-only cookies."
     )
     @PostMapping(value = "/login", version = "v1")
-    public ResponseEntity<LoginRespone> authenticateUser(@RequestBody @Valid LoginRequest request, @Valid HttpServletRequest httpRequest, @Valid HttpServletResponse response) {
+    public ResponseEntity<LoginRespone> authenticateUser(@Valid @RequestBody LoginRequest request, @Valid HttpServletRequest httpRequest, @Valid HttpServletResponse response) {
         final LoginRespone loginRespone = loginService.authenticateUser(request, httpRequest, response);
         return ResponseEntity.status(HttpStatus.OK).body(loginRespone);
     }

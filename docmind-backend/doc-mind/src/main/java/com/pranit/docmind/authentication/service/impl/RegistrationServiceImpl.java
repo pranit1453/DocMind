@@ -47,7 +47,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         final User saved = userRepository.save(user);
         userRoleService.addRoleToUser(saved.getUserId(), findRole(role));
         log.info("New account created successfully for username: {}", saved.getUsername());
-        log.info("New account created successfully for username: {}", saved.getUsername());
         final String challengeId = sendOtp(saved, type);
         return SignupResponse.builder()
                 .challengeId(challengeId)

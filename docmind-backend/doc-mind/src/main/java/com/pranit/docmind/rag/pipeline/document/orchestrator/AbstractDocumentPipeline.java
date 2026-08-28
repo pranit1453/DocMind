@@ -44,7 +44,7 @@ public abstract class AbstractDocumentPipeline implements DocumentPipeline {
             final var chunk = chunks.get(index);
             final var enrichedMetadata = new LinkedHashMap<>(chunk.getMetadata());
 
-            enrichedMetadata.put(DocMetadata.DOCUMENT_ID, metadata.getDocumentId());
+            enrichedMetadata.put(DocMetadata.DOCUMENT_ID, metadata.getDocumentId().toString());
             enrichedMetadata.put(DocMetadata.FILE_NAME, metadata.getFileName());
             enrichedMetadata.put(DocMetadata.CHUNK_INDEX, index);
             enrichedMetadata.put(DocMetadata.TOTAL_CHUNKS, chunks.size());

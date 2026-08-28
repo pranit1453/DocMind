@@ -39,7 +39,7 @@ public class VerificationServiceImpl implements VerificationService {
                 .email(user.getEmail())
                 .build();
         log.info("Sending Welcome email to username: {}", user.getUsername());
-        emailRouter.send(data, purpose);
+        emailRouter.send(data, EmailPurpose.WELCOME_USER);
         return VerificationResponse.builder()
                 .message("Account verified successfully.")
                 .build();

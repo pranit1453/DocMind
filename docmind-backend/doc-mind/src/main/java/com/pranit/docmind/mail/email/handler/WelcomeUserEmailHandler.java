@@ -17,7 +17,7 @@ public class WelcomeUserEmailHandler implements EmailHandler<WelcomeEvent> {
 
     @Override
     public EmailPurpose supports() {
-        return EmailPurpose.REGISTRATION;
+        return EmailPurpose.WELCOME_USER;
     }
 
     @Override

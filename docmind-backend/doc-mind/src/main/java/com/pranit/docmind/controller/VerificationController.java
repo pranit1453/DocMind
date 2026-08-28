@@ -32,7 +32,7 @@ public class VerificationController {
             description = "Verifies the OTP provided during user registration and activates the user account."
     )
     @PostMapping(version = "v1")
-    public ResponseEntity<VerificationResponse> verifyRegistration(@RequestBody @Valid VerifyOtp request) {
+    public ResponseEntity<VerificationResponse> verifyRegistration(@Valid @RequestBody VerifyOtp request) {
         return ResponseEntity.ok(verificationService.verifyRegistration(request));
     }
 
@@ -41,7 +41,7 @@ public class VerificationController {
             description = "Verifies the OTP provided for password reset and authorizes the password reset process."
     )
     @PostMapping(value = "/reset", version = "v1")
-    public ResponseEntity<VerificationResponse> verifyPasswordResetOtp(@RequestBody @Valid VerifyOtp request) {
+    public ResponseEntity<VerificationResponse> verifyPasswordResetOtp(@Valid @RequestBody VerifyOtp request) {
         final VerificationResponse response = verificationService.verifyPasswordResetOtp(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

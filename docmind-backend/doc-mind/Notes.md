@@ -2,7 +2,7 @@
 
 # Qdrant Vector DB Image:
 
-    # docker run -d --name qdrant -p 6333:6333 -p 6334:6334 -e API_KEY="Qdrant_API_KEY" -v qdrant_storage:/qdrant/storage qdrant/qdrant:latest
+    # docker run -d --name qdrant -p 6333:6333 -p 6334:6334 -e API_KEY="docmind@vector" -v qdrant_storage:/qdrant/storage qdrant/qdrant:latest
 
 # Redis DB Image:
 

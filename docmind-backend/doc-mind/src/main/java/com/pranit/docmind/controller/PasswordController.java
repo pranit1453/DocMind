@@ -37,7 +37,7 @@ public class PasswordController {
             description = "Initiates the password reset process by sending a password reset OTP to the user's registered email address."
     )
     @PostMapping(value = "/reset/request", version = "v1")
-    public ResponseEntity<PasswordResponse> requestPasswordReset(@RequestBody @Valid ForgotPasswordEmail request) {
+    public ResponseEntity<PasswordResponse> requestPasswordReset(@Valid @RequestBody ForgotPasswordEmail request) {
         final PasswordResponse response = passwordService.requestPasswordReset(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -47,7 +47,7 @@ public class PasswordController {
             description = "Resets the user's password after successful verification of the password reset request."
     )
     @PatchMapping(value = "/reset", version = "v1")
-    public ResponseEntity<PasswordResponse> resetPassword(@RequestBody @Valid ChangeForgotPasswordRequest request) {
+    public ResponseEntity<PasswordResponse> resetPassword(@Valid @RequestBody ChangeForgotPasswordRequest request) {
         final PasswordResponse response = passwordService.resetPassword(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -58,7 +58,7 @@ public class PasswordController {
     )
     @PatchMapping(value = "/change", version = "v1")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<ChangePasswordResponse> changeAccountPassword(@RequestBody @Valid ChangePassword request) {
+    public ResponseEntity<ChangePasswordResponse> changeAccountPassword(@Valid @RequestBody ChangePassword request) {
         final ChangePasswordResponse response = passwordService.changeAccountPassword(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -32,7 +32,7 @@ public class RegistrationController {
             description = "Creates a new user account and initiates the account verification process."
     )
     @PostMapping(version = "v1")
-    public ResponseEntity<SignupResponse> registerNewUser(@RequestBody @Valid SignupRequest request) {
+    public ResponseEntity<SignupResponse> registerNewUser(@Valid @RequestBody SignupRequest request) {
         final SignupResponse response = registrationService.createNewUserAccount(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -42,7 +42,7 @@ public class RegistrationController {
             description = "Creates a new administrator account with the required administrative privileges."
     )
     @PostMapping(value = "/admin", version = "v1")
-    public ResponseEntity<SignupResponse> registerNewAdmin(@RequestBody @Valid SignupRequest request) {
+    public ResponseEntity<SignupResponse> registerNewAdmin(@Valid @RequestBody SignupRequest request) {
         final SignupResponse response = registrationService.createNewAdminAccount(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

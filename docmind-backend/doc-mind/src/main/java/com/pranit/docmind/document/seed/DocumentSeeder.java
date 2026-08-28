@@ -9,6 +9,7 @@ import com.pranit.docmind.entities.constant.FileStatus;
 import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.entities.entity.SeedHistory;
 import com.pranit.docmind.entities.entity.User;
+import com.pranit.docmind.properties.AdminSeedProperties;
 import com.pranit.docmind.rag.pipeline.factory.DocumentPipelineFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class DocumentSeeder {
     private final DocumentRepository documentRepository;
     private final DocumentStatusService documentStatusService;
     private final UserRepository userRepository;
-
+    private final AdminSeedProperties properties;
     private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
     @Async
@@ -75,7 +76,7 @@ public class DocumentSeeder {
 
     private void uploadFileAndProcessIndexing(final Resource resource, final String seedName) throws IOException {
         try {
-            final User user = userRepository.findByUsername("pranit")
+            final User user = userRepository.findByUsername(properties.username())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             DocumentMetadata metadata = DocumentMetadata.builder()
                     .fileName(seedName)

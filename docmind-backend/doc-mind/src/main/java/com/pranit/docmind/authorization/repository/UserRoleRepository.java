@@ -32,8 +32,8 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long>, JpaSp
     List<String> findAuthoritiesByUserId(@Param("userId") UUID userId);
 
     boolean existsByUser_UserIdAndRole_RoleId(UUID userId, Long roleId);
-    
-    Optional<UserRole> findByUserRoleIdAndUser_IdAndRole_Id(Long userRoleId, UUID userId, Long roleId);
+
+    Optional<UserRole> findByUserRoleIdAndUser_UserIdAndRole_RoleId(Long userRoleId, UUID userId, Long roleId);
 
     @Query("""
             SELECT ur

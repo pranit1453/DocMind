@@ -73,8 +73,8 @@ spring:
       qdrant:
         host: localhost
         port: 6334
-        api-key: naive-rag@v1
-        collection-name: vector_store
+        api-key: docmind@vector
+        collection-name: docmind
         content-field-name: doc_content
         use-tls: false
         initialize-schema: true
@@ -83,6 +83,7 @@ spring:
     multipart:
       max-file-size: 25MB
       max-request-size: 50MB
+# RAG Configuration
 rag:
   chunking:
     chunk-size: 600
@@ -110,6 +111,12 @@ security:
     cookieSecure: false
     cookieSameSite: lax
     cookieDomain: localhost
+# Default Credentials
+docmind:
+  default:
+    credential:
+      username: admin
+      password: docmind@14
 # Keys Configuration
 keys:
   privateKeyPath: key/private_key.pem
@@ -165,6 +172,6 @@ management:
       show-details: never
 info:
   app:
-    name: access-hub
+    name: docmind
     description: "This is an RAG Service"
     version: "1.0.0"
