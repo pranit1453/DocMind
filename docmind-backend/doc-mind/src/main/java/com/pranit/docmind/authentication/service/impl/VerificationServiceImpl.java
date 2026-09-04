@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.dto.VerificationResponse;
 import com.pranit.docmind.authentication.dto.VerifyOtp;
 import com.pranit.docmind.authentication.exception.EmailNotFoundException;
@@ -28,6 +29,7 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public VerificationResponse verifyRegistration(final VerifyOtp request) {
         final EmailPurpose purpose = EmailPurpose.REGISTRATION;
         final String email = verifyOtp(request.challengeId(), request.otp(), purpose);
@@ -66,6 +68,7 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public VerificationResponse verifyPasswordResetOtp(final VerifyOtp request) {
         final EmailPurpose type = EmailPurpose.PASSWORD_CHANGE;
         final String email = verifyOtp(request.challengeId(), request.otp(), type);

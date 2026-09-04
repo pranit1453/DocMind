@@ -1,5 +1,6 @@
 package com.pranit.docmind.document.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.exception.InvalidScrollingException;
 import com.pranit.docmind.document.dto.DocumentResponse;
 import com.pranit.docmind.document.exception.DocumentNotFoundException;
@@ -36,6 +37,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    @LogExecution
     public ApiResponse<DocumentResponse> fetchDocumentById(final UUID documentId) {
         final DocumentMetadata metadata = validateAndFetchDocumentById(documentId);
         return ApiResponse.<DocumentResponse>builder()
@@ -55,6 +57,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    @LogExecution
     public ScrollResponse<DocumentResponse> fetchDocuments(
             final String keyword, final String scrollId,
             final int pageSize, final String sortBy,
@@ -176,6 +179,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public ApiResponse<Void> deleteDocumentById(final UUID documentId) {
         final DocumentMetadata metadata = validateAndFetchDocumentById(documentId);
         documentRepository.delete(metadata);

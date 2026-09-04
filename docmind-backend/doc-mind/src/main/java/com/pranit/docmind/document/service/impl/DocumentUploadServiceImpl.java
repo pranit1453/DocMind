@@ -1,5 +1,6 @@
 package com.pranit.docmind.document.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.exception.UserNotExistsException;
 import com.pranit.docmind.authentication.repository.UserRepository;
 import com.pranit.docmind.document.dto.DocumentResponse;
@@ -37,6 +38,7 @@ public class DocumentUploadServiceImpl implements DocumentUploadService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public ApiResponse<DocumentResponse> uploadDocument(final MultipartFile file) {
         final UUID userId = SecurityContext.getCurrentUserId();
         final User user = userRepository.findByUserId(userId)

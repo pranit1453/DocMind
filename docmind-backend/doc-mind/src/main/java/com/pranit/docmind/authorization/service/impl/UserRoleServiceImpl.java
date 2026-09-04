@@ -1,5 +1,6 @@
 package com.pranit.docmind.authorization.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.exception.UserNotExistsException;
 import com.pranit.docmind.authentication.repository.UserRepository;
 import com.pranit.docmind.authorization.exception.RoleAlreadyAssignedException;
@@ -27,6 +28,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public void addRoleToUser(final UUID userId, final Role role) {
         final User user = validateAndFindUserById(userId);
         if (userRoleRepository.existsByUser_UserIdAndRole_RoleId(userId, role.getRoleId())) {

@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.exception.UserNotExistsException;
 import com.pranit.docmind.authentication.repository.UserRepository;
 import com.pranit.docmind.authentication.service.UserDetailService;
@@ -31,6 +32,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public @NullMarked UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
@@ -61,6 +63,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public UserDetail loadUserByUserId(final UUID userId) {
         final User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> {

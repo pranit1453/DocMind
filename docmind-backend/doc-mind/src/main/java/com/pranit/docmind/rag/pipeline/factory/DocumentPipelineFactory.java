@@ -1,5 +1,6 @@
 package com.pranit.docmind.rag.pipeline.factory;
 
+import com.pranit.docmind.document.exception.UnsupportedFileFormatException;
 import com.pranit.docmind.entities.constant.DocumentType;
 import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.rag.pipeline.document.DocumentPipeline;
@@ -38,8 +39,18 @@ public final class DocumentPipelineFactory {
         if (name.endsWith(".json")) return DocumentType.JSON;
         if (name.endsWith(".pdf")) return DocumentType.PDF;
         if (name.endsWith(".txt")) return DocumentType.TXT;
-
-        throw new IllegalArgumentException("Unsupported file: " + resource.getFilename()
-        );
+        if (name.endsWith(".doc") ||
+                name.endsWith(".docx") ||
+                name.endsWith(".xls") ||
+                name.endsWith(".xlsx") ||
+                name.endsWith(".ppt") ||
+                name.endsWith(".pptx") ||
+                name.endsWith(".html") ||
+                name.endsWith(".htm") ||
+                name.endsWith(".xml") ||
+                name.endsWith(".csv") ||
+                name.endsWith(".md"))
+            return DocumentType.TIKA;
+        throw new UnsupportedFileFormatException("Unsupported file: " + resource.getFilename());
     }
 }

@@ -4,6 +4,7 @@ import com.pranit.docmind.admin.dto.UserAccountControlRequest;
 import com.pranit.docmind.admin.dto.UserResponse;
 import com.pranit.docmind.admin.exception.InvalidAccountStateException;
 import com.pranit.docmind.admin.service.AdminService;
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.exception.UserNotExistsException;
 import com.pranit.docmind.authentication.repository.RefreshTokenRepository;
 import com.pranit.docmind.authentication.repository.UserRepository;
@@ -54,6 +55,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(readOnly = true)
+    @LogExecution
     public PageResponse<UserResponse> fetchUsers(int page, int size, String keyword, String sortBy, String sortDirection) {
         final Sort sort = sortDirection.equalsIgnoreCase("ASC")
                 ? Sort.by(Sort.Direction.ASC, sortBy)
@@ -104,6 +106,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public ApiResponse<Void> controlUserAccount(final UUID userId, final UserAccountControlRequest request) {
         final User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new UserNotExistsException("User not found"));
@@ -130,6 +133,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public AssignResponse assignRoleToUser(final AssignUserRoleRequest request) {
         final Role role = validateAndFindRoleById(request.roleId());
         userRoleService.addRoleToUser(request.userId(), role);
@@ -155,6 +159,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public RevokeResponse revokeRoleAssignedToUser(final Long userRoleId, final RevokeUserRoleRequest request) {
         final UserRole userRole = validateAndFetchUserRoleDetails(userRoleId, request.userId(), request.roleId());
         if (userRole.getStatus() != RoleStatus.ACTIVE) {
@@ -175,6 +180,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public AssignResponse reAssignRoleToUser(final Long userRoleId, final AssignUserRoleRequest request) {
         final UserRole userRole = validateAndFetchUserRoleDetails(userRoleId, request.userId(), request.roleId());
         if (userRole.getStatus() == RoleStatus.ACTIVE) {
@@ -190,6 +196,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    @LogExecution
     public UserRoleResponse fetchUserRoleById(final Long userRoleId) {
         final UserRole userRole = userRoleRepository.findByUserRoleId(userRoleId)
                 .orElseThrow(() -> {

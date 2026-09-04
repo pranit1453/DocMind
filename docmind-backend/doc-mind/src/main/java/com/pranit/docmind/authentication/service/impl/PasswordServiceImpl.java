@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.dto.ChangeForgotPasswordRequest;
 import com.pranit.docmind.authentication.dto.ChangePassword;
 import com.pranit.docmind.authentication.dto.ChangePasswordResponse;
@@ -40,6 +41,7 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public PasswordResponse requestPasswordReset(final ForgotPasswordEmail request) {
         final String email = request.email();
         final EmailPurpose purpose = EmailPurpose.PASSWORD_CHANGE;
@@ -59,6 +61,7 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public PasswordResponse resetPassword(final ChangeForgotPasswordRequest request) {
         validatePasswordMatch(request.passwordRequest());
         final String email = request.email().trim().toLowerCase();
@@ -98,6 +101,7 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public ChangePasswordResponse changeAccountPassword(final ChangePassword request) {
         final UUID userId = SecurityContext.getCurrentUserId();
         final User user = userRepository.findByUserId(userId)

@@ -1,5 +1,6 @@
 package com.pranit.docmind.document.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.constant.DocMetadata;
 import com.pranit.docmind.document.service.QdrantService;
 import io.qdrant.client.QdrantClient;
@@ -28,6 +29,7 @@ public class QdrantServiceImpl implements QdrantService {
     }
 
     @Override
+    @LogExecution
     public void deleteByDocumentId(final UUID documentId) {
         Filter filter = Filter.newBuilder()
                 .addMust(Condition.newBuilder()

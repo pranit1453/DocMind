@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.exception.AccountDeletedException;
 import com.pranit.docmind.authentication.exception.UserNotExistsException;
 import com.pranit.docmind.authentication.repository.UserRepository;
@@ -23,6 +24,7 @@ public class RestoreUserAccountImpl implements RestoreUserAccount {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public void restoreUserAccount(final UUID userId) {
         final User user = validateAndFindUserByUserId(userId);
         if (!user.isDeleted()) return;

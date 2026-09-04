@@ -39,6 +39,7 @@ dependencies {
     implementation 'io.qdrant:client:1.19.0'
     implementation 'org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc'
     implementation 'org.springframework.ai:spring-ai-pdf-document-reader'
+    implementation 'org.springframework.ai:spring-ai-tika-document-reader'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'

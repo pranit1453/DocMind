@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.dto.SignupRequest;
 import com.pranit.docmind.authentication.dto.SignupResponse;
 import com.pranit.docmind.authentication.exception.EmailAlreadyExistsException;
@@ -35,6 +36,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public SignupResponse createNewUserAccount(final SignupRequest request) {
         return registerAccount(request, UserMetadata.USER_ROLE);
     }
@@ -99,6 +101,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public SignupResponse createNewAdminAccount(final SignupRequest request) {
         return registerAccount(request, UserMetadata.ADMIN_ROLE);
     }

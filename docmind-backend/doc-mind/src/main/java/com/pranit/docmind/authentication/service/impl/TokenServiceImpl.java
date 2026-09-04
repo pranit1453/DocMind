@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.dto.TokenResponse;
 import com.pranit.docmind.authentication.exception.AccountDeletedException;
 import com.pranit.docmind.authentication.exception.TokenExpiredException;
@@ -48,6 +49,7 @@ public class TokenServiceImpl implements TokenService {
     private final RedisTokenStore redisTokenStore;
 
     @Override
+    @LogExecution
     public Optional<String> readRefreshTokenFromRequest(final HttpServletRequest request) {
         final Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) return Optional.empty();
@@ -60,6 +62,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public TokenResponse generateNewRefreshToken(final String refreshToken, final HttpServletResponse response) {
         final Claims claims = extractClaim.validateAndParseToken(refreshToken);
         if (!extractClaim.isRefreshToken(claims)) {

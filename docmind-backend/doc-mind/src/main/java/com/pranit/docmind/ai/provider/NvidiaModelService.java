@@ -5,6 +5,7 @@ import com.pranit.docmind.ai.dto.QueryResponse;
 import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.ai.stratergy.ChatModelStrategy;
 import com.pranit.docmind.aop.annotation.LogExecution;
+import com.pranit.docmind.aop.annotation.TrackExecution;
 import com.pranit.docmind.entities.constant.Provider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,27 +31,26 @@ public class NvidiaModelService implements ChatModelStrategy {
 
     @Override
     @LogExecution
+    @TrackExecution
     public QueryResponse getResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
-        var response = this.chatClient.prompt()
+        return this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId, options))
                 .user(user -> user.text(this.userPrompt).param("concept", query))
                 .call()
                 .entity(QueryResponse.class);
-        log.info("Non Streaming Response: {}", response);
-        return response;
     }
 
     @Override
+    @LogExecution
+    @TrackExecution
     public Flux<String> getStreamResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
-        var response = this.chatClient.prompt()
+        return this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId, options))
                 .user(user -> user.text(this.userPrompt).param("concept", query))
                 .stream()
                 .content();
-        log.info("Streaming Response: {}", response);
-        return response;
     }
 
     @Override

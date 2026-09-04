@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.exception.UserNotExistsException;
 import com.pranit.docmind.authentication.repository.RefreshTokenRepository;
 import com.pranit.docmind.authentication.repository.UserRepository;
@@ -33,6 +34,7 @@ public class AccountDeletionServiceImpl implements AccountDeletionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public void deleteUserAccount() {
         final UUID userId = SecurityContext.getCurrentUserId();
         final User user = findUserByUserId(userId);

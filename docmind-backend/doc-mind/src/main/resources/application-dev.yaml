@@ -8,11 +8,11 @@ spring:
     password: 140503
     driver-class-name: org.postgresql.Driver
     hikari:
-      minimum-idle: 5 # Keep at least 5 idle connections available
-      maximum-pool-size: 10 # Never have more than 10 connections in the pool
-      connection-timeout: 30000 # Wait up to 30 seconds for a connection
-      idle-timeout: 600000 # Idle connections can be removed after 10 minutes
-      max-lifetime: 1800000 # Recycle connections after 30 minutes
+      minimum-idle: 5
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
       pool-name: DocMindHikariPool
   # JPA Configuration
   jpa:
@@ -32,6 +32,7 @@ spring:
     validate-on-migrate: true
     clean-disabled: true
     out-of-order: false
+  # Java Mail Sender Configuration
   mail:
     host: smtp.gmail.com
     port: 587
@@ -173,5 +174,5 @@ management:
 info:
   app:
     name: docmind
-    description: "This is an RAG Service"
+    description: "DocMind: Multi-Format document ingestion, vector embeddings with Qdrant and hybrid conversational Q&A with Nvidia."
     version: "1.0.0"

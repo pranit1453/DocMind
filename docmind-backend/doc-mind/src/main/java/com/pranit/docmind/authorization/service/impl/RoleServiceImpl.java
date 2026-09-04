@@ -1,5 +1,6 @@
 package com.pranit.docmind.authorization.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authorization.dto.RoleResponse;
 import com.pranit.docmind.authorization.repository.RoleRepository;
 import com.pranit.docmind.authorization.service.RoleService;
@@ -19,6 +20,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    @LogExecution
     public List<RoleResponse> findAllRoles() {
         final List<Role> roles = roleRepository.findAll();
         return roles.stream()

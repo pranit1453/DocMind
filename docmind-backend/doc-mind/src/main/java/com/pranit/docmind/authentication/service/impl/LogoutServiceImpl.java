@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.repository.RefreshTokenRepository;
 import com.pranit.docmind.authentication.service.LogoutService;
 import com.pranit.docmind.entities.entity.RefreshToken;
@@ -35,6 +36,7 @@ public class LogoutServiceImpl implements LogoutService {
     private final CookieService cookieService;
 
     @Override
+    @LogExecution
     public Optional<String> readRefreshTokenFromRequest(final HttpServletRequest request) {
         final Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) return Optional.empty();
@@ -47,6 +49,7 @@ public class LogoutServiceImpl implements LogoutService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public void revokedRefreshToken(final String refreshToken) {
         if (refreshToken == null || refreshToken.isBlank()) return;
         final Claims claims;
@@ -92,6 +95,7 @@ public class LogoutServiceImpl implements LogoutService {
     }
 
     @Override
+    @LogExecution
     public Optional<String> readAccessTokenFromRequest(final HttpServletRequest request) {
         final Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) return Optional.empty();
@@ -104,6 +108,7 @@ public class LogoutServiceImpl implements LogoutService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public void revokedAccessToken(final String accessToken) {
         if (accessToken == null || accessToken.isBlank()) return;
         final Claims claims;
@@ -128,6 +133,7 @@ public class LogoutServiceImpl implements LogoutService {
     }
 
     @Override
+    @LogExecution
     public void clearResponse(final HttpServletResponse response) {
         cookieService.clearAccessTokenCookie(response);
         cookieService.clearRefreshTokenCookie(response);

@@ -1,5 +1,6 @@
 package com.pranit.docmind.authentication.service.impl;
 
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.authentication.dto.LoginRequest;
 import com.pranit.docmind.authentication.dto.LoginRespone;
 import com.pranit.docmind.authentication.dto.UserResponse;
@@ -54,6 +55,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @LogExecution
     public LoginRespone authenticateUser(final LoginRequest request, final HttpServletRequest httpRequest, final HttpServletResponse response) {
         log.debug("Authentication attempt initiated for username: {}", request.username());
         Authentication authentication;
@@ -117,6 +119,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    @LogExecution
     public UserResponse getCurrentUser() {
         final UserDetail principal = SecurityContext.getUserDetail();
         return UserResponse.builder()
