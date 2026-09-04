@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record QueryResponse(
-        String content
+        String content,
+        String responseTime
 ) {
 }

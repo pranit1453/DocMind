@@ -43,14 +43,14 @@ public class DocumentController {
 
     @Operation(summary = "Upload a document", description = "Uploads a document and processes it for vector embedding.")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, version = "v1")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<ApiResponse<DocumentResponse>> uploadDocument(@Valid @RequestParam("file") MultipartFile file) {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentUploadService.uploadDocument(file));
     }
 
     @Operation(summary = "Get document by ID", description = "Retrieves a document and its metadata using its unique ID.")
     @GetMapping(value = "/{documentId}", version = "v1")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<ApiResponse<DocumentResponse>> fetchDocumentById(@NotNull @PathVariable("documentId") UUID documentId) {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.fetchDocumentById(documentId));
     }

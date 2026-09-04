@@ -59,7 +59,8 @@ public class AdminServiceImpl implements AdminService {
                 ? Sort.by(Sort.Direction.ASC, sortBy)
                 : Sort.by(Sort.Direction.DESC, sortBy);
         final Pageable pageable = PageRequest.of(page, size, sort);
-        final Page<User> pages = userRepository.findAllUsers(keyword, pageable);
+        final String searchKeyword = keyword == null ? "" : keyword.trim();
+        final Page<User> pages = userRepository.findAllUsers(searchKeyword, pageable);
         final List<UserResponse> content = pages.getContent()
                 .stream()
                 .map(this::mapToUserResponse)

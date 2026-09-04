@@ -2,6 +2,7 @@ package com.pranit.docmind.authentication.service.impl;
 
 import com.pranit.docmind.authentication.dto.LoginRequest;
 import com.pranit.docmind.authentication.dto.LoginRespone;
+import com.pranit.docmind.authentication.dto.UserResponse;
 import com.pranit.docmind.authentication.exception.UnauthorizedException;
 import com.pranit.docmind.authentication.repository.RefreshTokenRepository;
 import com.pranit.docmind.authentication.repository.UserRepository;
@@ -12,6 +13,7 @@ import com.pranit.docmind.entities.entity.RefreshToken;
 import com.pranit.docmind.entities.entity.User;
 import com.pranit.docmind.entities.model.UserDetail;
 import com.pranit.docmind.helper.Generate;
+import com.pranit.docmind.helper.SecurityContext;
 import com.pranit.docmind.interceptor.RateLimitInterceptor;
 import com.pranit.docmind.properties.TokenProperties;
 import com.pranit.docmind.security.service.CookieService;
@@ -111,6 +113,19 @@ public class LoginServiceImpl implements LoginService {
         return LoginRespone.builder()
                 .username(authenticateUserDetail.username())
                 .roles(roles)
+                .build();
+    }
+
+    @Override
+    public UserResponse getCurrentUser() {
+        final UserDetail principal = SecurityContext.getUserDetail();
+        return UserResponse.builder()
+                .userId(principal.userId())
+                .username(principal.username())
+                .fullName(principal.fullName())
+                .email(principal.email())
+                .enabled(principal.enabled())
+                .deleted(principal.deleted())
                 .build();
     }
 }

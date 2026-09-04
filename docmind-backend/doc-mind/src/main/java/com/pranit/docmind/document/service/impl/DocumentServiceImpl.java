@@ -136,14 +136,20 @@ public class DocumentServiceImpl implements DocumentService {
                 .build();
     }
 
-    private Sort buildSort(final String sortField, final Sort.Direction direction) {
-        if ("documentId".equals(sortField)) return Sort.by(direction, "documentId");
-        return Sort.by(direction, sortField).and(Sort.by(direction, "documentId"));
+    private ScrollPositionCodec.ScrollDirection parseScrollDirection(final String scrollDirection) {
+        if (scrollDirection == null || scrollDirection.isBlank()) return ScrollPositionCodec.ScrollDirection.FORWARD;
+        try {
+            return ScrollPositionCodec.ScrollDirection.valueOf(scrollDirection.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid scrollDirection. " + "Allowed values: FORWARD or BACKWARD");
+        }
     }
 
     private String validateAndMapSortField(final String sortBy) {
-        if (sortBy == null || sortBy.isBlank() || "name".equalsIgnoreCase(sortBy)) return "fileName";
-        throw new IllegalArgumentException("Invalid sortBy: " + sortBy);
+        return switch (sortBy.toLowerCase()) {
+            case "name", "filename" -> "fileName";
+            default -> throw new IllegalArgumentException("Invalid sortBy: " + sortBy);
+        };
     }
 
     private Sort.Direction parseSortDirection(final String sortDirection) {
@@ -153,13 +159,9 @@ public class DocumentServiceImpl implements DocumentService {
         throw new IllegalArgumentException("Invalid sortDirection. " + "Allowed values: ASC or DESC");
     }
 
-    private ScrollPositionCodec.ScrollDirection parseScrollDirection(final String scrollDirection) {
-        if (scrollDirection == null || scrollDirection.isBlank()) return ScrollPositionCodec.ScrollDirection.FORWARD;
-        try {
-            return ScrollPositionCodec.ScrollDirection.valueOf(scrollDirection.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid scrollDirection. " + "Allowed values: FORWARD or BACKWARD");
-        }
+    private Sort buildSort(final String sortField, final Sort.Direction direction) {
+        if ("documentId".equals(sortField)) return Sort.by(direction, "documentId");
+        return Sort.by(direction, sortField).and(Sort.by(direction, "documentId"));
     }
 
     private DocumentResponse toResponse(final DocumentMetadata metadata) {
@@ -172,15 +174,6 @@ public class DocumentServiceImpl implements DocumentService {
                 .build();
     }
 
-    private DocumentMetadata validateAndFetchDocumentById(final UUID documentId) {
-        final UUID userId = SecurityContext.getCurrentUserId();
-        return documentRepository.findByDocumentIdAndUser_UserId(documentId, userId)
-                .orElseThrow(() -> {
-                    log.warn("Document with id {} not found for user {}", documentId, userId);
-                    return new DocumentNotFoundException("Document not found");
-                });
-    }
-
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public ApiResponse<Void> deleteDocumentById(final UUID documentId) {
@@ -191,5 +184,14 @@ public class DocumentServiceImpl implements DocumentService {
                 .message("Document deleted successfully.")
                 .timestamp(Instant.now())
                 .build();
+    }
+
+    private DocumentMetadata validateAndFetchDocumentById(final UUID documentId) {
+        final UUID userId = SecurityContext.getCurrentUserId();
+        return documentRepository.findByDocumentIdAndUser_UserId(documentId, userId)
+                .orElseThrow(() -> {
+                    log.warn("Document with id {} not found for user {}", documentId, userId);
+                    return new DocumentNotFoundException("Document not found");
+                });
     }
 }

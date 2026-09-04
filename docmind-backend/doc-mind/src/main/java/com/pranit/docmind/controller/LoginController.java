@@ -3,6 +3,7 @@ package com.pranit.docmind.controller;
 import com.pranit.docmind.authentication.dto.LoginRequest;
 import com.pranit.docmind.authentication.dto.LoginRespone;
 import com.pranit.docmind.authentication.dto.TokenResponse;
+import com.pranit.docmind.authentication.dto.UserResponse;
 import com.pranit.docmind.authentication.exception.UnauthorizedException;
 import com.pranit.docmind.authentication.service.LoginService;
 import com.pranit.docmind.authentication.service.LogoutService;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +56,11 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.OK).body(loginRespone);
     }
 
+    @GetMapping(value = "/me", version = "v1")
+    public ResponseEntity<UserResponse> me() {
+        return ResponseEntity.status(HttpStatus.OK).body(loginService.getCurrentUser());
+    }
+
     @Operation(
             summary = "Refresh access token",
             description = "Validates the refresh token and generates a new access and refresh token."
@@ -77,7 +84,7 @@ public class LoginController {
     )
     @PostMapping(value = "/logout", version = "v1")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<String> logout(@Valid HttpServletRequest request, @Valid HttpServletResponse response) {
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         logoutService.readRefreshTokenFromRequest(request)
                 .ifPresent(logoutService::revokedRefreshToken);
         logoutService.readAccessTokenFromRequest(request)

@@ -1,5 +1,6 @@
 package com.pranit.docmind.exception;
 
+import com.openai.errors.InternalServerException;
 import com.pranit.docmind.wrapper.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -160,6 +161,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.builder()
                         .status(HttpStatus.BAD_REQUEST.value())
+                        .message(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .timestamp(Instant.now())
+                        .build());
+    }
+
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity<ErrorResponse> handleInternalServerException(
+            InternalServerException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(ErrorResponse.builder()
+                        .status(HttpStatus.SERVICE_UNAVAILABLE.value())
                         .message(ex.getMessage())
                         .path(request.getRequestURI())
                         .timestamp(Instant.now())

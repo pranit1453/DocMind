@@ -13,6 +13,8 @@ import java.util.UUID;
 public record UserDetail(
         UUID userId,
         String username,
+        String fullName,
+        String email,
         String password,
         Collection<? extends GrantedAuthority> authorities,
         boolean deleted,

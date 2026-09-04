@@ -4,6 +4,7 @@ import com.pranit.docmind.ai.advisor.RetrievalAugmentedGenerationAdvisor;
 import com.pranit.docmind.ai.dto.QueryResponse;
 import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.ai.stratergy.ChatModelStrategy;
+import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.entities.constant.Provider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public final class NvidiaModelService implements ChatModelStrategy {
+public class NvidiaModelService implements ChatModelStrategy {
 
     private final ChatClient chatClient;
     private final RetrievalAugmentedGenerationAdvisor advisor;
@@ -28,6 +29,7 @@ public final class NvidiaModelService implements ChatModelStrategy {
     private Resource userPrompt;
 
     @Override
+    @LogExecution
     public QueryResponse getResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
         var response = this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))

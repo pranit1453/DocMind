@@ -16,6 +16,12 @@ public final class SecurityContext {
     }
 
     public static UUID getCurrentUserId() {
+        final UUID userId = getUserDetail().userId();
+        if (userId == null) throw new UnauthorizedException("Authenticated user ID not found");
+        return userId;
+    }
+
+    public static UserDetail getUserDetail() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null ||
                 !authentication.isAuthenticated() ||
@@ -28,8 +34,6 @@ public final class SecurityContext {
             log.warn("Invalid authentication principal: {}", principal);
             throw new UnauthorizedException("Invalid authentication principal");
         }
-        final UUID userId = userDetail.userId();
-        if (userId == null) throw new UnauthorizedException("Authenticated user ID not found");
-        return userId;
+        return userDetail;
     }
 }

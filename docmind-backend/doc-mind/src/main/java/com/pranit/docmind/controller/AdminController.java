@@ -48,7 +48,7 @@ public class AdminController {
             summary = "Get all users",
             description = "Returns a paginated list of users with their assigned roles."
     )
-    @GetMapping("/all/users")
+    @GetMapping(value = "/all/users", version = "v1")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageResponse<UserResponse>> fetchAllUsers(
             @RequestParam(defaultValue = "0") @Min(0) int page,
@@ -65,7 +65,7 @@ public class AdminController {
             summary = "Control user account",
             description = "Enables, disables, or updates the account status of a user."
     )
-    @PostMapping("/user/{userId}/control")
+    @PostMapping(value = "/user/{userId}/control", version = "v1")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> userAccountControl(@NotNull @PathVariable UUID userId, @Valid @RequestBody UserAccountControlRequest request) {
         final ApiResponse<Void> response = adminService.controlUserAccount(userId, request);

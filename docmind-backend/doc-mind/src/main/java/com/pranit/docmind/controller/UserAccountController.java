@@ -26,7 +26,7 @@ public class UserAccountController {
             description = "Deactivates the authenticated user's account and schedules permanent deletion after 15 days."
     )
     @PostMapping(value = "/deactivate", version = "v1")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Void> deactivateUserAccount() {
         accountDeletionService.deleteUserAccount();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
