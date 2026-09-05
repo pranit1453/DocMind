@@ -31,6 +31,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { AnimatedVectorBackground } from "@/components/home/AnimatedVectorBackground";
+
 interface AuthPageProps {
   onGoHome?: () => void;
   onSuccess?: () => void;
@@ -259,6 +261,7 @@ export function AuthPage({ onGoHome, onSuccess }: AuthPageProps) {
 
   return (
     <div className="relative flex min-h-screen w-screen items-center justify-center bg-background px-4 py-12 select-none overflow-hidden font-sans">
+      <AnimatedVectorBackground />
       {/* Background Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
 

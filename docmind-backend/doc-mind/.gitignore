@@ -1,32 +1,30 @@
-# Gradle
+# Build / generated files
 .gradle/
 build/
-
-# Java
 *.class
+
+# Logs
 *.log
 
-# Secret / key
-*.key
+# Environment / secrets
+.env
 *.pem
+*.key
 *.jks
 *.p12
 *.keystore
+
+# Private key / secret directories
 key/
 secret/
 
-# IntelliJ IDEA
+# IDE
 .idea/
 *.iml
 out/
-
-# Eclipse / STS
 .classpath
 .project
 .settings/
-.factorypath
-
-# VS Code
 .vscode/
 
 # OS

@@ -1,12 +1,12 @@
 services:
+  # PostgreSQL
   postgres:
     image: postgres:18
-    container_name: doc-mind-db
+    container_name: docmind-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: docmind
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docmind@
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5434:5432"
     networks:
@@ -17,16 +17,16 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U postgres -d docmind"
+          "pg_isready -U ${DB_USERNAME:-postgres} -d docmind"
         ]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 10s
-
+  # Qdrant Vector Database
   qdrant:
     image: qdrant/qdrant:latest
-    container_name: doc-mind-vector
+    container_name: docmind-vector
     restart: unless-stopped
     environment:
       VECTORSTORE_QDRANT_HOST: qdrant
@@ -53,11 +53,17 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
-
+  # Redis
   redis:
     image: redis:8
-    container_name: doc-mind-redis
+    container_name: docmind-redis
     restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - ${REDIS_PASSWORD}
     ports:
       - "6379:6379"
     networks:
@@ -69,12 +75,81 @@ services:
         [
           "CMD",
           "redis-cli",
+          "-a",
+          "${REDIS_PASSWORD}",
           "ping"
         ]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 5s
+  # DocMind Spring Boot Application
+  docmind:
+    image: docmind:latest
+    container_name: docmind-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: cont
+      # PostgreSQL
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-docmind}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD}
+      # Qdrant
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: 6334
+      QDRANT_API_KEY: ${QDRANT_API_KEY}
+      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME:-docmind}
+      QDRANT_CONTENT_FIELD_NAME: ${QDRANT_CONTENT_FIELD_NAME:-doc_content}
+      QDRANT_USE_TLS: "false"
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      # Mail
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      # AI
+      CHAT_KEY: ${CHAT_KEY}
+      CHAT_BASE_URL: ${CHAT_BASE_URL}
+      CHAT_MODEL: ${CHAT_MODEL}
+
+      EMBEDDING_KEY: ${EMBEDDING_KEY}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL}
+      # JWT / Security
+      ACCESS_TOKEN_EXPIRATION: ${ACCESS_TOKEN_EXPIRATION:-900}
+      REFRESH_TOKEN_EXPIRATION: ${REFRESH_TOKEN_EXPIRATION:-86400}
+      TOKEN_ISSUER: ${TOKEN_ISSUER:-docmind}
+
+      COOKIE_HTTP_ONLY: ${COOKIE_HTTP_ONLY:-true}
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      COOKIE_SAME_SITE: ${COOKIE_SAME_SITE:-lax}
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN}
+      # Bootstrap Admin
+      DEFAULT_ADMIN_USERNAME: ${DEFAULT_ADMIN_USERNAME:-admin}
+      DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD}
+      # RSA Keys
+      PRIVATE_KEY_PATH: /app/key/private_key.pem
+      PUBLIC_KEY_PATH: /app/key/public_key.pem
+      # CORS
+      CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN}
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./keys:/app/key:ro
+
+    networks:
+      - docmind
 
 networks:
   docmind:
@@ -83,5 +158,8 @@ networks:
 
 volumes:
   postgres_data:
+    name: docmind_postgres_data
   qdrant_data:
+    name: docmind_qdrant_data
   redis_data:
+    name: docmind_redis_data
