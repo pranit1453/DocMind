@@ -137,10 +137,18 @@ function getDocIcon(type: string) {
     case "md":
     case "markdown":
     case "json":
+    case "xml":
+    case "html":
+    case "htm":
       return <FileCode2 size={16} />;
     case "txt":
     case "pdf":
+    case "doc":
     case "docx":
+    case "xls":
+    case "xlsx":
+    case "ppt":
+    case "pptx":
     case "csv":
       return <FileText size={16} />;
     default:

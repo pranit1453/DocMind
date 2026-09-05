@@ -25,7 +25,7 @@ export function UploadZone({
         type="file"
         multiple
         disabled={isUploading}
-        accept=".pdf,.doc,.docx,.txt,.md,.csv,.json"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.html,.htm,.xml,.txt,.md,.csv,.json"
         className="hidden"
         onChange={(e) => {
           onUpload(e.target.files);
@@ -87,7 +87,7 @@ export function UploadZone({
           </p>
 
           <p className="mt-1 text-[9px] font-medium text-muted-foreground/70 tracking-wider">
-            {isUploading ? "Vector Store Indexing Active" : "PDF, DOCX, TXT, MD, CSV, JSON (Max 25MB)"}
+            {isUploading ? "Vector Store Indexing Active" : "PDF, DOCX, XLSX, PPTX, HTML, XML, TXT, MD, CSV, JSON (Max 25MB)"}
           </p>
         </CardContent>
       </Card>

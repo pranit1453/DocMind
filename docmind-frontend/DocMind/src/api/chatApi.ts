@@ -39,54 +39,68 @@ export async function queryAssistantApi(
 
   if (!response.ok) {
     const errorData = await safeJsonResponse(response, {});
-    throw new Error(errorData.message || `Chat query failed (${response.status})`);
+    throw new Error(errorData.message || errorData.error || errorData.detail || `Chat query failed (${response.status})`);
   }
 
   return await safeJsonResponse(response, {});
 }
 
+export interface SseMessage {
+  event: string;
+  data: string;
+  id?: string;
+}
+
 /**
- * Helper function to parse Server-Sent Events (SSE) data lines.
- * Strips 'data:' prefixes, parses JSON payloads if present, and ignores [DONE] signals.
+ * Parses raw SSE text stream into structured Server-Sent Events.
+ * Handles 'event: message' and 'event: error' events from WebFlux Flux<ServerSentEvent<String>>.
  */
-function parseSseLine(line: string): string | null {
-  const trimmed = line.trim();
-  if (!trimmed) return null;
+export function parseSseChunk(buffer: string): { events: SseMessage[]; remaining: string } {
+  const normalized = buffer.replace(/\r\n/g, "\n");
+  const blocks = normalized.split("\n\n");
+  const remaining = blocks.pop() ?? "";
+  const events: SseMessage[] = [];
 
-  if (line.startsWith("data:")) {
-    const afterData = line.substring(5);
-    if (afterData.trim() === "[DONE]") {
-      return null;
-    }
+  for (const block of blocks) {
+    if (!block.trim()) continue;
 
-    const payload = afterData.trim();
-    if (payload.startsWith("{") && payload.endsWith("}")) {
-      try {
-        const parsed = JSON.parse(payload);
-        const jsonText =
-          parsed.content ??
-          parsed.text ??
-          parsed.delta ??
-          parsed.answer ??
-          parsed.message;
-        if (jsonText !== undefined && jsonText !== null) {
-          return String(jsonText);
-        }
-      } catch {
-        // Fallback to afterData string
+    const lines = block.split("\n");
+    let eventName = "message";
+    const dataParts: string[] = [];
+    let id: string | undefined;
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+
+      if (trimmed.startsWith("event:")) {
+        eventName = trimmed.substring(6).trim();
+      } else if (trimmed.startsWith("data:")) {
+        const dataStr = trimmed.substring(5);
+        const cleanData = dataStr.startsWith(" ") ? dataStr.substring(1) : dataStr;
+        dataParts.push(cleanData);
+      } else if (trimmed.startsWith("id:")) {
+        id = trimmed.substring(3).trim();
       }
     }
-    return afterData;
+
+    if (dataParts.length > 0) {
+      events.push({
+        event: eventName,
+        data: dataParts.join("\n"),
+        id,
+      });
+    }
   }
 
-  if (trimmed === "[DONE]") return null;
-  return line;
+  return { events, remaining };
 }
 
 /**
  * PROTECTED CHAT STREAMING ENDPOINT: POST /api/chat/documents/{documentId}/query/stream (X-API-Version: v1)
  * Headers: X-API-Version: v1, X-Conversation-ID: <UUID>
- * Stream assistant response token by token via SSE / ReadableStream.
+ * Streams WebFlux Flux<ServerSentEvent<String>> tokens token-by-token.
+ * Automatically catches 'event: error' events emitted by WebFlux onErrorResume and throws backend error messages.
  */
 export async function streamQueryAssistantApi(
   documentId?: string,
@@ -124,37 +138,73 @@ export async function streamQueryAssistantApi(
     );
 
     if (!response.ok || !response.body) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Streaming failed (${response.status})`);
+      const errorData = await safeJsonResponse(response, {});
+      const errorMsg =
+        errorData.message ||
+        errorData.error ||
+        errorData.detail ||
+        `Streaming failed (${response.status})`;
+      throw new Error(errorMsg);
     }
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = "";
 
+    const processEvents = (events: SseMessage[]) => {
+      for (const sse of events) {
+        const rawData = sse.data.trim();
+        if (rawData === "[DONE]") continue;
+
+        // If WebFlux onErrorResume emits event: error, extract and throw backend error message
+        if (sse.event === "error") {
+          let errorContent = rawData;
+          if (rawData.startsWith("{") && rawData.endsWith("}")) {
+            try {
+              const parsed = JSON.parse(rawData);
+              errorContent = parsed.message || parsed.error || parsed.detail || rawData;
+            } catch {}
+          }
+          throw new Error(errorContent || "AI Assistant service error occurred.");
+        }
+
+        // Process standard message token payload
+        let tokenChunk = rawData;
+        if (rawData.startsWith("{") && rawData.endsWith("}")) {
+          try {
+            const parsed = JSON.parse(rawData);
+            const jsonText =
+              parsed.content ??
+              parsed.text ??
+              parsed.delta ??
+              parsed.answer ??
+              parsed.message;
+            if (jsonText !== undefined && jsonText !== null) {
+              tokenChunk = String(jsonText);
+            }
+          } catch {}
+        }
+
+        if (tokenChunk && onChunk) {
+          onChunk(tokenChunk);
+        }
+      }
+    };
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) {
-        if (buffer.length > 0) {
-          const token = parseSseLine(buffer);
-          if (token !== null && onChunk) {
-            onChunk(token);
-          }
+        if (buffer.trim()) {
+          const { events } = parseSseChunk(buffer + "\n\n");
+          processEvents(events);
         }
         break;
       }
 
       buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split("\n");
-      // Retain incomplete trailing line in buffer
-      buffer = lines.pop() ?? "";
-
-      for (const line of lines) {
-        const token = parseSseLine(line);
-        if (token !== null && onChunk) {
-          onChunk(token);
-        }
-      }
+      const { events, remaining } = parseSseChunk(buffer);
+      buffer = remaining;
+      processEvents(events);
     }
   } catch (err: any) {
     if (err.name === "AbortError") return;

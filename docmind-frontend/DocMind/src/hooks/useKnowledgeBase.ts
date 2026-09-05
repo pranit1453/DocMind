@@ -259,6 +259,7 @@ export function useKnowledgeBase(enabled: boolean = true) {
       id: assistantMsgId,
       role: "assistant",
       content: "",
+      status: "streaming",
       timestamp: getCurrentTime(),
       sources: undefined,
     };
@@ -296,19 +297,21 @@ export function useKnowledgeBase(enabled: boolean = true) {
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === assistantMsgId
-              ? { ...msg, executionTime: msg.executionTime || calcTime }
+              ? { ...msg, status: "complete", executionTime: msg.executionTime || calcTime }
               : msg
           )
         );
-      } catch {
+      } catch (err: any) {
         const endTime = performance.now();
         const calcTime = `${((endTime - startTime) / 1000).toFixed(2)}s`;
+        const backendErrorMsg = err?.message || "AI service is temporarily unavailable. Please try again.";
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === assistantMsgId
               ? {
                   ...msg,
-                  content: msg.content || "Service unavailable. Please try again later.",
+                  status: "error",
+                  error: backendErrorMsg,
                   executionTime: calcTime,
                 }
               : msg
@@ -342,22 +345,25 @@ export function useKnowledgeBase(enabled: boolean = true) {
             msg.id === assistantMsgId
               ? {
                   ...msg,
-                  content: responseText || "Service unavailable. Please try again later.",
+                  content: responseText,
+                  status: "complete",
                   executionTime: execTime,
                   sources: res?.sources && res.sources.length > 0 ? res.sources : msg.sources,
                 }
               : msg
           )
         );
-      } catch {
+      } catch (err: any) {
         const endTime = performance.now();
         const calcTime = `${((endTime - startTime) / 1000).toFixed(2)}s`;
+        const backendErrorMsg = err?.message || "AI service is temporarily unavailable. Please try again.";
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === assistantMsgId
               ? {
                   ...msg,
-                  content: "Service unavailable. Please try again later.",
+                  status: "error",
+                  error: backendErrorMsg,
                   executionTime: calcTime,
                 }
               : msg
