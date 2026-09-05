@@ -9,7 +9,6 @@ import {
   Database,
   FileText,
   ShieldCheck,
-  Cpu,
   Download,
   Lock,
   Sun,
@@ -19,7 +18,10 @@ import {
   CheckCircle2,
   Layers,
   FileCode2,
+  Workflow,
 } from "lucide-react";
+
+import { AnimatedVectorBackground } from "./AnimatedVectorBackground";
 
 interface DocMindLandingHomeProps {
   onLaunchWorkspace: () => void;
@@ -34,7 +36,8 @@ export function DocMindLandingHome({
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <div className="min-h-screen w-screen bg-background text-foreground transition-colors overflow-x-hidden select-none font-sans">
+    <div className="relative min-h-screen w-screen bg-background text-foreground transition-colors overflow-x-hidden select-none font-sans">
+      <AnimatedVectorBackground />
       {/* Top Navbar */}
       <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-border/60 bg-background/80 backdrop-blur-xl px-6 md:px-12">
         <div className="flex items-center gap-3">
@@ -239,10 +242,10 @@ export function DocMindLandingHome({
               tag: "JWT Cookies",
             },
             {
-              title: "Custom LLM Foundations",
-              desc: "Switch between Claude 3.5 Sonnet, GPT-4o, and Gemini 1.5 Pro instantly.",
-              icon: <Cpu className="w-8 h-8" />,
-              tag: "Multi-Model",
+              title: "Modular RAG Pipeline",
+              desc: "Complete 4-stage engine: Pre-Retrieval indexing, similarity Retrieval, Post-Retrieval reranking, and grounded Generation.",
+              icon: <Workflow className="w-8 h-8" />,
+              tag: "Pre/Post Retrieval",
             },
             {
               title: "Markdown Export & Sync",
