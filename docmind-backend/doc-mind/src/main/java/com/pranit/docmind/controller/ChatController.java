@@ -2,6 +2,7 @@ package com.pranit.docmind.controller;
 
 import com.pranit.docmind.ai.dto.QueryRequest;
 import com.pranit.docmind.ai.dto.QueryResponse;
+import com.pranit.docmind.ai.exception.AiServiceUnavailableException;
 import com.pranit.docmind.ai.service.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,7 +53,15 @@ public class ChatController {
             @Valid @RequestBody QueryRequest request, @PathVariable UUID documentId,
             @RequestHeader("X-Conversation-ID") UUID conversationId) {
         return chatService.getStreamResponseFromAssistant(request.provider(), request.query(), conversationId, documentId, request.options())
-                .map(chunk -> ServerSentEvent.<String>builder().data(chunk).build());
+                .map(chunk -> ServerSentEvent.<String>builder()
+                        .event("message")
+                        .data(chunk)
+                        .build())
+                .onErrorResume(AiServiceUnavailableException.class, ex ->
+                        Flux.just(ServerSentEvent.<String>builder()
+                                .event("error")
+                                .data(ex.getMessage())
+                                .build()));
     }
 
 }
