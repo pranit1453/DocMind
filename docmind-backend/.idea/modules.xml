@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/doc-mind.main.iml" filepath="$PROJECT_DIR$/.idea/modules/doc-mind.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/doc-mind.test.iml" filepath="$PROJECT_DIR$/.idea/modules/doc-mind.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/docmind-backend.iml" filepath="$PROJECT_DIR$/.idea/docmind-backend.iml" />
+    </modules>
+  </component>
+</project>
