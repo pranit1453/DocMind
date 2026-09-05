@@ -23,8 +23,7 @@ public class RetrievalAugmentedGenerationAdvisorAdvisorImpl implements Retrieval
     @Override
     public Advisor retrievalAugmentedGenerationWorkflow(final UUID documentId, final RetrievalOptions options) {
         return RetrievalAugmentationAdvisor.builder()
-                .queryTransformers(transformer.rewriteTransformer(), transformer.translationTransformer())
-                .queryExpander(transformer.queryExpander())
+                .queryTransformers(transformer.rewriteTransformer())
                 .documentRetriever(retriever.vectorStoreRetriever(documentId, options))
                 .documentJoiner(retriever.joinStoreRetriever())
                 .queryAugmenter(generation.augmentQuery())

@@ -2942,3 +2942,924 @@ Caused by: okhttp3.internal.http2.StreamResetException: stream was reset: CANCEL
 2026-09-05T22:03:08.511+05:30  INFO 30964 --- [doc-mind] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-09-05T22:03:08.513+05:30  INFO 30964 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown initiated...
 2026-09-05T22:03:08.515+05:30  INFO 30964 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown completed.
+2026-09-05T22:05:11.958+05:30  INFO 23036 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : Starting DocMindApplication using Java 25.0.3 with PID 23036 (P:\Backend Development\DocMind\DocMind\docmind-backend\doc-mind\build\classes\java\main started by Pranit in P:\Backend Development\DocMind\DocMind\docmind-backend)
+2026-09-05T22:05:11.960+05:30  INFO 23036 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : The following 1 profile is active: "dev"
+2026-09-05T22:05:12.860+05:30  INFO 23036 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-05T22:05:12.861+05:30  INFO 23036 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-05T22:05:12.986+05:30  INFO 23036 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 7 JPA repository interfaces.
+2026-09-05T22:05:13.016+05:30  INFO 23036 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-05T22:05:13.016+05:30  INFO 23036 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-05T22:05:13.039+05:30  INFO 23036 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authentication.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T22:05:13.039+05:30  INFO 23036 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authentication.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T22:05:13.040+05:30  INFO 23036 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authorization.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T22:05:13.040+05:30  INFO 23036 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authorization.repository.UserRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T22:05:13.040+05:30  INFO 23036 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.document.repository.DocumentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T22:05:13.040+05:30  INFO 23036 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.document.repository.SeedHistoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T22:05:13.040+05:30  INFO 23036 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.otp.repository.OtpRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T22:05:13.041+05:30  INFO 23036 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2026-09-05T22:05:13.629+05:30  INFO 23036 --- [doc-mind] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-09-05T22:05:13.642+05:30  INFO 23036 --- [doc-mind] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-05T22:05:13.643+05:30  INFO 23036 --- [doc-mind] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-09-05T22:05:13.722+05:30  INFO 23036 --- [doc-mind] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1737 ms
+2026-09-05T22:05:14.250+05:30  INFO 23036 --- [doc-mind] [main] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Starting...
+2026-09-05T22:05:14.359+05:30  INFO 23036 --- [doc-mind] [main] com.zaxxer.hikari.pool.HikariPool        : DocMindHikariPool - Added connection org.postgresql.jdbc.PgConnection@7e0941cc
+2026-09-05T22:05:14.360+05:30  INFO 23036 --- [doc-mind] [main] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Start completed.
+2026-09-05T22:05:14.374+05:30  INFO 23036 --- [doc-mind] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/docmind (PostgreSQL 18.4)
+2026-09-05T22:05:14.413+05:30  INFO 23036 --- [doc-mind] [main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.014s)
+2026-09-05T22:05:14.453+05:30  INFO 23036 --- [doc-mind] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-09-05T22:05:14.455+05:30  INFO 23036 --- [doc-mind] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-09-05T22:05:14.553+05:30  INFO 23036 --- [doc-mind] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-09-05T22:05:14.592+05:30  INFO 23036 --- [doc-mind] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-09-05T22:05:14.896+05:30  INFO 23036 --- [doc-mind] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-05T22:05:14.938+05:30  WARN 23036 --- [doc-mind] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-05T22:05:14.952+05:30  INFO 23036 --- [doc-mind] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/docmind]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: docmind/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-05T22:05:15.750+05:30  INFO 23036 --- [doc-mind] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-05T22:05:15.795+05:30  INFO 23036 --- [doc-mind] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-05T22:05:15.851+05:30  INFO 23036 --- [doc-mind] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-05T22:05:17.620+05:30  INFO 23036 --- [doc-mind] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailServiceImpl
+2026-09-05T22:05:17.889+05:30  WARN 23036 --- [doc-mind] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-05T22:05:18.817+05:30  INFO 23036 --- [doc-mind] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-09-05T22:05:18.920+05:30  INFO 23036 --- [doc-mind] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-09-05T22:05:18.936+05:30  INFO 23036 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : Started DocMindApplication in 7.289 seconds (process running for 7.637)
+2026-09-05T22:05:19.060+05:30  INFO 23036 --- [doc-mind] [main] c.p.d.authentication.seed.AdminSeeder    : Admin user already exists: admin
+2026-09-05T22:05:19.081+05:30  INFO 23036 --- [doc-mind] [scheduling-1] c.p.d.document.seed.DocumentSeeder       : Already seeded: java-backend.txt
+2026-09-05T22:05:19.081+05:30  INFO 23036 --- [doc-mind] [scheduling-1] c.p.d.document.seed.DocumentSeeder       : Document seeding complete.
+2026-09-05T22:09:43.995+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-05T22:09:43.999+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-09-05T22:09:44.007+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-09-05T22:09:44.152+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:09:44.152+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:09:45.865+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:09:45.865+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:09:46.076+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:09:46.078+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:09:46.195+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:09:46.197+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:09:46.251+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:09:46.420+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:09:46.865+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:09:46.879+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:09:46.890+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:09:46.901+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:09:46.915+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:09:49.780+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:09:49.782+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:09:49.795+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:09:49.797+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:09:49.808+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:09:49.811+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:09:49.822+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:09:49.823+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:09:49.825+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:09:49.836+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:13:54.510+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:13:54.513+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:13:54.522+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:13:54.522+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:13:54.529+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:13:54.529+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:13:54.539+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:13:54.540+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:13:54.543+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:13:54.550+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-10] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:13:54.550+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:13:54.570+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:13:54.578+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:13:54.580+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:13:54.588+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:13:54.590+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:13:54.590+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:13:54.602+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:13:54.606+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:13:54.606+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:13:57.276+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:13:57.291+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:13:57.297+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:13:57.310+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: readRefreshTokenFromRequest
+2026-09-05T22:13:57.313+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: readRefreshTokenFromRequest
+2026-09-05T22:13:57.315+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: revokedRefreshToken
+2026-09-05T22:13:57.427+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.a.service.impl.LogoutServiceImpl   : Logout successful userId: 6a5417f9-224a-4574-bd57-63826598ef00 | sessionId: dJEUXpVdr2dnAQtK0I_a_vNo0QJWINWsXNpr-6VuUP6Atb8YKHu_tqPggrja_t6-3UR5zMCGjsX3gxDjYZkOZQ 
+2026-09-05T22:13:57.428+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: revokedRefreshToken
+2026-09-05T22:13:57.434+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: readAccessTokenFromRequest
+2026-09-05T22:13:57.435+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: readAccessTokenFromRequest
+2026-09-05T22:13:57.436+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: revokedAccessToken
+2026-09-05T22:13:57.453+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.a.service.impl.LogoutServiceImpl   : Access session revoked userId: 6a5417f9-224a-4574-bd57-63826598ef00 | sessionId: dJEUXpVdr2dnAQtK0I_a_vNo0QJWINWsXNpr-6VuUP6Atb8YKHu_tqPggrja_t6-3UR5zMCGjsX3gxDjYZkOZQ
+2026-09-05T22:13:57.453+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: revokedAccessToken
+2026-09-05T22:13:57.456+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: clearResponse
+2026-09-05T22:13:57.502+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: clearResponse
+2026-09-05T22:13:57.502+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.controller.LoginController   : User logged out successfully
+2026-09-05T22:14:06.522+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: authenticateUser
+2026-09-05T22:14:06.856+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:14:06.863+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:14:07.681+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.a.service.impl.LoginServiceImpl    : User logged in successfully userId: 6a5417f9-224a-4574-bd57-63826598ef00
+2026-09-05T22:14:07.688+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: authenticateUser
+2026-09-05T22:14:07.771+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:14:07.781+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:14:07.789+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:14:07.797+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:14:07.797+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:14:07.799+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:14:07.806+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:14:07.807+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:14:07.813+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:14:07.817+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:14:07.821+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:14:07.826+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:14:07.828+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:14:07.828+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:14:07.833+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:14:12.578+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:14:12.581+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:14:12.593+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:14:12.599+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:14:12.601+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:14:12.606+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:14:12.610+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: findAllRoles
+2026-09-05T22:14:12.624+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: findAllRoles
+2026-09-05T22:14:12.631+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchUsers
+2026-09-05T22:14:12.766+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchUsers
+2026-09-05T22:15:03.883+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:15:03.897+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:15:03.905+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:15:03.972+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T22:15:04.006+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T22:15:04.062+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T22:15:04.068+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T22:15:04.278+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T22:15:04.278+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:215
+2026-09-05T22:24:05.302+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:24:05.304+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:24:05.313+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:24:05.314+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:24:05.322+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:24:05.323+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:24:05.327+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:24:05.327+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:24:05.330+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:24:05.344+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:24:05.349+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:24:05.352+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:24:05.358+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:24:05.362+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T22:24:05.362+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T22:24:05.362+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:24:05.372+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:24:05.378+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:24:05.385+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T22:24:05.392+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T22:24:18.195+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T22:24:18.205+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T22:24:18.212+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T22:24:18.224+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T22:24:18.224+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T22:24:18.224+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T22:24:18.224+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T22:24:18.231+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T22:24:18.231+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:003
+2026-09-05T22:38:05.653+05:30  INFO 23036 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:02:44.552+05:30  INFO 23036 --- [doc-mind] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-05T23:02:44.557+05:30  INFO 23036 --- [doc-mind] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-09-05T23:02:44.577+05:30  INFO 23036 --- [doc-mind] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-05T23:02:44.581+05:30  INFO 23036 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown initiated...
+2026-09-05T23:02:44.582+05:30  INFO 23036 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown completed.
+2026-09-05T23:02:47.844+05:30  INFO 33636 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : Starting DocMindApplication using Java 25.0.3 with PID 33636 (P:\Backend Development\DocMind\DocMind\docmind-backend\doc-mind\build\classes\java\main started by Pranit in P:\Backend Development\DocMind\DocMind\docmind-backend)
+2026-09-05T23:02:47.845+05:30  INFO 33636 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : The following 1 profile is active: "dev"
+2026-09-05T23:02:48.723+05:30  INFO 33636 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-05T23:02:48.724+05:30  INFO 33636 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-05T23:02:48.842+05:30  INFO 33636 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 112 ms. Found 7 JPA repository interfaces.
+2026-09-05T23:02:48.871+05:30  INFO 33636 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-05T23:02:48.872+05:30  INFO 33636 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-05T23:02:48.893+05:30  INFO 33636 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authentication.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:02:48.893+05:30  INFO 33636 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authentication.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:02:48.894+05:30  INFO 33636 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authorization.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:02:48.894+05:30  INFO 33636 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authorization.repository.UserRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:02:48.894+05:30  INFO 33636 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.document.repository.DocumentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:02:48.894+05:30  INFO 33636 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.document.repository.SeedHistoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:02:48.895+05:30  INFO 33636 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.otp.repository.OtpRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:02:48.895+05:30  INFO 33636 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2026-09-05T23:02:49.479+05:30  INFO 33636 --- [doc-mind] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-09-05T23:02:49.490+05:30  INFO 33636 --- [doc-mind] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-05T23:02:49.490+05:30  INFO 33636 --- [doc-mind] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-09-05T23:02:49.555+05:30  INFO 33636 --- [doc-mind] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1684 ms
+2026-09-05T23:02:50.039+05:30  INFO 33636 --- [doc-mind] [main] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Starting...
+2026-09-05T23:02:50.150+05:30  INFO 33636 --- [doc-mind] [main] com.zaxxer.hikari.pool.HikariPool        : DocMindHikariPool - Added connection org.postgresql.jdbc.PgConnection@7e0941cc
+2026-09-05T23:02:50.150+05:30  INFO 33636 --- [doc-mind] [main] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Start completed.
+2026-09-05T23:02:50.163+05:30  INFO 33636 --- [doc-mind] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/docmind (PostgreSQL 18.4)
+2026-09-05T23:02:50.202+05:30  INFO 33636 --- [doc-mind] [main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.014s)
+2026-09-05T23:02:50.244+05:30  INFO 33636 --- [doc-mind] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-09-05T23:02:50.247+05:30  INFO 33636 --- [doc-mind] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-09-05T23:02:50.346+05:30  INFO 33636 --- [doc-mind] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-09-05T23:02:50.382+05:30  INFO 33636 --- [doc-mind] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-09-05T23:02:50.678+05:30  INFO 33636 --- [doc-mind] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-05T23:02:50.727+05:30  WARN 33636 --- [doc-mind] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-05T23:02:50.740+05:30  INFO 33636 --- [doc-mind] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/docmind]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: docmind/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-05T23:02:51.490+05:30  INFO 33636 --- [doc-mind] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-05T23:02:51.529+05:30  INFO 33636 --- [doc-mind] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-05T23:02:51.574+05:30  INFO 33636 --- [doc-mind] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-05T23:02:53.283+05:30  INFO 33636 --- [doc-mind] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailServiceImpl
+2026-09-05T23:02:53.542+05:30  WARN 33636 --- [doc-mind] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-05T23:02:54.340+05:30  INFO 33636 --- [doc-mind] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-09-05T23:02:54.424+05:30  INFO 33636 --- [doc-mind] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-09-05T23:02:54.434+05:30  INFO 33636 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : Started DocMindApplication in 6.892 seconds (process running for 7.24)
+2026-09-05T23:02:54.545+05:30  INFO 33636 --- [doc-mind] [main] c.p.d.authentication.seed.AdminSeeder    : Admin user already exists: admin
+2026-09-05T23:02:54.569+05:30  INFO 33636 --- [doc-mind] [scheduling-1] c.p.d.document.seed.DocumentSeeder       : Already seeded: java-backend.txt
+2026-09-05T23:02:54.569+05:30  INFO 33636 --- [doc-mind] [scheduling-1] c.p.d.document.seed.DocumentSeeder       : Document seeding complete.
+2026-09-05T23:03:51.472+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-05T23:03:51.473+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-09-05T23:03:51.479+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2026-09-05T23:03:51.574+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:51.623+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:51.624+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:51.655+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:51.655+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-4] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:51.660+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:55.075+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:55.076+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:55.098+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-10] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:55.101+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:55.102+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:55.157+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.480+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.481+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.498+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-4] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.498+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.499+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.939+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-10] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.942+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.957+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.969+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:56.969+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:57.010+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:03:59.805+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:04:06.662+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: authenticateUser
+2026-09-05T23:04:07.010+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:04:07.289+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:04:09.947+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-4] c.p.d.a.service.impl.LoginServiceImpl    : User logged in successfully userId: 6a5417f9-224a-4574-bd57-63826598ef00
+2026-09-05T23:04:09.953+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: authenticateUser
+2026-09-05T23:04:10.545+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:04:10.562+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:04:10.720+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:04:10.721+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:04:10.729+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:04:10.733+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:04:10.738+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:04:10.738+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:04:10.885+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-10] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:04:10.897+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:04:10.907+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:04:10.907+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:04:10.907+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:04:10.907+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:04:11.057+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:04:16.191+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:04:16.201+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:04:16.215+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:04:16.272+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T23:04:16.304+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T23:04:16.357+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:04:16.365+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:04:16.578+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:04:16.593+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:229
+2026-09-05T23:09:52.772+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:09:52.787+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:09:52.799+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:09:52.813+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getResponseFromAssistant
+2026-09-05T23:09:52.820+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getResponse(..)
+2026-09-05T23:09:52.820+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getResponse
+2026-09-05T23:10:49.946+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getResponse
+2026-09-05T23:10:49.946+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getResponse(..) | Time: 00:57:133
+2026-09-05T23:10:49.946+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getResponseFromAssistant
+2026-09-05T23:11:05.030+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:11:05.040+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:11:05.048+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:11:05.053+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getResponseFromAssistant
+2026-09-05T23:11:05.053+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getResponse(..)
+2026-09-05T23:11:05.053+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getResponse
+2026-09-05T23:11:35.541+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getResponse
+2026-09-05T23:11:35.541+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getResponse(..) | Time: 00:30:480
+2026-09-05T23:11:35.541+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getResponseFromAssistant
+2026-09-05T23:11:58.192+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:11:58.201+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:11:58.207+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:11:58.212+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getResponseFromAssistant
+2026-09-05T23:11:58.212+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getResponse(..)
+2026-09-05T23:11:58.218+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getResponse
+2026-09-05T23:12:35.762+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getResponse
+2026-09-05T23:12:35.762+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getResponse(..) | Time: 00:37:549
+2026-09-05T23:12:35.769+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getResponseFromAssistant
+2026-09-05T23:12:54.028+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:12:54.037+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:12:54.041+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:12:54.053+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T23:12:54.055+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T23:12:54.055+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:12:54.055+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:12:54.055+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:12:54.055+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:004
+2026-09-05T23:13:32.676+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:13:32.684+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:13:32.692+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:13:32.698+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T23:13:32.698+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T23:13:32.698+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:13:32.698+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:13:32.705+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:13:32.705+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:005
+2026-09-05T23:14:25.507+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:14:25.517+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:14:25.523+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:14:25.525+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T23:14:25.532+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T23:14:25.532+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:14:25.532+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:14:25.538+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:14:25.538+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:004
+2026-09-05T23:15:33.037+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:15:33.037+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:15:33.043+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:15:33.043+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:15:33.047+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:15:33.047+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:15:33.049+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:15:33.050+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:15:33.051+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:15:33.062+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:15:33.069+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:15:33.069+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:15:33.078+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:15:33.081+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:15:33.083+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:15:33.084+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:15:33.089+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:15:33.093+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:15:33.098+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:15:33.106+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:15:46.554+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:15:46.563+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:15:46.568+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:15:46.574+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T23:15:46.576+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T23:15:46.577+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:15:46.578+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:15:46.581+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:15:46.582+05:30  INFO 33636 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:004
+2026-09-05T23:17:17.160+05:30  INFO 33636 --- [doc-mind] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-05T23:17:17.166+05:30  INFO 33636 --- [doc-mind] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-09-05T23:17:17.189+05:30  INFO 33636 --- [doc-mind] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-05T23:17:17.191+05:30  INFO 33636 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown initiated...
+2026-09-05T23:17:17.192+05:30  INFO 33636 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown completed.
+2026-09-05T23:17:19.945+05:30  INFO 11256 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : Starting DocMindApplication using Java 25.0.3 with PID 11256 (P:\Backend Development\DocMind\DocMind\docmind-backend\doc-mind\build\classes\java\main started by Pranit in P:\Backend Development\DocMind\DocMind\docmind-backend)
+2026-09-05T23:17:19.947+05:30  INFO 11256 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : The following 1 profile is active: "dev"
+2026-09-05T23:17:20.812+05:30  INFO 11256 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-05T23:17:20.813+05:30  INFO 11256 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-05T23:17:20.930+05:30  INFO 11256 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 111 ms. Found 7 JPA repository interfaces.
+2026-09-05T23:17:20.959+05:30  INFO 11256 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-05T23:17:20.959+05:30  INFO 11256 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-05T23:17:20.980+05:30  INFO 11256 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authentication.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:17:20.980+05:30  INFO 11256 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authentication.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:17:20.980+05:30  INFO 11256 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authorization.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:17:20.980+05:30  INFO 11256 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.authorization.repository.UserRoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:17:20.981+05:30  INFO 11256 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.document.repository.DocumentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:17:20.981+05:30  INFO 11256 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.document.repository.SeedHistoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:17:20.981+05:30  INFO 11256 --- [doc-mind] [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.pranit.docmind.otp.repository.OtpRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-05T23:17:20.981+05:30  INFO 11256 --- [doc-mind] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 0 Redis repository interfaces.
+2026-09-05T23:17:21.551+05:30  INFO 11256 --- [doc-mind] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-09-05T23:17:21.559+05:30  INFO 11256 --- [doc-mind] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-05T23:17:21.560+05:30  INFO 11256 --- [doc-mind] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-09-05T23:17:21.624+05:30  INFO 11256 --- [doc-mind] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1651 ms
+2026-09-05T23:17:22.118+05:30  INFO 11256 --- [doc-mind] [main] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Starting...
+2026-09-05T23:17:22.223+05:30  INFO 11256 --- [doc-mind] [main] com.zaxxer.hikari.pool.HikariPool        : DocMindHikariPool - Added connection org.postgresql.jdbc.PgConnection@3da30ce5
+2026-09-05T23:17:22.224+05:30  INFO 11256 --- [doc-mind] [main] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Start completed.
+2026-09-05T23:17:22.237+05:30  INFO 11256 --- [doc-mind] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/docmind (PostgreSQL 18.4)
+2026-09-05T23:17:22.273+05:30  INFO 11256 --- [doc-mind] [main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.014s)
+2026-09-05T23:17:22.317+05:30  INFO 11256 --- [doc-mind] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-09-05T23:17:22.319+05:30  INFO 11256 --- [doc-mind] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-09-05T23:17:22.440+05:30  INFO 11256 --- [doc-mind] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-09-05T23:17:22.477+05:30  INFO 11256 --- [doc-mind] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-09-05T23:17:22.763+05:30  INFO 11256 --- [doc-mind] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-05T23:17:22.803+05:30  WARN 11256 --- [doc-mind] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-05T23:17:22.816+05:30  INFO 11256 --- [doc-mind] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/docmind]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: docmind/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-05T23:17:23.580+05:30  INFO 11256 --- [doc-mind] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-05T23:17:23.619+05:30  INFO 11256 --- [doc-mind] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-05T23:17:23.667+05:30  INFO 11256 --- [doc-mind] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-05T23:17:25.322+05:30  INFO 11256 --- [doc-mind] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailServiceImpl
+2026-09-05T23:17:25.584+05:30  WARN 11256 --- [doc-mind] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-05T23:17:26.375+05:30  INFO 11256 --- [doc-mind] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-09-05T23:17:26.459+05:30  INFO 11256 --- [doc-mind] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-09-05T23:17:26.470+05:30  INFO 11256 --- [doc-mind] [main] com.pranit.docmind.DocMindApplication    : Started DocMindApplication in 6.815 seconds (process running for 7.151)
+2026-09-05T23:17:26.586+05:30  INFO 11256 --- [doc-mind] [main] c.p.d.authentication.seed.AdminSeeder    : Admin user already exists: admin
+2026-09-05T23:17:26.609+05:30  INFO 11256 --- [doc-mind] [scheduling-1] c.p.d.document.seed.DocumentSeeder       : Already seeded: java-backend.txt
+2026-09-05T23:17:26.610+05:30  INFO 11256 --- [doc-mind] [scheduling-1] c.p.d.document.seed.DocumentSeeder       : Document seeding complete.
+2026-09-05T23:17:32.708+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-05T23:17:32.708+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-09-05T23:17:32.716+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2026-09-05T23:17:32.830+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-8] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:32.830+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:35.839+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:35.839+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:36.108+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:36.108+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:36.226+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:17:36.226+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-8] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:17:36.295+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:17:36.461+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:17:36.872+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-4] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:36.879+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:36.887+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:36.892+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:36.894+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:17:36.894+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-4] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:17:36.902+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:36.911+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:36.920+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:17:36.931+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:17:37.861+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:37.862+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:37.869+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:37.869+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:37.876+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:37.878+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:37.884+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:17:37.886+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:17:37.887+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:17:37.903+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:37.907+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:17:37.916+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:37.923+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:37.925+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:37.933+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:37.933+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:17:37.934+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:17:37.945+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:37.955+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:17:37.966+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:17:52.058+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:17:52.068+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:17:52.074+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:17:52.199+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T23:17:52.220+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T23:17:52.278+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:17:52.278+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:17:52.496+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:17:52.496+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-9] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:217
+2026-09-05T23:18:08.567+05:30 ERROR 11256 --- [doc-mind] [openai-stream-handler-thread-0] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-09-05T23:18:08.567+05:30 ERROR 11256 --- [doc-mind] [boundedElastic-1] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-09-05T23:18:08.583+05:30 ERROR 11256 --- [doc-mind] [boundedElastic-1] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+java.lang.IllegalStateException: Stream processing failed
+	at org.springframework.ai.chat.client.advisor.api.BaseAdvisor.lambda$adviseStream$2(BaseAdvisor.java:73) ~[spring-ai-client-chat-2.0.0.jar:2.0.0]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:95) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onError(MonoFlatMapMany.java:256) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxHandle$HandleSubscriber.onError(FluxHandle.java:216) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onError(FluxContextWrite.java:123) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onError(FluxDoFinally.java:119) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onError(FluxPeekFuseable.java:554) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.doError(FluxPublishOn.java:1115) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.checkTerminated(FluxPublishOn.java:1140) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.runAsync(FluxPublishOn.java:999) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.run(FluxPublishOn.java:1083) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:90) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:37) ~[reactor-core-3.8.7.jar:3.8.7]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	... 3 common frames omitted
+
+2026-09-05T23:18:08.588+05:30 ERROR 11256 --- [doc-mind] [boundedElastic-1] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+java.lang.IllegalStateException: Stream processing failed
+	at org.springframework.ai.chat.client.advisor.api.BaseAdvisor.lambda$adviseStream$2(BaseAdvisor.java:73) ~[spring-ai-client-chat-2.0.0.jar:2.0.0]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:95) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onError(MonoFlatMapMany.java:256) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxHandle$HandleSubscriber.onError(FluxHandle.java:216) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onError(FluxContextWrite.java:123) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onError(FluxDoFinally.java:119) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onError(FluxPeekFuseable.java:554) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.doError(FluxPublishOn.java:1115) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.checkTerminated(FluxPublishOn.java:1140) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.runAsync(FluxPublishOn.java:999) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.run(FluxPublishOn.java:1083) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:90) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:37) ~[reactor-core-3.8.7.jar:3.8.7]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	... 3 common frames omitted
+
+2026-09-05T23:18:08.588+05:30 ERROR 11256 --- [doc-mind] [boundedElastic-1] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+java.lang.IllegalStateException: Stream processing failed
+	at org.springframework.ai.chat.client.advisor.api.BaseAdvisor.lambda$adviseStream$2(BaseAdvisor.java:73) ~[spring-ai-client-chat-2.0.0.jar:2.0.0]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:95) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onError(MonoFlatMapMany.java:256) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxHandle$HandleSubscriber.onError(FluxHandle.java:216) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onError(FluxContextWrite.java:123) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onError(FluxDoFinally.java:119) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onError(FluxPeekFuseable.java:554) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.doError(FluxPublishOn.java:1115) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.checkTerminated(FluxPublishOn.java:1140) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.runAsync(FluxPublishOn.java:999) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.run(FluxPublishOn.java:1083) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:90) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:37) ~[reactor-core-3.8.7.jar:3.8.7]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	... 3 common frames omitted
+
+2026-09-05T23:18:08.588+05:30 ERROR 11256 --- [doc-mind] [boundedElastic-1] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+java.lang.IllegalStateException: Stream processing failed
+	at org.springframework.ai.chat.client.advisor.api.BaseAdvisor.lambda$adviseStream$2(BaseAdvisor.java:73) ~[spring-ai-client-chat-2.0.0.jar:2.0.0]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:95) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onError(MonoFlatMapMany.java:256) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxHandle$HandleSubscriber.onError(FluxHandle.java:216) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onError(FluxContextWrite.java:123) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onError(FluxDoFinally.java:119) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onError(FluxPeekFuseable.java:554) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.doError(FluxPublishOn.java:1115) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.checkTerminated(FluxPublishOn.java:1140) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.runAsync(FluxPublishOn.java:999) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.run(FluxPublishOn.java:1083) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:90) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:37) ~[reactor-core-3.8.7.jar:3.8.7]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	... 3 common frames omitted
+
+2026-09-05T23:18:08.588+05:30 ERROR 11256 --- [doc-mind] [boundedElastic-1] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+java.lang.IllegalStateException: Stream processing failed
+	at org.springframework.ai.chat.client.advisor.api.BaseAdvisor.lambda$adviseStream$2(BaseAdvisor.java:73) ~[spring-ai-client-chat-2.0.0.jar:2.0.0]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:95) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onError(MonoFlatMapMany.java:256) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxHandle$HandleSubscriber.onError(FluxHandle.java:216) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onError(FluxContextWrite.java:123) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onError(FluxDoFinally.java:119) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onError(FluxPeekFuseable.java:554) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.doError(FluxPublishOn.java:1115) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.checkTerminated(FluxPublishOn.java:1140) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.runAsync(FluxPublishOn.java:999) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.run(FluxPublishOn.java:1083) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:90) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:37) ~[reactor-core-3.8.7.jar:3.8.7]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	... 3 common frames omitted
+
+2026-09-05T23:18:08.588+05:30 ERROR 11256 --- [doc-mind] [boundedElastic-1] o.s.ai.chat.model.MessageAggregator      : Aggregation Error
+
+java.lang.IllegalStateException: Stream processing failed
+	at org.springframework.ai.chat.client.advisor.api.BaseAdvisor.lambda$adviseStream$2(BaseAdvisor.java:73) ~[spring-ai-client-chat-2.0.0.jar:2.0.0]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:95) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onError(MonoFlatMapMany.java:256) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onError(FluxMap.java:134) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:225) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxHandle$HandleSubscriber.onError(FluxHandle.java:216) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onError(FluxContextWrite.java:123) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onError(FluxDoFinally.java:119) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPeekFuseable$PeekFuseableConditionalSubscriber.onError(FluxPeekFuseable.java:554) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.doError(FluxPublishOn.java:1115) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.checkTerminated(FluxPublishOn.java:1140) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.runAsync(FluxPublishOn.java:999) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.publisher.FluxPublishOn$PublishOnConditionalSubscriber.run(FluxPublishOn.java:1083) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:90) ~[reactor-core-3.8.7.jar:3.8.7]
+	at reactor.core.scheduler.WorkerTask.call(WorkerTask.java:37) ~[reactor-core-3.8.7.jar:3.8.7]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+Caused by: com.openai.errors.SseException: 200: Service temporarily overloaded
+	at com.openai.errors.SseException$Builder.build(SseException.kt:105) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invokeSuspend(SseHandler.kt:59) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.SseHandler$sseHandler$1.invoke(SseHandler.kt) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.handlers.StreamHandler$streamHandler$1$handle$sequence$1.invokeSuspend(StreamHandler.kt:28) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:129) ~[kotlin-stdlib-2.3.21.jar:2.3.21-release-298]
+	at com.openai.core.handlers.CloseableSequence$iterator$1.hasNext(StreamHandler.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:132) ~[na:na]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632) ~[na:na]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:110) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1$subscribe$1$2.invoke(AsyncStreamResponse.kt:94) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at com.openai.core.http.AsyncStreamResponseKt$toAsync$1.subscribe$lambda$3$lambda$2(AsyncStreamResponse.kt:95) ~[openai-java-core-4.39.1.jar:4.39.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:884) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:862) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[na:na]
+	... 3 common frames omitted
+
+2026-09-05T23:18:08.603+05:30  WARN 11256 --- [doc-mind] [boundedElastic-1] c.p.d.ai.service.impl.ChatServiceImpl    : AI stream failed. Retrying request. attempt: 1, cause: java.lang.IllegalStateException: Stream processing failed
+2026-09-05T23:18:11.208+05:30  INFO 11256 --- [doc-mind] [parallel-1] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:18:11.208+05:30  INFO 11256 --- [doc-mind] [parallel-1] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:18:11.208+05:30  INFO 11256 --- [doc-mind] [parallel-1] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:18:11.220+05:30  INFO 11256 --- [doc-mind] [parallel-1] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:011
+2026-09-05T23:21:16.884+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-8] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:21:16.918+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-1] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:21:19.494+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-4] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:21:23.865+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: authenticateUser
+2026-09-05T23:21:24.171+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:21:24.178+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:21:24.866+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.d.a.service.impl.LoginServiceImpl    : User logged in successfully userId: 6a5417f9-224a-4574-bd57-63826598ef00
+2026-09-05T23:21:24.866+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-5] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: authenticateUser
+2026-09-05T23:21:24.928+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:21:24.938+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:21:24.945+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:21:24.948+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:21:24.950+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-7] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:21:24.978+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:21:24.978+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:21:24.988+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:21:24.989+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:21:24.998+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:21:24.998+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:21:24.998+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getCurrentUser
+2026-09-05T23:21:24.998+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-2] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getCurrentUser
+2026-09-05T23:21:25.005+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: fetchDocuments
+2026-09-05T23:21:25.019+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-6] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: fetchDocuments
+2026-09-05T23:21:35.166+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:21:35.177+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:21:35.185+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:21:35.185+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponseFromAssistant
+2026-09-05T23:21:35.185+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponseFromAssistant
+2026-09-05T23:21:35.185+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.TrackingAspect    : Starting method: NvidiaModelService.getStreamResponse(..)
+2026-09-05T23:21:35.185+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: getStreamResponse
+2026-09-05T23:21:35.197+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: getStreamResponse
+2026-09-05T23:21:35.197+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-3] c.p.docmind.aop.aspect.TrackingAspect    : Ending method: NvidiaModelService.getStreamResponse(..) | Time: 00:00:006
+2026-09-05T23:22:45.806+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.d.s.s.impl.ResolveAccessTokenImpl    : Fetching access token from request
+2026-09-05T23:22:45.821+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: loadUserByUsername
+2026-09-05T23:22:45.827+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: loadUserByUsername
+2026-09-05T23:22:45.835+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: readRefreshTokenFromRequest
+2026-09-05T23:22:45.838+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: readRefreshTokenFromRequest
+2026-09-05T23:22:45.840+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: revokedRefreshToken
+2026-09-05T23:22:45.936+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.d.a.service.impl.LogoutServiceImpl   : Logout successful userId: 6a5417f9-224a-4574-bd57-63826598ef00 | sessionId: igma5q4c2aTaOJAgyflI-87cCHUQpmrVSV-GihpznQ9Su8IDScTSIAkSwzhdggq1LyztV6uIeyG8yUqD4IdpKw 
+2026-09-05T23:22:45.937+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: revokedRefreshToken
+2026-09-05T23:22:45.941+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: readAccessTokenFromRequest
+2026-09-05T23:22:45.942+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: readAccessTokenFromRequest
+2026-09-05T23:22:45.945+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: revokedAccessToken
+2026-09-05T23:22:45.960+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.d.a.service.impl.LogoutServiceImpl   : Access session revoked userId: 6a5417f9-224a-4574-bd57-63826598ef00 | sessionId: igma5q4c2aTaOJAgyflI-87cCHUQpmrVSV-GihpznQ9Su8IDScTSIAkSwzhdggq1LyztV6uIeyG8yUqD4IdpKw
+2026-09-05T23:22:45.960+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: revokedAccessToken
+2026-09-05T23:22:45.962+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Initiating to execute method: clearResponse
+2026-09-05T23:22:45.963+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.aop.aspect.LoggingAspect     : Completed successfully method: clearResponse
+2026-09-05T23:22:45.963+05:30  INFO 11256 --- [doc-mind] [http-nio-8080-exec-10] c.p.docmind.controller.LoginController   : User logged out successfully
+2026-09-05T23:23:05.898+05:30  INFO 11256 --- [doc-mind] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-05T23:23:05.901+05:30  INFO 11256 --- [doc-mind] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-09-05T23:23:05.920+05:30  INFO 11256 --- [doc-mind] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-05T23:23:05.922+05:30  INFO 11256 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown initiated...
+2026-09-05T23:23:05.923+05:30  INFO 11256 --- [doc-mind] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : DocMindHikariPool - Shutdown completed.

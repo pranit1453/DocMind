@@ -19,6 +19,7 @@ public class TransformerImpl implements Transformer {
     public QueryTransformer rewriteTransformer() {
         return RewriteQueryTransformer.builder()
                 .chatClientBuilder(this.ragChatClient.mutate().clone())
+                .targetSearchSystem("the selected document")
                 .build();
     }
 
