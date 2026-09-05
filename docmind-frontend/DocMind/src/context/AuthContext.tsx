@@ -15,7 +15,6 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isAdmin: boolean;
   login: (usernameOrEmail: string, pass: string) => Promise<boolean>;
-  register: (username: string, email: string, pass: string, fullName?: string) => Promise<boolean>;
   logout: () => void;
   refreshUserProfile: () => Promise<void>;
   accessDeniedOpen: boolean;
@@ -204,17 +203,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [refreshUserProfile]);
 
-  const register = useCallback(async (_username: string, _email: string): Promise<boolean> => {
-    return true;
-  }, []);
-
   const contextValue = useMemo(
     () => ({
       user,
       isAuthenticated,
       isAdmin,
       login,
-      register,
       logout,
       refreshUserProfile,
       accessDeniedOpen,
@@ -226,7 +220,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       isAuthenticated,
       isAdmin,
       login,
-      register,
       logout,
       refreshUserProfile,
       accessDeniedOpen,

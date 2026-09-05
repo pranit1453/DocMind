@@ -41,7 +41,7 @@ interface AuthPageProps {
 type AuthMode = "login" | "register" | "verify_otp" | "forgot_password" | "reset_password";
 
 export function AuthPage({ onGoHome, onSuccess }: AuthPageProps) {
-  const { login, register } = useAuth();
+  const { login } = useAuth();
   const { isDark, toggleTheme } = useTheme();
 
   // TanStack Query Mutations
@@ -133,7 +133,7 @@ export function AuthPage({ onGoHome, onSuccess }: AuthPageProps) {
         } else {
           setSuccessMessage("Registration successful! Signing in...");
           setTimeout(async () => {
-            await register(username, email, password, fullName);
+            await login(username, password);
             if (onSuccess) onSuccess();
           }, 600);
         }

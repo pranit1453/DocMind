@@ -51,7 +51,7 @@ export function EmptyChat({ selectedDocument, onPrompt }: EmptyChatProps) {
           title="Summarize Document"
           description="Get an executive summary of key takeaways and main points"
           onClick={() =>
-            onPrompt("Summarize the key points and main takeaways of this document.")
+            onPrompt("What is this document about, and what are its most important points, key findings, conclusions, decisions, and action items? Please summarize the document clearly and accurately, focusing only on information provided in the document.")
           }
         />
 
@@ -60,7 +60,7 @@ export function EmptyChat({ selectedDocument, onPrompt }: EmptyChatProps) {
           title="Key Technical Insights"
           description="Identify critical decisions, architecture & insights"
           onClick={() =>
-            onPrompt("What are the most important technical insights and architectural decisions?")
+            onPrompt("What are the most important technical insights and architectural decisions described in this document? Please explain the key components, technologies, data flows, integrations, design decisions, trade-offs, constraints, and technical risks based only on the information provided in the document.")
           }
         />
       </div>

@@ -131,6 +131,10 @@
 }
 
 /* Custom Markdown Content Typography */
+.markdown-content {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .markdown-content h1 {
   @apply text-base font-bold text-foreground mt-3 mb-1.5 pb-1 border-b border-border/40;
 }

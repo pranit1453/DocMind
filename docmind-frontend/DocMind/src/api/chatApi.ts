@@ -54,6 +54,7 @@ export interface SseMessage {
 /**
  * Parses raw SSE text stream into structured Server-Sent Events.
  * Handles 'event: message' and 'event: error' events from WebFlux Flux<ServerSentEvent<String>>.
+ * Preserves exact token whitespace and word spacing without stripping spaces.
  */
 export function parseSseChunk(buffer: string): { events: SseMessage[]; remaining: string } {
   const normalized = buffer.replace(/\r\n/g, "\n");
@@ -70,17 +71,16 @@ export function parseSseChunk(buffer: string): { events: SseMessage[]; remaining
     let id: string | undefined;
 
     for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed) continue;
+      if (!line) continue;
 
-      if (trimmed.startsWith("event:")) {
-        eventName = trimmed.substring(6).trim();
-      } else if (trimmed.startsWith("data:")) {
-        const dataStr = trimmed.substring(5);
-        const cleanData = dataStr.startsWith(" ") ? dataStr.substring(1) : dataStr;
+      if (line.startsWith("event:")) {
+        eventName = line.substring(6).trim();
+      } else if (line.startsWith("data:")) {
+        const rawData = line.substring(5);
+        const cleanData = rawData === " " ? " " : (rawData.startsWith(" ") ? rawData.substring(1) : rawData);
         dataParts.push(cleanData);
-      } else if (trimmed.startsWith("id:")) {
-        id = trimmed.substring(3).trim();
+      } else if (line.startsWith("id:")) {
+        id = line.substring(3).trim();
       }
     }
 
@@ -153,16 +153,16 @@ export async function streamQueryAssistantApi(
 
     const processEvents = (events: SseMessage[]) => {
       for (const sse of events) {
-        const rawData = sse.data.trim();
-        if (rawData === "[DONE]") continue;
+        const rawData = sse.data;
+        if (rawData === "[DONE]" || rawData.trim() === "[DONE]") continue;
 
         // If WebFlux onErrorResume emits event: error, extract and throw backend error message
         if (sse.event === "error") {
-          let errorContent = rawData;
-          if (rawData.startsWith("{") && rawData.endsWith("}")) {
+          let errorContent = rawData.trim();
+          if (errorContent.startsWith("{") && errorContent.endsWith("}")) {
             try {
-              const parsed = JSON.parse(rawData);
-              errorContent = parsed.message || parsed.error || parsed.detail || rawData;
+              const parsed = JSON.parse(errorContent);
+              errorContent = parsed.message || parsed.error || parsed.detail || errorContent;
             } catch {}
           }
           throw new Error(errorContent || "AI Assistant service error occurred.");
@@ -170,9 +170,10 @@ export async function streamQueryAssistantApi(
 
         // Process standard message token payload
         let tokenChunk = rawData;
-        if (rawData.startsWith("{") && rawData.endsWith("}")) {
+        const trimmedPayload = rawData.trim();
+        if (trimmedPayload.startsWith("{") && trimmedPayload.endsWith("}")) {
           try {
-            const parsed = JSON.parse(rawData);
+            const parsed = JSON.parse(trimmedPayload);
             const jsonText =
               parsed.content ??
               parsed.text ??
@@ -185,7 +186,7 @@ export async function streamQueryAssistantApi(
           } catch {}
         }
 
-        if (tokenChunk && onChunk) {
+        if (tokenChunk !== "" && onChunk) {
           onChunk(tokenChunk);
         }
       }

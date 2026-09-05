@@ -24,7 +24,7 @@ export function AIResponseRenderer({
   return (
     <div
       className={cn(
-        "markdown-content text-xs leading-relaxed space-y-2 select-text",
+        "markdown-content text-xs leading-relaxed space-y-2 select-text break-words [overflow-wrap:anywhere]",
         className
       )}
     >

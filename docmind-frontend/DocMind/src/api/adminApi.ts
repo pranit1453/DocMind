@@ -2,7 +2,6 @@ import type {
   PageResponse,
   UserResponse,
   ApiResponse,
-  UserRoleResponse,
   RoleResponse,
 } from "./types";
 import { API_BASE_URL, fetchWithAuth, safeJsonResponse } from "./apiClient";
@@ -134,24 +133,7 @@ export async function reassignUserRoleApi(
   return await safeJsonResponse(response, { status: true });
 }
 
-/**
- * PROTECTED ADMIN ENDPOINT: GET /api/admin/portal/{userRoleId}
- * Header: X-API-Version: v1
- * Fetches role assignment details by ID.
- */
-export async function fetchUserRoleByIdApi(userRoleId?: number): Promise<UserRoleResponse> {
-  const id = userRoleId || 1;
-  const response = await fetchWithAuth(`${API_BASE_URL}/api/admin/portal/${id}`, {
-    method: "GET",
-  });
 
-  if (!response.ok) {
-    const errorData = await safeJsonResponse(response, {});
-    throw new Error(errorData.message || `Failed to fetch role details (${response.status})`);
-  }
-
-  return await safeJsonResponse(response, {});
-}
 
 /**
  * PROTECTED ENDPOINT: GET /api/roles
