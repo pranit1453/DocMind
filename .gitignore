@@ -1,0 +1,41 @@
+# Spring Boot / Java
+target/
+*.class
+
+# Gradle
+.gradle/
+build/
+
+# React / Node
+node_modules/
+dist/
+dist-ssr/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment / local files
+.env
+*.pem
+*.local
+
+# Private key / secret directories
+key/
+keys/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
