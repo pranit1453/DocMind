@@ -6,7 +6,7 @@ import org.springframework.ai.rag.retrieval.search.DocumentRetriever;
 
 import java.util.UUID;
 
-public interface Retrievar {
+public interface Retriever {
 
     DocumentRetriever vectorStoreRetriever(UUID documentId, RetrievalOptions options);
 

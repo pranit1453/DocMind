@@ -58,14 +58,14 @@ spring:
           jdbc:
             initialize-schema: always
     openai:
-      api-key: ${CHAT_KEY}
+      api-key: ${CHAT_KEY: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}
       base-url: ${CHAT_BASE_URL:https://integrate.api.nvidia.com/v1}
       chat:
         model: ${CHAT_MODEL:nvidia/nemotron-3-ultra-550b-a55b}
         temperature: ${CHAT_TEMPERATURE:0.7}
         max-tokens: ${CHAT_MAX_TOKENS:8192}
       embedding:
-        api-key: ${EMBEDDING_KEY}
+        api-key: ${EMBEDDING_KEY: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}
         base-url: ${EMBEDDING_BASE_URL:https://integrate.api.nvidia.com/v1}
         model: ${EMBEDDING_MODEL:nvidia/nemotron-3-embed-1b}
         dimensions: ${EMBEDDING_DIMENSIONS:2048}

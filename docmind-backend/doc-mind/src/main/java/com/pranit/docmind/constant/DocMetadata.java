@@ -9,6 +9,11 @@ public final class DocMetadata {
     public static final String PAGE_NUMBER = "pageNumber";
     public static final String LEGACY_PAGE_NUMBER = "page_number";
 
+    public static final String KEYWORDS = "keywords";
+    public static final String TOPICS = "topics";
+    public static final String SECTION_SUMMARY = "sectionSummary";
+    public static final String SECTION_TITLE = "sectionTitle";
+
     private DocMetadata() {
     }
 }

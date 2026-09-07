@@ -4,7 +4,7 @@ import com.pranit.docmind.ai.advisor.RetrievalAugmentedGenerationAdvisor;
 import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.rag.module.generation.Generation;
 import com.pranit.docmind.rag.module.preretrieval.Transformer;
-import com.pranit.docmind.rag.module.retrieval.Retrievar;
+import com.pranit.docmind.rag.module.retrieval.Retriever;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class RetrievalAugmentedGenerationAdvisorAdvisorImpl implements RetrievalAugmentedGenerationAdvisor {
 
     private final Transformer transformer;
-    private final Retrievar retriever;
+    private final Retriever retriever;
     private final Generation generation;
 
     @Override

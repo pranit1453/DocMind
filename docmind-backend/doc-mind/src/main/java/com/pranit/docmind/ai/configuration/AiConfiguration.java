@@ -23,7 +23,7 @@ public class AiConfiguration {
     @Value("classpath:prompt/systemPrompt.st")
     private Resource systemPrompt;
 
-    @Bean
+    @Bean("chatClient")
     public ChatClient chatClient(ChatClient.Builder builder, List<Advisor> advisors) {
         return builder
                 .defaultSystem(system -> system.text(this.systemPrompt))
@@ -31,8 +31,13 @@ public class AiConfiguration {
                 .build();
     }
 
-    @Bean
+    @Bean("ragChatClient")
     public ChatClient ragChatClient(ChatModel chatModel) {
+        return ChatClient.builder(chatModel).build();
+    }
+
+    @Bean("enrichChatClient")
+    public ChatClient enrichChatClient(ChatModel chatModel) {
         return ChatClient.builder(chatModel).build();
     }
 

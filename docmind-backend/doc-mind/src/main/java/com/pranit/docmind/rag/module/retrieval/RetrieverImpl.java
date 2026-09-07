@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RetrievarImpl implements Retrievar {
+public class RetrieverImpl implements Retriever {
 
     private final VectorStore vectorStore;
     private final RagProperties properties;

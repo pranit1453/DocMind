@@ -7,10 +7,10 @@ import com.pranit.docmind.ai.stratergy.ChatModelStrategy;
 import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.aop.annotation.TrackExecution;
 import com.pranit.docmind.entities.constant.Provider;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,20 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class NvidiaModelService implements ChatModelStrategy {
 
     private final ChatClient chatClient;
     private final RetrievalAugmentedGenerationAdvisor advisor;
+    private final Resource userPrompt;
 
-    @Value("classpath:prompt/userPrompt.st")
-    private Resource userPrompt;
+    public NvidiaModelService(
+            @Qualifier("chatClient") final ChatClient chatClient,
+            final RetrievalAugmentedGenerationAdvisor advisor,
+            @Value("classpath:prompt/userPrompt.st") final Resource userPrompt) {
+        this.chatClient = chatClient;
+        this.advisor = advisor;
+        this.userPrompt = userPrompt;
+    }
 
     @Override
     @LogExecution
