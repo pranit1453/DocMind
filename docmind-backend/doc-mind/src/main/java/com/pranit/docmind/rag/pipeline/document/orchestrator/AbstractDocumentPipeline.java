@@ -46,9 +46,8 @@ public abstract class AbstractDocumentPipeline implements DocumentPipeline {
 
             enrichedMetadata.put(DocMetadata.DOCUMENT_ID, metadata.getDocumentId().toString());
             enrichedMetadata.put(DocMetadata.FILE_NAME, metadata.getFileName());
-            enrichedMetadata.put(DocMetadata.CHUNK_INDEX, index);
-            enrichedMetadata.put(DocMetadata.TOTAL_CHUNKS, chunks.size());
-
+            if (index > 0) enrichedMetadata.put(DocMetadata.PREVIOUS_CHUNK_INDEX, index - 1);
+            if (index < chunks.size() - 1) enrichedMetadata.put(DocMetadata.NEXT_CHUNK_INDEX, index + 1);
             Optional.ofNullable(chunk.getMetadata().get(DocMetadata.LEGACY_PAGE_NUMBER))
                     .or(() -> Optional.ofNullable(chunk.getMetadata().get(DocMetadata.PAGE_NUMBER)))
                     .ifPresent(pageNumber -> enrichedMetadata.put(DocMetadata.PAGE_NUMBER, pageNumber));
