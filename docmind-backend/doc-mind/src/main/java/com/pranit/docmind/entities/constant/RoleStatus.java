@@ -1,0 +1,6 @@
+package com.pranit.docmind.entities.constant;
+
+public enum RoleStatus {
+    ACTIVE,
+    INACTIVE
+}
