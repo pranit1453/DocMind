@@ -1,12 +1,12 @@
 package com.pranit.docmind.ai.provider;
 
-import com.pranit.docmind.ai.advisor.RetrievalAugmentedGenerationAdvisor;
 import com.pranit.docmind.ai.dto.QueryResponse;
 import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.ai.stratergy.ChatModelStrategy;
 import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.aop.annotation.TrackExecution;
 import com.pranit.docmind.entities.constant.Provider;
+import com.pranit.docmind.rag.workflow.WorkflowOrchestrator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -23,28 +23,34 @@ import java.util.UUID;
 public class NvidiaModelService implements ChatModelStrategy {
 
     private final ChatClient chatClient;
-    private final RetrievalAugmentedGenerationAdvisor advisor;
     private final Resource userPrompt;
+    private final WorkflowOrchestrator workflow;
 
     public NvidiaModelService(
             @Qualifier("chatClient") final ChatClient chatClient,
-            final RetrievalAugmentedGenerationAdvisor advisor,
-            @Value("classpath:prompt/userPrompt.st") final Resource userPrompt) {
+            @Value("classpath:prompt/userPrompt.st") final Resource userPrompt,
+            WorkflowOrchestrator workflow) {
         this.chatClient = chatClient;
-        this.advisor = advisor;
         this.userPrompt = userPrompt;
+        this.workflow = workflow;
     }
 
     @Override
     @LogExecution
     @TrackExecution
     public QueryResponse getResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
-        return this.chatClient.prompt()
+        final var context = workflow.execute(documentId, query, options);
+        final var content = chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
-                .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId, options))
-                .user(user -> user.text(this.userPrompt).param("concept", query))
+                .user(user -> user.text(userPrompt)
+                        .param("concept", query)
+                        .param("context", context.context()))
                 .call()
-                .entity(QueryResponse.class);
+                .content();
+        return QueryResponse.builder()
+                .content(content)
+                .citations(context.citations())
+                .build();
     }
 
     @Override
@@ -53,7 +59,6 @@ public class NvidiaModelService implements ChatModelStrategy {
     public Flux<String> getStreamResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
         return this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
-                .advisors(advisor.retrievalAugmentedGenerationWorkflow(documentId, options))
                 .user(user -> user.text(this.userPrompt).param("concept", query))
                 .stream()
                 .content();

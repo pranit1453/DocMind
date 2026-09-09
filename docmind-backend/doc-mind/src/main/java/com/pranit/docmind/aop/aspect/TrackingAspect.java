@@ -26,6 +26,7 @@ public class TrackingAspect {
                 return QueryResponse.builder()
                         .content(response.content())
                         .responseTime(executionTime)
+                        .citations(response.citations())
                         .build();
             return result;
         } catch (Exception exception) {
