@@ -28,7 +28,7 @@ public class QueryRewriteTransformer {
 
     private final ChatClient ragChatClient;
 
-    public QueryRewriteTransformer(@Qualifier("ragChatClient") final ChatClient ragChatClient) {
+    public QueryRewriteTransformer(@Qualifier("rewriteChatClient") final ChatClient ragChatClient) {
         this.ragChatClient = ragChatClient;
     }
 

@@ -1,11 +1,12 @@
 package com.pranit.docmind.ai.provider;
 
+import com.pranit.docmind.ai.dto.QueryRequest;
 import com.pranit.docmind.ai.dto.QueryResponse;
-import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.ai.stratergy.ChatModelStrategy;
 import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.aop.annotation.TrackExecution;
 import com.pranit.docmind.entities.constant.Provider;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.rag.workflow.WorkflowOrchestrator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -38,8 +39,8 @@ public class NvidiaModelService implements ChatModelStrategy {
     @Override
     @LogExecution
     @TrackExecution
-    public QueryResponse getResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
-        final var context = workflow.execute(documentId, query, options);
+    public QueryResponse getResponse(final String query, final UUID conversationId, final DocumentMetadata metadata, final QueryRequest.Options options) {
+        final var context = workflow.execute(metadata, query, options);
         final var content = chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .user(user -> user.text(userPrompt)
@@ -56,7 +57,7 @@ public class NvidiaModelService implements ChatModelStrategy {
     @Override
     @LogExecution
     @TrackExecution
-    public Flux<String> getStreamResponse(final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
+    public Flux<String> getStreamResponse(final String query, final UUID conversationId, final UUID documentId, final QueryRequest.Options options) {
         return this.chatClient.prompt()
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .user(user -> user.text(this.userPrompt).param("concept", query))

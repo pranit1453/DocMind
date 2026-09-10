@@ -19,10 +19,10 @@ public record Context(
     public record Citation(
             UUID documentId,
             String fileName,
-            Integer pageNumber,
-            Integer chunkIndex,
-            Integer previousChunkIndex,
-            Integer nextChunkIndex,
+            Long pageNumber,
+            Long chunkIndex,
+            Long previousChunkIndex,
+            Long nextChunkIndex,
             Double similarityScore
     ) {
     }

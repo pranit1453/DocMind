@@ -48,7 +48,7 @@ public class QueryAugmenter {
 
     private final ContextualQueryAugmenter augmenter;
 
-    public QueryAugmenter(ContextualQueryAugmenter augmenter) {
+    public QueryAugmenter() {
         this.augmenter = ContextualQueryAugmenter.builder()
                 .promptTemplate(RAG_PROMPT_TEMPLATE)
                 .emptyContextPromptTemplate(EMPTY_CONTEXT_PROMPT)

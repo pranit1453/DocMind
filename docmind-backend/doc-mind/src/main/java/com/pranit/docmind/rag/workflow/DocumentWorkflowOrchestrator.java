@@ -1,6 +1,7 @@
 package com.pranit.docmind.rag.workflow;
 
-import com.pranit.docmind.ai.dto.RetrievalOptions;
+import com.pranit.docmind.ai.dto.QueryRequest;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.rag.dto.Context;
 import com.pranit.docmind.rag.module.generation.QueryAugmenter;
 import com.pranit.docmind.rag.module.preretrieval.QueryRewriteTransformer;
@@ -11,7 +12,6 @@ import org.springframework.ai.document.Document;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @NullMarked
 @Component
@@ -28,8 +28,13 @@ public class DocumentWorkflowOrchestrator extends WorkflowOrchestrator {
     }
 
     @Override
-    protected List<Document> similaritySearch(final UUID documentId, final String query, final RetrievalOptions options) {
-        return documentRetriever.similaritySearch(documentId, query, options);
+    protected List<Document> similaritySearch(final DocumentMetadata metadata, final String query, final QueryRequest.RetrievalOptions options) {
+        return documentRetriever.similaritySearch(metadata, query, options);
+    }
+
+    @Override
+    protected List<Document> searchDocumentChunks(final DocumentMetadata metadata, final String query) {
+        return documentRetriever.searchDocumentChunks(metadata, query);
     }
 
     @Override

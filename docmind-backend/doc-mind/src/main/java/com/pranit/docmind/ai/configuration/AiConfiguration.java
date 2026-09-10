@@ -1,13 +1,16 @@
 package com.pranit.docmind.ai.configuration;
 
 import com.pranit.docmind.properties.AdvisorProperties;
+import com.pranit.docmind.properties.RagProperties;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
-import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +20,7 @@ import org.springframework.core.io.Resource;
 import java.util.List;
 
 @Configuration
-@EnableConfigurationProperties({AdvisorProperties.class})
+@EnableConfigurationProperties({AdvisorProperties.class, RagProperties.class})
 public class AiConfiguration {
 
     @Value("classpath:prompt/systemPrompt.st")
@@ -31,13 +34,21 @@ public class AiConfiguration {
                 .build();
     }
 
-    @Bean("ragChatClient")
-    public ChatClient ragChatClient(ChatModel chatModel) {
-        return ChatClient.builder(chatModel).build();
+    @Bean("rewriteChatModel")
+    public OpenAiChatModel rewriteChatModel(RagProperties properties) {
+        final RagProperties.Rewrite rewrite = properties.rewrite();
+        return OpenAiChatModel.builder().options(OpenAiChatOptions.builder()
+                        .apiKey(rewrite.apiKey())
+                        .baseUrl(rewrite.baseUrl())
+                        .model(rewrite.chat().model())
+                        .temperature(rewrite.chat().temperature())
+                        .maxTokens(rewrite.chat().maxTokens())
+                        .build())
+                .build();
     }
 
-    @Bean("enrichChatClient")
-    public ChatClient enrichChatClient(ChatModel chatModel) {
+    @Bean("rewriteChatClient")
+    public ChatClient rewriteChatClient(@Qualifier("rewriteChatModel") OpenAiChatModel chatModel) {
         return ChatClient.builder(chatModel).build();
     }
 

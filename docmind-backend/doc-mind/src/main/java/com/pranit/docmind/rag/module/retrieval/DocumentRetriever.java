@@ -1,7 +1,8 @@
 package com.pranit.docmind.rag.module.retrieval;
 
-import com.pranit.docmind.ai.dto.RetrievalOptions;
+import com.pranit.docmind.ai.dto.QueryRequest;
 import com.pranit.docmind.constant.DocMetadata;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import com.pranit.docmind.properties.RagProperties;
 import com.pranit.docmind.rag.dto.Context;
 import org.springframework.ai.document.Document;
@@ -25,18 +26,32 @@ public class DocumentRetriever {
         this.properties = properties;
     }
 
-    public List<Document> similaritySearch(final UUID documentId, final String query, final RetrievalOptions options) {
+    public List<Document> similaritySearch(final DocumentMetadata metadata, final String query, final QueryRequest.RetrievalOptions options) {
         final var retrieval = properties.retrieval();
         final var topK = Optional.ofNullable(options.topK())
                 .orElse(retrieval.topK());
         final var similarityThreshold = Optional.ofNullable(options.similarityThreshold())
                 .orElse(retrieval.similarityThreshold());
         final var filterExpression = new FilterExpressionBuilder()
-                .eq("documentId", documentId.toString())
+                .eq(DocMetadata.DOCUMENT_ID, metadata.getDocumentId().toString())
                 .build();
         final var builder = SearchRequest.builder()
                 .query(query)
                 .topK(topK)
+                .filterExpression(filterExpression)
+                .similarityThreshold(similarityThreshold);
+        return vectorStore.similaritySearch(builder.build());
+    }
+
+    public List<Document> searchDocumentChunks(final DocumentMetadata metadata, final String query) {
+        final var retrieval = properties.retrieval();
+        final var similarityThreshold = retrieval.similarityThreshold();
+        final var filterExpression = new FilterExpressionBuilder()
+                .eq(DocMetadata.DOCUMENT_ID, metadata.getDocumentId().toString())
+                .build();
+        final var builder = SearchRequest.builder()
+                .query(query)
+                .topK((int) metadata.getChunksCreated())
                 .filterExpression(filterExpression)
                 .similarityThreshold(similarityThreshold);
         return vectorStore.similaritySearch(builder.build());
@@ -53,10 +68,10 @@ public class DocumentRetriever {
         return Context.Citation.builder()
                 .documentId(UUID.fromString((String) metadata.get(DocMetadata.DOCUMENT_ID)))
                 .fileName((String) metadata.get(DocMetadata.FILE_NAME))
-                .pageNumber((Integer) metadata.get(DocMetadata.PAGE_NUMBER))
-                .chunkIndex((Integer) metadata.get(DocMetadata.CHUNK_INDEX))
-                .previousChunkIndex((Integer) metadata.get(DocMetadata.PREVIOUS_CHUNK_INDEX))
-                .nextChunkIndex((Integer) metadata.get(DocMetadata.NEXT_CHUNK_INDEX))
+                .pageNumber((Long) metadata.get(DocMetadata.PAGE_NUMBER))
+                .chunkIndex((Long) metadata.get(DocMetadata.CHUNK_INDEX))
+                .previousChunkIndex((Long) metadata.get(DocMetadata.PREVIOUS_CHUNK_INDEX))
+                .nextChunkIndex((Long) metadata.get(DocMetadata.NEXT_CHUNK_INDEX))
                 .similarityScore(document.getScore())
                 .build();
     }

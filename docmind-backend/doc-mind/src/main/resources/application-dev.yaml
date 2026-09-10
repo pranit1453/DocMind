@@ -59,15 +59,15 @@ spring:
             initialize-schema: always
     openai:
       api-key: ${CHAT_KEY}
-      base-url: ${CHAT_BASE_URL:https://integrate.api.nvidia.com/v1}
+      base-url: ${CHAT_BASE_URL}
       chat:
-        model: ${CHAT_MODEL:nvidia/nemotron-3-ultra-550b-a55b}
-        temperature: ${CHAT_TEMPERATURE:0.7}
+        model: ${CHAT_MODEL}
+        temperature: ${CHAT_TEMPERATURE:0.3}
         max-tokens: ${CHAT_MAX_TOKENS:8192}
       embedding:
         api-key: ${EMBEDDING_KEY}
-        base-url: ${EMBEDDING_BASE_URL:https://integrate.api.nvidia.com/v1}
-        model: ${EMBEDDING_MODEL:nvidia/nemotron-3-embed-1b}
+        base-url: ${EMBEDDING_BASE_URL}
+        model: ${EMBEDDING_MODEL}
         dimensions: ${EMBEDDING_DIMENSIONS:2048}
     # Vector DB Configuration
     vectorstore:
@@ -87,15 +87,22 @@ spring:
 # RAG Configuration
 rag:
   chunking:
-    chunk-size: 600
-    min-chunk-size-chars: 200
-    min-chunk-length-to-embed: 20
+    chunk-size: 400
+    min-chunk-size-chars: 100
+    min-chunk-length-to-embed: 10
     max-num-chunks: 5000
     keep-separator: true
   retrieval:
     top-k: 5
     candidate-k: 20
     similarity-threshold: 0.70
+  rewrite:
+    api-key: ${REWRITE_KEY}
+    base-url: ${REWRITE_BASE_URL}
+    chat:
+      model: ${REWRITE_MODEL}
+      temperature: ${REWRITE_TEMPERATURE:0.1}
+      max-tokens: ${REWRITE_MAX_TOKENS:256}
 # JWT Token Configuration
 security:
   accessToken:

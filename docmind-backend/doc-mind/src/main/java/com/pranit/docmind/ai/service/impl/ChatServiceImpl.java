@@ -2,8 +2,8 @@ package com.pranit.docmind.ai.service.impl;
 
 import com.openai.errors.OpenAIIoException;
 import com.openai.errors.SseException;
+import com.pranit.docmind.ai.dto.QueryRequest;
 import com.pranit.docmind.ai.dto.QueryResponse;
-import com.pranit.docmind.ai.dto.RetrievalOptions;
 import com.pranit.docmind.ai.exception.AiServiceUnavailableException;
 import com.pranit.docmind.ai.factory.ChatModelProviderFactory;
 import com.pranit.docmind.ai.service.ChatService;
@@ -11,6 +11,7 @@ import com.pranit.docmind.aop.annotation.LogExecution;
 import com.pranit.docmind.document.exception.DocumentNotFoundException;
 import com.pranit.docmind.document.repository.DocumentRepository;
 import com.pranit.docmind.entities.constant.Provider;
+import com.pranit.docmind.entities.entity.DocumentMetadata;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,20 +32,19 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @LogExecution
-    public QueryResponse getResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
-        checkForDocumentRefrence(documentId);
-        return factory.getStrategy(provider).getResponse(query, conversationId, documentId, options);
+    public QueryResponse getResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId, final QueryRequest.Options options) {
+        final DocumentMetadata metadata = checkForDocumentRefrence(documentId);
+        return factory.getStrategy(provider).getResponse(query, conversationId, metadata, options);
     }
 
-    private void checkForDocumentRefrence(final UUID documentId) {
-        if (!documentRepository.existsByDocumentId(documentId)) {
-            throw new DocumentNotFoundException("Document not found");
-        }
+    private DocumentMetadata checkForDocumentRefrence(final UUID documentId) {
+        return documentRepository.findByDocumentId(documentId)
+                .orElseThrow(() -> new DocumentNotFoundException("Document not found"));
     }
 
     @Override
     @LogExecution
-    public Flux<String> getStreamResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId, final RetrievalOptions options) {
+    public Flux<String> getStreamResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId, final QueryRequest.Options options) {
         checkForDocumentRefrence(documentId);
         return Flux.defer(() -> factory
                 .getStrategy(provider)
