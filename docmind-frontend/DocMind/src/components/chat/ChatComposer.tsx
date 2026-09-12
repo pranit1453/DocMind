@@ -1,19 +1,41 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import type { DocumentItem } from "@/types/document";
+import type { QueryType } from "@/api/types";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { Send, Mic, ShieldCheck, Loader2 } from "lucide-react";
+import { Send, Mic, ShieldCheck, Loader2, MessageSquare, FileText, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ChatComposerProps {
   input: string;
   setInput: (value: string) => void;
   selectedDocument?: DocumentItem;
-  onSendMessage: () => void;
+  onSendMessage: (text?: string, queryType?: QueryType) => void;
   isUploading?: boolean;
   uploadMessage?: string;
 }
+
+const QUERY_TYPES: { type: QueryType; label: string; icon: React.ReactNode; tooltip: string }[] = [
+  {
+    type: "NORMAL_QA",
+    label: "Normal Q&A",
+    icon: <MessageSquare size={11} />,
+    tooltip: "Standard document question & answer workflow",
+  },
+  {
+    type: "DOCUMENT_SUMMARY",
+    label: "Summarize",
+    icon: <FileText size={11} />,
+    tooltip: "Generate structured executive summary",
+  },
+  {
+    type: "TECHNICAL_INSIGHTS",
+    label: "Technical Insights",
+    icon: <Lightbulb size={11} />,
+    tooltip: "Extract architectural, design & technical insights",
+  },
+];
 
 export function ChatComposer({
   input,
@@ -24,6 +46,7 @@ export function ChatComposer({
   uploadMessage = "Document is uploading and indexing...",
 }: ChatComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [queryType, setQueryType] = useState<QueryType>("NORMAL_QA");
 
   // Auto resize textarea height based on content
   useEffect(() => {
@@ -36,12 +59,16 @@ export function ChatComposer({
     }
   }, [input]);
 
+  const handleSend = () => {
+    if (input.trim() && selectedDocument && !isUploading) {
+      onSendMessage(input, queryType);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (input.trim() && selectedDocument && !isUploading) {
-        onSendMessage();
-      }
+      handleSend();
     }
   };
 
@@ -50,6 +77,12 @@ export function ChatComposer({
       return uploadMessage;
     }
     if (selectedDocument) {
+      if (queryType === "DOCUMENT_SUMMARY") {
+        return `Summarize ${selectedDocument.name}...`;
+      }
+      if (queryType === "TECHNICAL_INSIGHTS") {
+        return `Extract technical insights from ${selectedDocument.name}...`;
+      }
       return `Ask anything about ${selectedDocument.name}...`;
     }
     return "Select a document to start chatting...";
@@ -58,6 +91,38 @@ export function ChatComposer({
   return (
     <div className="shrink-0 bg-background/80 backdrop-blur-md px-4 pb-2.5 pt-1.5">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 md:px-8">
+        {/* Query Type Selection Pills */}
+        <div className="mb-2 flex items-center gap-1.5 select-none overflow-x-auto pb-0.5">
+          <span className="text-[10px] font-semibold text-muted-foreground mr-1">
+            Query Mode:
+          </span>
+          {QUERY_TYPES.map((qt) => {
+            const isSelected = queryType === qt.type;
+            return (
+              <Tooltip key={qt.type}>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => setQueryType(qt.type)}
+                    className={cn(
+                      "flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px] font-semibold transition-all cursor-pointer border",
+                      isSelected
+                        ? "bg-primary/10 text-primary border-primary/30 ring-1 ring-primary/20 shadow-xs"
+                        : "bg-card text-muted-foreground border-border/60 hover:bg-accent hover:text-foreground"
+                    )}
+                  >
+                    {qt.icon}
+                    <span>{qt.label}</span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-[10px]">
+                  {qt.tooltip}
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
+        </div>
+
         {/* Compact Rounded Input Container */}
         <div
           className={cn(
@@ -110,7 +175,7 @@ export function ChatComposer({
               size="icon"
               className="h-7.5 w-7.5 rounded-full bg-primary text-primary-foreground shadow-xs transition-transform hover:scale-105 active:scale-95 disabled:opacity-40"
               disabled={!input.trim() || !selectedDocument || isUploading}
-              onClick={onSendMessage}
+              onClick={handleSend}
               title="Send Message"
             >
               <Send size={13} />

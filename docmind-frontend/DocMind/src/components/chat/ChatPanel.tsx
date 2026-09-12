@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import type { DocumentItem } from "@/types/document";
 import type { Message } from "@/types/chat";
+import type { QueryType } from "@/api/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +28,7 @@ interface ChatPanelProps {
   messages: Message[];
   input: string;
   setInput: (value: string) => void;
-  onSendMessage: (text?: string) => void;
+  onSendMessage: (text?: string, queryType?: QueryType) => void;
   onCopyMarkdown: () => void;
   onExportMarkdown: () => void;
   onOpenMarkdownModal: () => void;
@@ -189,7 +190,7 @@ export function ChatPanel({
           {isInitialState ? (
             <EmptyChat
               selectedDocument={selectedDocument}
-              onPrompt={(text) => onSendMessage(text)}
+              onPrompt={(text, qType) => onSendMessage(text, qType)}
             />
           ) : (
             <div className="space-y-6">
@@ -206,7 +207,7 @@ export function ChatPanel({
         input={input}
         setInput={setInput}
         selectedDocument={selectedDocument}
-        onSendMessage={() => onSendMessage()}
+        onSendMessage={(text, qType) => onSendMessage(text, qType)}
         isUploading={isUploading}
         uploadMessage={uploadMessage}
       />

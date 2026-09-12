@@ -1,6 +1,6 @@
-import type { Message, Source } from "@/types/chat";
+import type { Message, Source, Citation } from "@/types/chat";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, Loader2, Clock, Sparkles, AlertCircle, FileText } from "lucide-react";
+import { User, Loader2, Clock, Sparkles, AlertCircle, FileText, Bookmark, Layers } from "lucide-react";
 import { AIResponseRenderer } from "./AIResponseRenderer";
 import { cn } from "@/lib/utils";
 
@@ -75,7 +75,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
               </div>
             ) : null}
 
-            {/* Error UI Display (Requirement 9) */}
+            {/* Error UI Display */}
             {isError && (
               <div className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-xs text-destructive">
                 <AlertCircle size={15} className="mt-0.5 shrink-0" />
@@ -87,12 +87,12 @@ export function ChatMessage({ message }: ChatMessageProps) {
           </div>
         )}
 
-        {/* Document Sources Component (Requirement 8) */}
+        {/* Document Sources Component */}
         {!isUser && message.sources && message.sources.length > 0 && (
           <SourcesList sources={message.sources} />
         )}
 
-        {/* Response Metadata (Requirement 7) */}
+        {/* Response Metadata (Execution / Response Time) */}
         {!isUser && message.executionTime && !isStreaming && (
           <div className="mt-3 flex items-center justify-start border-t border-border/40 pt-2 text-[10px] text-muted-foreground select-none">
             <div className="flex items-center gap-1 text-emerald-500 font-mono font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
@@ -100,6 +100,11 @@ export function ChatMessage({ message }: ChatMessageProps) {
               <span>Response Time: {message.executionTime}</span>
             </div>
           </div>
+        )}
+
+        {/* Response Grounding Citations List - Rendered below Response Time */}
+        {!isUser && message.citations && message.citations.length > 0 && (
+          <CitationsList citations={message.citations} />
         )}
       </div>
 
@@ -111,6 +116,77 @@ export function ChatMessage({ message }: ChatMessageProps) {
           </AvatarFallback>
         </Avatar>
       )}
+    </div>
+  );
+}
+
+function CitationsList({ citations }: { citations: Citation[] }) {
+  if (!citations || citations.length === 0) return null;
+
+  return (
+    <div className="mt-2.5 border-t border-border/40 pt-2.5 space-y-2 select-none">
+      <div className="flex items-center gap-1.5 text-[11px] font-bold text-foreground">
+        <Bookmark size={12} className="text-primary shrink-0" />
+        <span>Source Citations ({citations.length}):</span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+        {citations.map((cit, idx) => {
+          const scorePercent =
+            cit.similarityScore !== undefined && cit.similarityScore !== null
+              ? cit.similarityScore <= 1
+                ? (cit.similarityScore * 100).toFixed(1) + "% match"
+                : cit.similarityScore.toFixed(2)
+              : null;
+
+          return (
+            <div
+              key={cit.documentId || idx}
+              className="flex flex-col gap-1.5 rounded-xl border border-border/70 bg-muted/40 p-2.5 transition-all hover:bg-muted/70 hover:border-primary/30"
+            >
+              {/* File Name & Similarity Badge */}
+              <div className="flex items-center justify-between gap-1.5">
+                <div className="flex items-center gap-1.5 min-w-0 font-semibold text-foreground">
+                  <FileText size={12} className="text-primary shrink-0" />
+                  <span className="truncate" title={cit.fileName || "Document"}>
+                    {cit.fileName || "Document"}
+                  </span>
+                </div>
+                {scorePercent && (
+                  <span className="shrink-0 font-mono text-[9px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20">
+                    {scorePercent}
+                  </span>
+                )}
+              </div>
+
+              {/* Page, Chunk & Context Info */}
+              <div className="flex flex-wrap items-center gap-1 text-[9px] text-muted-foreground">
+                {cit.pageNumber !== undefined && cit.pageNumber !== null && (
+                  <span className="bg-background px-1.5 py-0.5 rounded border border-border/50 font-medium text-foreground/80">
+                    Page {cit.pageNumber}
+                  </span>
+                )}
+                {cit.chunkIndex !== undefined && cit.chunkIndex !== null && (
+                  <span className="bg-background px-1.5 py-0.5 rounded border border-border/50 font-medium text-foreground/80 flex items-center gap-0.5">
+                    <Layers size={9} className="text-muted-foreground" />
+                    Chunk #{cit.chunkIndex}
+                  </span>
+                )}
+                {cit.previousChunkIndex !== undefined && cit.previousChunkIndex !== null && (
+                  <span className="bg-background/60 px-1.5 py-0.5 rounded text-[8.5px] text-muted-foreground">
+                    Prev: #{cit.previousChunkIndex}
+                  </span>
+                )}
+                {cit.nextChunkIndex !== undefined && cit.nextChunkIndex !== null && (
+                  <span className="bg-background/60 px-1.5 py-0.5 rounded text-[8.5px] text-muted-foreground">
+                    Next: #{cit.nextChunkIndex}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

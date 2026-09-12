@@ -45,10 +45,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @LogExecution
     public Flux<String> getStreamResponseFromAssistant(final Provider provider, final String query, final UUID conversationId, final UUID documentId, final QueryRequest.Options options) {
-        checkForDocumentRefrence(documentId);
+        final DocumentMetadata metadata = checkForDocumentRefrence(documentId);
         return Flux.defer(() -> factory
                 .getStrategy(provider)
-                .getStreamResponse(query, conversationId, documentId, options)
+                .getStreamResponse(query, conversationId, metadata, options)
         ).retryWhen(Retry.backoff(2, Duration.ofSeconds(2))
                 .maxBackoff(Duration.ofSeconds(10))
                 .jitter(0.5)

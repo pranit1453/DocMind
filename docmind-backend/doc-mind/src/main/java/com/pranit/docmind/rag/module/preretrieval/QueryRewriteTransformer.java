@@ -1,13 +1,19 @@
 package com.pranit.docmind.rag.module.preretrieval;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class QueryRewriteTransformer {
 
@@ -34,11 +40,15 @@ public class QueryRewriteTransformer {
 
     public String rewriteQuery(final String query) {
         final Prompt prompt = REWRITE_PROMPT.create(Map.of("query", query));
-        final String rewrittenQuery = ragChatClient
+        final var rewrittenQuery = ragChatClient
                 .prompt(prompt)
                 .call()
-                .content();
-        return rewrittenQuery == null || rewrittenQuery.isBlank()
-                ? query : rewrittenQuery.trim();
+                .chatResponse();
+        final String response = Optional.ofNullable(rewrittenQuery)
+                .map(ChatResponse::getResult)
+                .map(Generation::getOutput)
+                .map(AssistantMessage::getText)
+                .orElseThrow(() -> new IllegalStateException("LLM returned an empty response"));
+        return response.isBlank() ? query : response.trim();
     }
 }

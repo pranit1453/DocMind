@@ -1,11 +1,12 @@
 import type { DocumentItem } from "@/types/document";
+import type { QueryType } from "@/api/types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles, FileText, Lightbulb } from "lucide-react";
 
 interface EmptyChatProps {
   selectedDocument?: DocumentItem;
-  onPrompt: (prompt: string) => void;
+  onPrompt: (prompt: string, queryType?: QueryType) => void;
 }
 
 export function EmptyChat({ selectedDocument, onPrompt }: EmptyChatProps) {
@@ -44,14 +45,17 @@ export function EmptyChat({ selectedDocument, onPrompt }: EmptyChatProps) {
         </Badge>
       )}
 
-      {/* Quick Prompt Template Cards - Only Summarize & Key Technical Insights */}
+      {/* Quick Prompt Template Cards - Summarize & Key Technical Insights */}
       <div className="mt-8 grid w-full max-w-lg grid-cols-1 sm:grid-cols-2 gap-3 text-left">
         <PromptButton
           icon={<Sparkles size={16} className="text-blue-500" />}
           title="Summarize Document"
           description="Get an executive summary of key takeaways and main points"
           onClick={() =>
-            onPrompt("What is this document about, and what are its most important points, key findings, conclusions, decisions, and action items? Please summarize the document clearly and accurately, focusing only on information provided in the document.")
+            onPrompt(
+              "What is this document about, and what are its most important points, key findings, conclusions, decisions, and action items? Please summarize the document clearly and accurately, focusing only on information provided in the document.",
+              "DOCUMENT_SUMMARY"
+            )
           }
         />
 
@@ -60,7 +64,10 @@ export function EmptyChat({ selectedDocument, onPrompt }: EmptyChatProps) {
           title="Key Technical Insights"
           description="Identify critical decisions, architecture & insights"
           onClick={() =>
-            onPrompt("What are the most important technical insights and architectural decisions described in this document? Please explain the key components, technologies, data flows, integrations, design decisions, trade-offs, constraints, and technical risks based only on the information provided in the document.")
+            onPrompt(
+              "What are the most important technical insights and architectural decisions described in this document? Please explain the key components, technologies, data flows, integrations, design decisions, trade-offs, constraints, and technical risks based only on the information provided in the document.",
+              "TECHNICAL_INSIGHTS"
+            )
           }
         />
       </div>

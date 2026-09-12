@@ -62,13 +62,13 @@ spring:
       base-url: ${CHAT_BASE_URL}
       chat:
         model: ${CHAT_MODEL}
-        temperature: ${CHAT_TEMPERATURE:0.3}
-        max-tokens: ${CHAT_MAX_TOKENS:8192}
+        temperature: 0.2
+        max-completion-tokens: 2048
       embedding:
         api-key: ${EMBEDDING_KEY}
         base-url: ${EMBEDDING_BASE_URL}
         model: ${EMBEDDING_MODEL}
-        dimensions: ${EMBEDDING_DIMENSIONS:2048}
+        dimensions: 2048
     # Vector DB Configuration
     vectorstore:
       qdrant:
@@ -101,24 +101,24 @@ rag:
     base-url: ${REWRITE_BASE_URL}
     chat:
       model: ${REWRITE_MODEL}
-      temperature: ${REWRITE_TEMPERATURE:0.1}
-      max-tokens: ${REWRITE_MAX_TOKENS:256}
+      temperature: 0.1
+      max-tokens: 512
 # JWT Token Configuration
 security:
   accessToken:
-    expiration: ${ACCESS_TOKEN_EXPIRATION:900}
+    expiration: 900
   refreshToken:
-    expiration: ${REFRESH_TOKEN_EXPIRATION:86400}
+    expiration: 86400
   token:
-    issuer: ${TOKEN_ISSUER:docmind}
+    issuer: docmind
   cookie:
     name:
-      refreshTokenName: ${REFRESH_TOKEN_COOKIE_NAME:refreshToken}
-      accessTokenName: ${ACCESS_TOKEN_COOKIE_NAME:accessToken}
-    cookieHttpOnly: ${COOKIE_HTTP_ONLY:true}
-    cookieSecure: ${COOKIE_SECURE:false}
-    cookieSameSite: ${COOKIE_SAME_SITE:lax}
-    cookieDomain: ${COOKIE_DOMAIN:localhost}
+      refreshTokenName: refreshToken
+      accessTokenName: accessToken
+    cookieHttpOnly: true
+    cookieSecure: false
+    cookieSameSite: lax
+    cookieDomain: localhost
 # Default Credentials
 docmind:
   default:
@@ -138,7 +138,7 @@ springdoc:
 # Logging Configuration
 logging:
   file:
-    name: logs/doc-mind.log
+    name: ${LOG_PATH:src/main/resources/logs/doc-mind.log}
   level:
     root: INFO
     com.pranit.accesshub: DEBUG
@@ -152,7 +152,7 @@ ai:
 app:
   cors:
     allowed-origins:
-      - ${CORS_ALLOWED_ORIGIN:http://localhost:5173}
+      - http://localhost:5173
     allowed-methods:
       - GET
       - POST

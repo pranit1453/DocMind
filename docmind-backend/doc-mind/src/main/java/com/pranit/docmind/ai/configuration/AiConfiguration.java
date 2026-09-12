@@ -2,6 +2,8 @@ package com.pranit.docmind.ai.configuration;
 
 import com.pranit.docmind.properties.AdvisorProperties;
 import com.pranit.docmind.properties.RagProperties;
+import com.pranit.docmind.properties.SpringAiProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
@@ -19,6 +21,7 @@ import org.springframework.core.io.Resource;
 
 import java.util.List;
 
+@Slf4j
 @Configuration
 @EnableConfigurationProperties({AdvisorProperties.class, RagProperties.class})
 public class AiConfiguration {
@@ -27,10 +30,13 @@ public class AiConfiguration {
     private Resource systemPrompt;
 
     @Bean("chatClient")
-    public ChatClient chatClient(ChatClient.Builder builder, List<Advisor> advisors) {
+    public ChatClient chatClient(ChatClient.Builder builder, List<Advisor> advisors, SpringAiProperties properties) {
         return builder
                 .defaultSystem(system -> system.text(this.systemPrompt))
                 .defaultAdvisors(advisors)
+                .defaultOptions(OpenAiChatOptions.builder()
+                        .temperature(properties.chat().temperature())
+                        .maxCompletionTokens(properties.chat().maxCompletionTokens()))
                 .build();
     }
 
@@ -61,7 +67,7 @@ public class AiConfiguration {
     public ChatMemory chatMemory(JdbcChatMemoryRepository jdbcChatMemoryRepository) {
         return MessageWindowChatMemory.builder()
                 .chatMemoryRepository(jdbcChatMemoryRepository)
-                .maxMessages(10)
+                .maxMessages(2)
                 .build();
     }
 
