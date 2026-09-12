@@ -1,28 +1,30 @@
 services:
-  # PostgreSQL
+  # PostgreSQL Database
   postgres:
-    image: postgres:18
+    image: postgres:18-alpine
     container_name: docmind-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: docmind
     ports:
       - "5434:5432"
     networks:
       - docmind
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     healthcheck:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U ${DB_USERNAME:-postgres} -d docmind"
+          "pg_isready -U postgres -d docmind"
         ]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 10s
+
   # Qdrant Vector Database
   qdrant:
     image: qdrant/qdrant:latest
@@ -31,31 +33,28 @@ services:
     environment:
       VECTORSTORE_QDRANT_HOST: qdrant
       VECTORSTORE_QDRANT_PORT: 6334
-      VECTORSTORE_QDRANT_API_KEY: docmind@vector
-      VECTORSTORE_QDRANT_COLLECTION_NAME: vector_store
-      VECTORSTORE_QDRANT_CONTENT_FIELD_NAME: doc_content
-      VECTORSTORE_QDRANT_USE_TLS: "false"
-      VECTORSTORE_QDRANT_INITIALIZE_SCHEMA: "true"
+      VECTORSTORE_QDRANT_API_KEY: ${QDRANT_API_KEY}
     ports:
       - "6333:6333"
       - "6334:6334"
     networks:
       - docmind
     volumes:
-      - qdrant_data:/var/lib/qdrant/data
+      - qdrant_data:/qdrant/storage
     healthcheck:
       test:
         [
           "CMD-SHELL",
-          "curl -f http://localhost:6333/healthz || exit 1"
+          "bash -c '</dev/tcp/127.0.0.1/6333'"
         ]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 10s
-  # Redis
+
+  # Redis Cache & Session Store
   redis:
-    image: redis:8
+    image: redis:8-alpine
     container_name: docmind-redis
     restart: unless-stopped
     command:
@@ -69,7 +68,7 @@ services:
     networks:
       - docmind
     volumes:
-      - redis_data:/var/lib/redis/data
+      - redis_data:/var/lib/redis
     healthcheck:
       test:
         [
@@ -83,10 +82,14 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
+
   # DocMind Spring Boot Application
   docmind:
-    image: docmind:latest
-    container_name: docmind-app
+    build:
+      context: ./docmind-backend/doc-mind
+      dockerfile: Dockerfile
+    image: docmind-backend:latest
+    container_name: docmind-backend
     restart: unless-stopped
     depends_on:
       postgres:
@@ -96,20 +99,20 @@ services:
       redis:
         condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: cont
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       # PostgreSQL
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: ${DB_NAME:-docmind}
-      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_NAME: docmind
+      DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
       # Qdrant
       QDRANT_HOST: qdrant
       QDRANT_PORT: 6334
       QDRANT_API_KEY: ${QDRANT_API_KEY}
-      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME:-docmind}
-      QDRANT_CONTENT_FIELD_NAME: ${QDRANT_CONTENT_FIELD_NAME:-doc_content}
-      QDRANT_USE_TLS: "false"
+      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME}
+      QDRANT_CONTENT_FIELD_NAME: ${QDRANT_CONTENT_FIELD_NAME}
+      QDRANT_USE_TLS: ${QDRANT_USE_TLS}
       # Redis
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -125,29 +128,57 @@ services:
       EMBEDDING_KEY: ${EMBEDDING_KEY}
       EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL}
-      # JWT / Security
-      ACCESS_TOKEN_EXPIRATION: ${ACCESS_TOKEN_EXPIRATION:-900}
-      REFRESH_TOKEN_EXPIRATION: ${REFRESH_TOKEN_EXPIRATION:-86400}
-      TOKEN_ISSUER: ${TOKEN_ISSUER:-docmind}
 
-      COOKIE_HTTP_ONLY: ${COOKIE_HTTP_ONLY:-true}
-      COOKIE_SECURE: ${COOKIE_SECURE:-true}
-      COOKIE_SAME_SITE: ${COOKIE_SAME_SITE:-lax}
+      REWRITE_KEY: ${REWRITE_KEY}
+      REWRITE_BASE_URL: ${REWRITE_BASE_URL}
+      REWRITE_MODEL: ${REWRITE_MODEL}
+
+      # Security & Cookies
+      COOKIE_HTTP_ONLY: ${COOKIE_HTTP_ONLY}
+      COOKIE_SECURE: ${COOKIE_SECURE}
+      COOKIE_SAME_SITE: ${COOKIE_SAME_SITE}
       COOKIE_DOMAIN: ${COOKIE_DOMAIN}
       # Bootstrap Admin
-      DEFAULT_ADMIN_USERNAME: ${DEFAULT_ADMIN_USERNAME:-admin}
+      DEFAULT_ADMIN_USERNAME: ${DEFAULT_ADMIN_USERNAME}
       DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD}
       # RSA Keys
       PRIVATE_KEY_PATH: /app/key/private_key.pem
       PUBLIC_KEY_PATH: /app/key/public_key.pem
+      # Logs
+      LOG_PATH: /app/logs/doc-mind.log
       # CORS
-      CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN}
+      CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN:-http://localhost:5173}
     ports:
       - "8080:8080"
-
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 25s
     volumes:
-      - ./keys:/app/key:ro
+      - "./docker/key:/app/key:ro"
+      - "./docker/logs:/app/logs"
+    networks:
+      - docmind
 
+  # DocMind Frontend UI Application
+  frontend:
+    build:
+      context: ./docmind-frontend/DocMind
+      dockerfile: Dockerfile
+    image: docmind-frontend:latest
+    container_name: docmind-frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+      VITE_FRONTEND_PORT: ${VITE_FRONTEND_PORT}
+      BACKEND_URL: ${BACKEND_URL}
+    depends_on:
+      docmind:
+        condition: service_healthy
+    ports:
+      - "5173:80"
     networks:
       - docmind
 

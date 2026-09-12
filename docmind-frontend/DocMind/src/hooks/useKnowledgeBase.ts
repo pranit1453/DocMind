@@ -9,6 +9,7 @@ import {
   uploadDocumentApi,
   deleteDocumentApi,
 } from "@/api/documentApi";
+import type { QueryType } from "@/api/types";
 import { queryAssistantApi, streamQueryAssistantApi } from "@/api/chatApi";
 
 export function useKnowledgeBase(enabled: boolean = true) {
@@ -237,9 +238,9 @@ export function useKnowledgeBase(enabled: boolean = true) {
   };
 
   /**
-   * Send Message: Executes RAG Assistant query with X-Conversation-ID, provider: "NVIDIA", topK & similarityThreshold
+   * Send Message: Executes RAG Assistant query with X-Conversation-ID, provider: "NVIDIA", topK, similarityThreshold & queryType
    */
-  const sendMessage = async (text?: string) => {
+  const sendMessage = async (text?: string, queryTypeParam: QueryType = "NORMAL_QA") => {
     const content = (text ?? input).trim();
     if (!content) return;
 
@@ -248,6 +249,7 @@ export function useKnowledgeBase(enabled: boolean = true) {
       role: "user",
       content,
       timestamp: getCurrentTime(),
+      queryType: queryTypeParam,
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -262,6 +264,8 @@ export function useKnowledgeBase(enabled: boolean = true) {
       status: "streaming",
       timestamp: getCurrentTime(),
       sources: undefined,
+      citations: undefined,
+      queryType: queryTypeParam,
     };
 
     setMessages((prev) => [...prev, assistantMessagePlaceholder]);
@@ -290,7 +294,8 @@ export function useKnowledgeBase(enabled: boolean = true) {
             );
           },
           "NVIDIA",
-          { topK, similarityThreshold }
+          { topK, similarityThreshold },
+          queryTypeParam
         );
         const endTime = performance.now();
         const calcTime = `${((endTime - startTime) / 1000).toFixed(2)}s`;
@@ -325,11 +330,12 @@ export function useKnowledgeBase(enabled: boolean = true) {
           content,
           conversationId,
           "NVIDIA",
-          { topK, similarityThreshold }
+          { topK, similarityThreshold },
+          queryTypeParam
         );
         const endTime = performance.now();
         const calcTime = `${((endTime - startTime) / 1000).toFixed(2)}s`;
-        const execTime = res?.executionTime || res?.data?.executionTime || calcTime;
+        const execTime = res?.responseTime || res?.executionTime || res?.data?.responseTime || res?.data?.executionTime || calcTime;
         const responseText =
           (typeof res === "string" ? res : null) ||
           res?.content ||
@@ -340,6 +346,8 @@ export function useKnowledgeBase(enabled: boolean = true) {
           res?.data?.message ||
           "";
 
+        const responseCitations = res?.citations || res?.data?.citations;
+
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === assistantMsgId
@@ -348,6 +356,7 @@ export function useKnowledgeBase(enabled: boolean = true) {
                   content: responseText,
                   status: "complete",
                   executionTime: execTime,
+                  citations: responseCitations && responseCitations.length > 0 ? responseCitations : msg.citations,
                   sources: res?.sources && res.sources.length > 0 ? res.sources : msg.sources,
                 }
               : msg

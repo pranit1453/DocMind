@@ -5,7 +5,8 @@ import com.pranit.docmind.security.exception.KeyNotLoadedException;
 import com.pranit.docmind.security.exception.KeyResourceNotFoundException;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -22,7 +23,7 @@ public final class LoadKey {
     public static PrivateKey loadPrivateKey(final String pemPath) {
         validatePemFile(pemPath);
         try {
-            final String key = readKeyFromResource(pemPath)
+            final String key = readKeyFromFile(pemPath)
                     .replace("-----BEGIN PRIVATE KEY-----", "")
                     .replace("-----END PRIVATE KEY-----", "")
                     .replaceAll("\\s", "");
@@ -44,17 +45,16 @@ public final class LoadKey {
 
     }
 
-    private static String readKeyFromResource(final String pemPath) throws IOException {
-        try (final InputStream is = LoadKey.class.getClassLoader().getResourceAsStream(pemPath)) {
-            if (is == null) throw new KeyResourceNotFoundException("Resource not found: " + pemPath);
-            return new String(is.readAllBytes());
-        }
+    private static String readKeyFromFile(final String pemPath) throws IOException {
+        final Path path = Path.of(pemPath);
+        if (!Files.exists(path)) throw new KeyResourceNotFoundException("Resource not found: " + pemPath);
+        return Files.readString(path);
     }
 
     public static PublicKey loadPublicKey(final String pemPath) {
         validatePemFile(pemPath);
         try {
-            final String Key = readKeyFromResource(pemPath)
+            final String Key = readKeyFromFile(pemPath)
                     .replace("-----BEGIN PUBLIC KEY-----", "")
                     .replace("-----END PUBLIC KEY-----", "")
                     .replaceAll("\\s", "");

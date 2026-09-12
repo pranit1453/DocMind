@@ -10,6 +10,7 @@ public class PublicEndpointProviderImpl implements PublicEndpointProvider {
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
+            "/actuator/health",
             "/api/auth/login",
             "/api/register",
             "/api/verify",

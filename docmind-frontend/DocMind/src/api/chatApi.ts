@@ -1,17 +1,18 @@
-import type { Provider, RetrievalOptions, QueryResponse } from "./types";
+import type { Provider, QueryType, RetrievalOptions, QueryResponse } from "./types";
 import { API_BASE_URL, fetchWithAuth, safeJsonResponse } from "./apiClient";
 
 /**
  * PROTECTED CHAT ASSISTANT ENDPOINT: POST /api/chat/documents/{documentId}/query
  * Headers: X-API-Version: v1, X-Conversation-ID: <UUID>
- * Payload: { query, provider: "NVIDIA", options: { topK, similarityThreshold } }
+ * Payload: { query, provider: "NVIDIA", options: { queryType, retrieval: { topK, similarityThreshold } } }
  */
 export async function queryAssistantApi(
   documentId?: string,
   query?: string,
   conversationId?: string,
   provider: Provider = "NVIDIA",
-  options?: RetrievalOptions
+  options?: RetrievalOptions,
+  queryType: QueryType = "NORMAL_QA"
 ): Promise<QueryResponse> {
   const currentConversationId = conversationId || crypto.randomUUID();
   const docId = documentId || "default";
@@ -20,8 +21,11 @@ export async function queryAssistantApi(
     query: query || "",
     provider: provider || "NVIDIA",
     options: {
-      topK: options?.topK ?? 4,
-      similarityThreshold: options?.similarityThreshold ?? 0.70,
+      queryType: queryType || "NORMAL_QA",
+      retrieval: {
+        topK: options?.topK ?? 4,
+        similarityThreshold: options?.similarityThreshold ?? 0.70,
+      },
     },
   };
 
@@ -109,6 +113,7 @@ export async function streamQueryAssistantApi(
   onChunk?: (chunk: string) => void,
   provider: Provider = "NVIDIA",
   options?: RetrievalOptions,
+  queryType: QueryType = "NORMAL_QA",
   signal?: AbortSignal
 ): Promise<void> {
   const currentConversationId = conversationId || crypto.randomUUID();
@@ -118,8 +123,11 @@ export async function streamQueryAssistantApi(
     query: query || "",
     provider: provider || "NVIDIA",
     options: {
-      topK: options?.topK ?? 4,
-      similarityThreshold: options?.similarityThreshold ?? 0.70,
+      queryType: queryType || "NORMAL_QA",
+      retrieval: {
+        topK: options?.topK ?? 4,
+        similarityThreshold: options?.similarityThreshold ?? 0.70,
+      },
     },
   };
 

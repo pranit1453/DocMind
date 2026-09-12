@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import type { DocumentItem } from "@/types/document";
+import type { QueryType } from "@/api/types";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -10,7 +11,7 @@ interface ChatComposerProps {
   input: string;
   setInput: (value: string) => void;
   selectedDocument?: DocumentItem;
-  onSendMessage: () => void;
+  onSendMessage: (text?: string, queryType?: QueryType) => void;
   isUploading?: boolean;
   uploadMessage?: string;
 }
@@ -36,12 +37,16 @@ export function ChatComposer({
     }
   }, [input]);
 
+  const handleSend = () => {
+    if (input.trim() && selectedDocument && !isUploading) {
+      onSendMessage(input, "NORMAL_QA");
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (input.trim() && selectedDocument && !isUploading) {
-        onSendMessage();
-      }
+      handleSend();
     }
   };
 
@@ -110,7 +115,7 @@ export function ChatComposer({
               size="icon"
               className="h-7.5 w-7.5 rounded-full bg-primary text-primary-foreground shadow-xs transition-transform hover:scale-105 active:scale-95 disabled:opacity-40"
               disabled={!input.trim() || !selectedDocument || isUploading}
-              onClick={onSendMessage}
+              onClick={handleSend}
               title="Send Message"
             >
               <Send size={13} />

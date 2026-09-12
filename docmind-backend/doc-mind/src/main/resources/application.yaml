@@ -1,4 +1,4 @@
 spring:
   profiles:
     active:
-      - dev
+      - ${SPRING_PROFILES_ACTIVE:dev}

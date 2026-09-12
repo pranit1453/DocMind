@@ -19,6 +19,7 @@ import {
   Check,
   Sparkles,
   Sliders,
+  Info,
 } from "lucide-react";
 
 interface SettingsModalProps {
@@ -237,6 +238,25 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                 onChange={(e) => setSimilarityThreshold(Number(e.target.value))}
                 className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-primary mt-1"
               />
+            </div>
+
+            {/* Tuning Recommendation Note */}
+            <div className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-3 text-[11px] leading-snug">
+              <div className="flex items-center gap-1.5 font-semibold text-blue-400 mb-1.5">
+                <Info size={14} className="shrink-0" />
+                <span>Optimal Retrieval Recommendation</span>
+              </div>
+              <ul className="space-y-1 text-[10.5px] text-muted-foreground leading-relaxed">
+                <li>
+                  • <strong className="text-foreground">Best Results:</strong> Keep threshold at <span className="font-mono font-bold text-primary">0.70</span> and <span className="font-mono font-bold text-primary">4–5</span> chunks.
+                </li>
+                <li>
+                  • <strong className="text-foreground">If seeing irrelevant context:</strong> Increase threshold to <span className="font-mono font-bold text-amber-400">0.72 – 0.75</span>.
+                </li>
+                <li>
+                  • <strong className="text-foreground">If getting "I don't know" (when answer exists):</strong> Decrease threshold to <span className="font-mono font-bold text-emerald-400">0.65 – 0.68</span>.
+                </li>
+              </ul>
             </div>
           </div>
         </div>

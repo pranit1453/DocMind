@@ -3,9 +3,9 @@ spring:
     name: doc-mind
   # Database Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/docmind
-    username: postgres
-    password: 140503
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:docmind}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:140503}
     driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 5
@@ -32,6 +32,13 @@ spring:
     validate-on-migrate: true
     clean-disabled: true
     out-of-order: false
+  # Redis Configuration
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 5s
   # Java Mail Sender Configuration
   mail:
     host: smtp.gmail.com
@@ -59,25 +66,25 @@ spring:
             initialize-schema: always
     openai:
       api-key: ${CHAT_KEY}
-      base-url: ${CHAT_BASE_URL:https://integrate.api.nvidia.com/v1}
+      base-url: ${CHAT_BASE_URL}
       chat:
-        model: ${CHAT_MODEL:nvidia/nemotron-3-ultra-550b-a55b}
-        temperature: ${CHAT_TEMPERATURE:0.7}
-        max-tokens: ${CHAT_MAX_TOKENS:8192}
+        model: ${CHAT_MODEL}
+        temperature: 0.2
+        max-completion-tokens: 2048
       embedding:
         api-key: ${EMBEDDING_KEY}
-        base-url: ${EMBEDDING_BASE_URL:https://integrate.api.nvidia.com/v1}
-        model: ${EMBEDDING_MODEL:nvidia/nemotron-3-embed-1b}
-        dimensions: ${EMBEDDING_DIMENSIONS:2048}
+        base-url: ${EMBEDDING_BASE_URL}
+        model: ${EMBEDDING_MODEL}
+        dimensions: 2048
     # Vector DB Configuration
     vectorstore:
       qdrant:
         host: ${QDRANT_HOST:localhost}
-        port: 6334
+        port: ${QDRANT_PORT:6334}
         api-key: ${QDRANT_API_KEY:docmind@vector}
-        collection-name: docmind
-        content-field-name: doc_content
-        use-tls: false
+        collection-name: ${QDRANT_COLLECTION_NAME:docmind}
+        content-field-name: ${QDRANT_CONTENT_FIELD_NAME:doc_content}
+        use-tls: ${QDRANT_USE_TLS:false}
         initialize-schema: true
   # Multi-Part File Configuration
   servlet:
@@ -87,37 +94,61 @@ spring:
 # RAG Configuration
 rag:
   chunking:
-    chunk-size: 600
-    min-chunk-size-chars: 200
-    min-chunk-length-to-embed: 20
+    chunk-size: 400
+    min-chunk-size-chars: 100
+    min-chunk-length-to-embed: 10
     max-num-chunks: 5000
     keep-separator: true
   retrieval:
     top-k: 5
     candidate-k: 20
     similarity-threshold: 0.70
+  rewrite:
+    api-key: ${REWRITE_KEY}
+    base-url: ${REWRITE_BASE_URL}
+    chat:
+      model: ${REWRITE_MODEL}
+      temperature: 0.1
+      max-tokens: 512
 # JWT Token Configuration
 security:
   accessToken:
-    expiration: ${ACCESS_TOKEN_EXPIRATION:900}
+    expiration: 900
   refreshToken:
-    expiration: ${REFRESH_TOKEN_EXPIRATION:86400}
+    expiration: 86400
   token:
-    issuer: ${TOKEN_ISSUER:docmind}
+    issuer: docmind
   cookie:
     name:
-      refreshTokenName: ${REFRESH_TOKEN_COOKIE_NAME:refreshToken}
-      accessTokenName: ${ACCESS_TOKEN_COOKIE_NAME:accessToken}
+      refreshTokenName: refreshToken
+      accessTokenName: accessToken
     cookieHttpOnly: ${COOKIE_HTTP_ONLY:true}
     cookieSecure: ${COOKIE_SECURE:false}
     cookieSameSite: ${COOKIE_SAME_SITE:lax}
     cookieDomain: ${COOKIE_DOMAIN:localhost}
-# Default Credentials
+# DocMind Default Credentials and Cors Configuration
 docmind:
   default:
     credential:
       username: ${DEFAULT_ADMIN_USERNAME:admin}
       password: ${DEFAULT_ADMIN_PASSWORD:admin}
+  cors:
+    allowed-origins:
+      - ${CORS_ALLOWED_ORIGIN:http://localhost:5173}
+      - http://localhost:3000
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+      - PATCH
+      - HEAD
+    allowed-headers:
+      - Content-Type
+      - X-Api-Version
+      - X-Conversation-ID
+    allow-credentials: true
 # Keys Configuration
 keys:
   privateKeyPath: ${PRIVATE_KEY_PATH:key/private_key.pem}
@@ -131,7 +162,7 @@ springdoc:
 # Logging Configuration
 logging:
   file:
-    name: logs/doc-mind.log
+    name: ${LOG_PATH:src/main/resources/logs/doc-mind.log}
   level:
     root: INFO
     com.pranit.accesshub: DEBUG
@@ -141,24 +172,6 @@ ai:
     safeguard:
       blocked-words:
         - env
-#DocMind Cors Configuration
-app:
-  cors:
-    allowed-origins:
-      - ${CORS_ALLOWED_ORIGIN:http://localhost:5173}
-    allowed-methods:
-      - GET
-      - POST
-      - PUT
-      - DELETE
-      - OPTIONS
-      - PATCH
-      - HEAD
-    allowed-headers:
-      - X-Conversation-ID
-      - X-Api-Version
-      - Content-Type
-    allow-credentials: true
 # Actuator Configuration
 management:
   endpoints:

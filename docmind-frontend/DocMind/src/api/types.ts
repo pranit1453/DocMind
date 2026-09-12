@@ -110,25 +110,44 @@ export interface PageResponse<T> {
 
 export type Provider = "NVIDIA" | "OPENAI" | "ANTHROPIC" | "GOOGLE";
 
+export type QueryType = "NORMAL_QA" | "DOCUMENT_SUMMARY" | "TECHNICAL_INSIGHTS";
+
 export interface RetrievalOptions {
   topK?: number;
   similarityThreshold?: number;
 }
 
+export interface QueryOptions {
+  queryType: QueryType;
+  retrieval?: RetrievalOptions;
+}
+
 export interface ChatQueryRequest {
   query: string;
   provider: Provider;
-  options?: RetrievalOptions;
+  options?: QueryOptions;
+}
+
+export interface Citation {
+  documentId?: string;
+  fileName?: string;
+  pageNumber?: number;
+  chunkIndex?: number;
+  previousChunkIndex?: number;
+  nextChunkIndex?: number;
+  similarityScore?: number;
 }
 
 export interface QueryResponse {
   content?: string;
+  responseTime?: string;
+  executionTime?: string;
   message?: string;
   answer?: string;
   documentId?: string;
   conversationId?: string;
   provider?: Provider;
-  executionTime?: string;
+  citations?: Citation[];
   sources?: Array<{
     document: string;
     page?: number;

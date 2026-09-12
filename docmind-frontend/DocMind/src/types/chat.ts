@@ -1,3 +1,7 @@
+import type { QueryType, Citation } from "@/api/types";
+
+export type { Citation, QueryType };
+
 export type Source = {
   document: string;
   page?: number;
@@ -14,6 +18,8 @@ export type Message = {
   status?: MessageStatus;
   error?: string;
   sources?: Source[];
+  citations?: Citation[];
   timestamp?: string;
   executionTime?: string;
+  queryType?: QueryType;
 };
