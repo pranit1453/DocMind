@@ -165,7 +165,7 @@ logging:
     name: ${LOG_PATH:src/main/resources/logs/doc-mind.log}
   level:
     root: INFO
-    com.pranit.accesshub: DEBUG
+    com.pranit.docmind: DEBUG
 # SafeGuard Configuration
 ai:
   advisor:
