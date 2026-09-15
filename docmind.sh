@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
+
 set -u
-cd "$(dirname "$0")" || exit 1
+
+SCRIPT_DIR="$(dirname -- "${BASH_SOURCE[0]}")"
+cd -- "$SCRIPT_DIR" || exit 1
 
 COMPOSE=(docker compose --env-file .env)
 
@@ -20,27 +23,27 @@ WARNING="⚠"
 WAIT="⏳"
 
 success() {
-    echo -e "${GREEN}${CHECK} $1${NC}"
+    printf '%b\n' "${GREEN}${CHECK} $1${NC}"
 }
 
 error() {
-    echo -e "${RED}${CROSS} $1${NC}"
+    printf '%b\n' "${RED}${CROSS} $1${NC}"
 }
 
 warning() {
-    echo -e "${YELLOW}${WARNING} $1${NC}"
+    printf '%b\n' "${YELLOW}${WARNING} $1${NC}"
 }
 
 major_section() {
     local title="$1"
-    echo ""
-    echo -e "${CYAN}${title}${NC}"
+    printf '\n'
+    printf '%b\n' "${CYAN}${title}${NC}"
 }
 
 minor_section() {
     local title="$1"
-    echo ""
-    echo -e "${BLUE}${title}${NC}"
+    printf '\n'
+    printf '%b\n' "${BLUE}${title}${NC}"
 }
 
 check_prerequisites() {
@@ -52,7 +55,11 @@ check_prerequisites() {
     success ".env found"
 
     minor_section "Checking Docker"
-    if ! docker info > /dev/null 2>&1; then
+    if ! command -v docker >/dev/null 2>&1; then
+        error "Docker is not installed"
+        exit 1
+    fi
+    if ! docker info >/dev/null 2>&1; then
         error "Docker is not running"
         exit 1
     fi
@@ -61,12 +68,12 @@ check_prerequisites() {
 
 validate_compose() {
     major_section "🔍 Validating Configuration"
-    if "${COMPOSE[@]}" config > /dev/null 2>&1; then
+    local compose_output
+    if compose_output="$("${COMPOSE[@]}" config 2>&1)"; then
         success "Docker Compose configuration is valid"
     else
         error "Docker Compose configuration is invalid"
-        echo ""
-        "${COMPOSE[@]}" config
+        printf '\n%s\n' "$compose_output"
         exit 1
     fi
 }
@@ -74,15 +81,21 @@ validate_compose() {
 build_missing_images() {
     major_section "🔍 Checking Docker Images"
     local images
+    local image
     local need_build=0
-    images=$("${COMPOSE[@]}" config --images 2>/dev/null)
+    if ! images="$("${COMPOSE[@]}" config --images 2>/dev/null)"; then
+        error "Failed to retrieve Docker images"
+        exit 1
+    fi
     if [[ -z "$images" ]]; then
         warning "No Docker images found"
         return
     fi
     while IFS= read -r image; do
-        [[ -z "$image" ]] && continue
-        if docker image inspect "$image" > /dev/null 2>&1; then
+        if [[ -z "$image" ]]; then
+            continue
+        fi
+        if docker image inspect "$image" >/dev/null 2>&1; then
             success "$image"
         else
             warning "$image not found"
@@ -91,16 +104,34 @@ build_missing_images() {
     done <<< "$images"
     if [[ "$need_build" -eq 1 ]]; then
         major_section "🔨 Building Docker Images"
-        if "${COMPOSE[@]}" build; then
+        local build_log
+        local build_pid
+        local frame=0
+        local frames=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+        build_log="$(mktemp)"
+        "${COMPOSE[@]}" build >"$build_log" 2>&1 &
+        build_pid=$!
+        while kill -0 "$build_pid" 2>/dev/null; do
+            printf '\r%b' "${CYAN}${frames[$frame]} Building Docker images...${NC}"
+            frame=$(( (frame + 1) % ${#frames[@]} ))
+            sleep 0.1
+        done
+        if wait "$build_pid"; then
+            printf '\r\033[K'
             success "Docker images built successfully"
         else
+            printf '\r\033[K'
             error "Docker image build failed"
+            printf '\n'
+            cat "$build_log"
+            rm -f "$build_log"
             exit 1
         fi
+        rm -f "$build_log"
     else
         success "All Docker images already exist"
-        echo ""
-        echo "Skipping build."
+        printf '\n'
+        printf '%s\n' "Skipping build."
     fi
 }
 
@@ -116,8 +147,8 @@ start_containers() {
 
 wait_for_services() {
     major_section "⏳ Checking Services"
-    echo "Waiting for services to become healthy..."
-    echo ""
+    printf '%s\n' "Waiting for services to become healthy..."
+    printf '\n'
     local services=(
         "postgres"
         "qdrant"
@@ -127,30 +158,35 @@ wait_for_services() {
     )
     declare -A service_status
     local start_time
-    start_time=$(date +%s)
+    local current_time
+    local elapsed
+    local service
+    local container
+    local status
+    local health
+    start_time="$(date +%s)"
     while true; do
         local all_done=1
         local failed_found=0
-        local current_time
-        local elapsed
-        current_time=$(date +%s)
+        current_time="$(date +%s)"
         elapsed=$((current_time - start_time))
         for service in "${services[@]}"; do
-            local container
-            local status
-            local health
-            container=$("${COMPOSE[@]}" ps -q "$service" 2>/dev/null)
+            container="$("${COMPOSE[@]}" ps -q "$service" 2>/dev/null)"
             if [[ -z "$container" ]]; then
                 service_status["$service"]="not_found"
                 all_done=0
                 continue
             fi
-            status=$(docker inspect \
-                --format='{{.State.Status}}' \
-                "$container" 2>/dev/null)
-            health=$(docker inspect \
-                --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' \
-                "$container" 2>/dev/null)
+            status="$(
+                docker inspect \
+                    --format='{{.State.Status}}' \
+                    "$container" 2>/dev/null
+            )"
+            health="$(
+                docker inspect \
+                    --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' \
+                    "$container" 2>/dev/null
+            )"
             if [[ "$status" != "running" ]]; then
                 service_status["$service"]="failed"
                 failed_found=1
@@ -182,44 +218,44 @@ wait_for_services() {
     major_section "📊 Service Status"
     local failed=0
     for service in "${services[@]}"; do
-        local status="${service_status[$service]:-unknown}"
-        printf "%-20s" "$service"
+        status="${service_status[$service]:-unknown}"
+        printf '%-20s' "$service"
         case "$status" in
             healthy)
-                echo -e "${GREEN}${CHECK} Healthy${NC}"
+                printf '%b\n' "${GREEN}${CHECK} Healthy${NC}"
                 ;;
             running)
-                echo -e "${GREEN}${CHECK} Running${NC}"
+                printf '%b\n' "${GREEN}${CHECK} Running${NC}"
                 ;;
             starting)
-                echo -e "${YELLOW}${WAIT} Starting${NC}"
+                printf '%b\n' "${YELLOW}${WAIT} Starting${NC}"
                 failed=1
                 ;;
             unhealthy)
-                echo -e "${RED}${CROSS} Unhealthy${NC}"
+                printf '%b\n' "${RED}${CROSS} Unhealthy${NC}"
                 failed=1
                 ;;
             failed)
-                echo -e "${RED}${CROSS} Failed${NC}"
+                printf '%b\n' "${RED}${CROSS} Failed${NC}"
                 failed=1
                 ;;
             not_found)
-                echo -e "${RED}${CROSS} Not Found${NC}"
+                printf '%b\n' "${RED}${CROSS} Not Found${NC}"
                 failed=1
                 ;;
             *)
-                echo -e "${RED}${CROSS} Unknown${NC}"
+                printf '%b\n' "${RED}${CROSS} Unknown${NC}"
                 failed=1
                 ;;
         esac
     done
     if [[ "$failed" -ne 0 ]]; then
-        echo ""
+        printf '\n'
         error "Some services are not healthy"
-        echo ""
-        echo "Check logs with:"
-        echo -e "${CYAN}${COMPOSE[*]} logs${NC}"
-        echo ""
+        printf '\n'
+        printf '%s\n' "Check logs with:"
+        printf '%b\n' "${CYAN}./docmind.sh logs${NC}"
+        printf '\n'
         exit 1
     fi
 }
@@ -227,7 +263,7 @@ wait_for_services() {
 stop_containers() {
     major_section "🛑 Stopping DocMind"
     if "${COMPOSE[@]}" down; then
-        echo ""
+        printf '\n'
         success "All containers stopped and removed"
     else
         error "Failed to stop containers"
@@ -258,8 +294,51 @@ show_status() {
 }
 
 show_logs() {
-    major_section "📜 DocMind Logs"
-    "${COMPOSE[@]}" logs -f
+    local service="${1:-}"
+    local lines="${2:-}"
+    local services=(
+        "postgres"
+        "qdrant"
+        "redis"
+        "docmind"
+        "frontend"
+    )
+    if [[ -n "$service" ]]; then
+        case "$service" in
+            postgres|qdrant|redis|docmind|frontend)
+                ;;
+            *)
+                error "Unknown service: $service"
+                printf '\n'
+                printf '%s\n' "Available services:"
+                printf '%s\n' "  postgres"
+                printf '%s\n' "  qdrant"
+                printf '%s\n' "  redis"
+                printf '%s\n' "  docmind"
+                printf '%s\n' "  frontend"
+                exit 1
+                ;;
+        esac
+    fi
+    if [[ -n "$lines" ]]; then
+        if ! [[ "$lines" =~ ^[0-9]+$ ]] || [[ "$lines" -eq 0 ]]; then
+            error "Log limit must be a positive number"
+            exit 1
+        fi
+    fi
+    if [[ -n "$service" && -n "$lines" ]]; then
+        major_section "📜 ${service} Logs"
+        "${COMPOSE[@]}" logs --tail="$lines" -f "$service"
+    elif [[ -n "$service" ]]; then
+        major_section "📜 ${service} Logs"
+        "${COMPOSE[@]}" logs -f "$service"
+    elif [[ -n "$lines" ]]; then
+        major_section "📜 DocMind Logs"
+        "${COMPOSE[@]}" logs --tail="$lines" -f
+    else
+        major_section "📜 DocMind Logs"
+        "${COMPOSE[@]}" logs -f
+    fi
 }
 
 start() {
@@ -271,64 +350,62 @@ start() {
     wait_for_services
 
     major_section "🌐 DocMind Services"
-    printf "%-10s : %s\n" "Frontend" "http://localhost:5173"
-    printf "%-10s : %s\n" "Backend"  "http://localhost:8080"
-    printf "%-10s : %s\n" "Swagger"  "http://localhost:8080/swagger-ui.html"
-    printf "%-10s : %s\n" "Qdrant"   "http://localhost:6333/dashboard"
-    echo ""
-    echo -e "${GREEN}${CHECK} DocMind is successfully up and running.${NC}"
+    printf '%-10s : %s\n' "Frontend" "http://localhost:5173"
+    printf '%-10s : %s\n' "Backend" "http://localhost:8080"
+    printf '%-10s : %s\n' "Swagger" "http://localhost:8080/swagger-ui.html"
+    printf '%-10s : %s\n' "Qdrant" "http://localhost:6333/dashboard"
+    printf '\n'
+    printf '%b\n' "${GREEN}${CHECK} DocMind is successfully up and running.${NC}"
 }
 
 usage() {
-
-    echo ""
-    echo "Usage:"
-    echo "  $0 start      Build missing images and start services"
-    echo "  $0 stop       Stop and remove containers"
-    echo "  $0 restart    Restart services"
-    echo "  $0 status     Show service status"
-    echo "  $0 logs       Follow service logs"
-    echo "  $0 help       Show this help message"
-    echo ""
-
+    printf '\n'
+    printf '%s\n' "Usage:"
+    printf '  %s\n' "$0 start                  Build missing images and start services"
+    printf '  %s\n' "$0 stop                   Stop and remove containers"
+    printf '  %s\n' "$0 restart                Restart services"
+    printf '  %s\n' "$0 status                 Show service status"
+    printf '  %s\n' "$0 logs                   Follow all service logs"
+    printf '  %s\n' "$0 logs <service>         Follow service logs"
+    printf '  %s\n' "$0 logs <service> <lines> Follow service logs with line limit"
+    printf '  %s\n' "$0 help                   Show this help message"
+    printf '\n'
+    printf '%s\n' "Services:"
+    printf '  %s\n' "postgres"
+    printf '  %s\n' "qdrant"
+    printf '  %s\n' "redis"
+    printf '  %s\n' "docmind"
+    printf '  %s\n' "frontend"
+    printf '\n'
 }
 
 COMMAND="${1:-start}"
-
 case "$COMMAND" in
-
     start)
         start
         ;;
-
     stop)
         check_prerequisites
         stop_containers
         ;;
-
     restart)
         check_prerequisites
         restart_containers
         ;;
-
     status)
         check_prerequisites
         show_status
         ;;
-
     logs)
         check_prerequisites
-        show_logs
+        show_logs "${2:-}" "${3:-}"
         ;;
-
-    -h|--help|help)
+    help)
         usage
         ;;
-
     *)
         error "Unknown command: $COMMAND"
         usage
         exit 1
         ;;
-
 esac
