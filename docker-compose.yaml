@@ -147,11 +147,11 @@ services:
       # Logs
       LOG_PATH: /app/logs/doc-mind.log
       # CORS
-      CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN:-http://localhost:5173}
+      CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN}
     ports:
       - "8080:8080"
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1" ]
+      test: [ "CMD-SHELL", "curl -f ${BACKEND_URL}/actuator/health || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 10
