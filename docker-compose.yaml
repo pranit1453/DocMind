@@ -179,6 +179,12 @@ services:
         condition: service_healthy
     ports:
       - "5173:80"
+    healthcheck:
+      test: [ "CMD", "nginx", "-t" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     networks:
       - docmind
 
