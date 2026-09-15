@@ -22,7 +22,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root system user
-RUN useradd -ms /bin/bash spring
+RUN useradd -ms /bin/bash spring \
+    && mkdir -p /app/logs \
+    && chown -R spring:spring /app \
+
 COPY --chown=spring:spring --from=builder /app/build/libs/*.jar app.jar
 
 USER spring
