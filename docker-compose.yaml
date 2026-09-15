@@ -110,8 +110,8 @@ services:
       QDRANT_HOST: qdrant
       QDRANT_PORT: 6334
       QDRANT_API_KEY: ${QDRANT_API_KEY}
-      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME}
-      QDRANT_CONTENT_FIELD_NAME: ${QDRANT_CONTENT_FIELD_NAME}
+      QDRANT_COLLECTION_NAME: docmind
+      QDRANT_CONTENT_FIELD_NAME: doc_content
       QDRANT_USE_TLS: ${QDRANT_USE_TLS}
       # Redis
       REDIS_HOST: redis
@@ -158,7 +158,7 @@ services:
       start_period: 25s
     volumes:
       - "./docker/key:/app/key:ro"
-      - "./docker/logs:/app/logs"
+      - backend_logs:/app/logs
     networks:
       - docmind
 
@@ -194,3 +194,5 @@ volumes:
     name: docmind_qdrant_data
   redis_data:
     name: docmind_redis_data
+  backend_logs:
+    name: docmind_backend_logs
