@@ -5,6 +5,8 @@ import com.pranit.docmind.security.exception.KeyNotLoadedException;
 import com.pranit.docmind.security.exception.KeyResourceNotFoundException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.KeyFactory;
@@ -23,7 +25,7 @@ public final class LoadKey {
     public static PrivateKey loadPrivateKey(final String pemPath) {
         validatePemFile(pemPath);
         try {
-            final String key = readKeyFromFile(pemPath)
+            final String key = readKey(pemPath)
                     .replace("-----BEGIN PRIVATE KEY-----", "")
                     .replace("-----END PRIVATE KEY-----", "")
                     .replaceAll("\\s", "");
@@ -45,16 +47,29 @@ public final class LoadKey {
 
     }
 
-    private static String readKeyFromFile(final String pemPath) throws IOException {
-        final Path path = Path.of(pemPath);
-        if (!Files.exists(path)) throw new KeyResourceNotFoundException("Resource not found: " + pemPath);
-        return Files.readString(path);
+    private static String readKey(final String keyPath) throws IOException {
+        if (keyPath.startsWith("classpath:")) {
+            return readKeyFromResource(keyPath.substring("classpath:".length()));
+        }
+        final Path path = Path.of(keyPath);
+        if (Files.exists(path)) {
+            return Files.readString(path, StandardCharsets.UTF_8);
+        }
+        return readKeyFromResource(keyPath);
+    }
+
+    private static String readKeyFromResource(final String resourcePath) throws IOException {
+        try (final InputStream is = LoadKey.class.getClassLoader().getResourceAsStream(resourcePath)) {
+            if (is == null)
+                throw new KeyResourceNotFoundException("Key not found in classpath or filesystem: " + resourcePath);
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        }
     }
 
     public static PublicKey loadPublicKey(final String pemPath) {
         validatePemFile(pemPath);
         try {
-            final String Key = readKeyFromFile(pemPath)
+            final String Key = readKey(pemPath)
                     .replace("-----BEGIN PUBLIC KEY-----", "")
                     .replace("-----END PUBLIC KEY-----", "")
                     .replaceAll("\\s", "");

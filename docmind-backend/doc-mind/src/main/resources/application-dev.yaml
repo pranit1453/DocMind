@@ -151,8 +151,8 @@ docmind:
     allow-credentials: true
 # Keys Configuration
 keys:
-  privateKeyPath: ${PRIVATE_KEY_PATH:key/private_key.pem}
-  publicKeyPath: ${PUBLIC_KEY_PATH:key/public_key.pem}
+  privateKeyPath: ${PRIVATE_KEY_PATH:classpath:key/private_key.pem}
+  publicKeyPath: ${PUBLIC_KEY_PATH:classpath:key/public_key.pem}
 # Swagger Configuration
 springdoc:
   api-docs:
@@ -162,7 +162,7 @@ springdoc:
 # Logging Configuration
 logging:
   file:
-    name: ${LOG_PATH:src/main/resources/logs/doc-mind.log}
+    name: ${LOG_PATH:backend/logs/doc-mind.log}
   level:
     root: INFO
     com.pranit.docmind: DEBUG
