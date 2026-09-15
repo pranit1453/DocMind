@@ -24,7 +24,7 @@ RUN apt-get update \
 # Create non-root system user
 RUN useradd -ms /bin/bash spring \
     && mkdir -p /app/logs \
-    && chown -R spring:spring /app \
+    && chown -R spring:spring /app
 
 COPY --chown=spring:spring --from=builder /app/build/libs/*.jar app.jar
 
